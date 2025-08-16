@@ -1,10 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import sitemap from 'vite-plugin-sitemap'
-import productData from './src/data/productos.json' // <-- 1. IMPORTAMOS LOS DATOS
+import productData from './src/data/productos.json'
 
-// 2. CREAMOS LA LISTA DE RUTAS DE PRODUCTOS
-const dynamicRoutes = productData.map(product => `/producto/${product.id}`)
+// Creamos la lista de rutas de productos
+const productRoutes = productData.map(product => `/producto/${product.id}`)
+
+// Creamos la lista de nuestras páginas estáticas
+const staticRoutes = [
+  '/catalogo',
+  '/nosotros',
+  '/telas',
+  '/faq',
+  '/contacto',
+]
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,8 +21,8 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: 'https://www.tapiceriaivar.com.uy',
-      // 3. AÑADIMOS LAS RUTAS DINÁMICAS A LA CONFIGURACIÓN
-      dynamicRoutes: dynamicRoutes
+      // Combinamos ambas listas de rutas
+      dynamicRoutes: staticRoutes.concat(productRoutes)
     })
   ],
 })
