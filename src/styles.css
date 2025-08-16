@@ -121,6 +121,7 @@ nav.navbar {
   top: 0;
   z-index: 1020;
   transition: box-shadow 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transform: translateZ(0);
 }
 
 nav.navbar.scrolled {
