@@ -1381,7 +1381,6 @@
   "modelo": "london",
   "nombre": "Sofá London 3 Cuerpos XL",
   "categoriaClave": "sofas",
-  "esDestacado": true,
   "descripcionCorta": "La máxima expresión de espacio y diseño contemporáneo. Nuestro Sofá London XL, con sus 2 metros de ancho, es puro confort sin límites.",
   "descripcionLarga": {
     "sabor": "Llevamos el diseño robusto y contemporáneo del Sofá London a su máxima expresión. Con 2 metros de ancho, la versión XL está pensada para ser el centro absoluto de grandes livings y reuniones familiares. Mantiene la estética de líneas puras y brazos anchos que lo definen, pero maximiza el espacio interior para ofrecer un nivel de confort y capacidad insuperable. Es una pieza imponente, para quienes viven y disfrutan su casa a lo grande.",
@@ -1877,7 +1876,6 @@
   "modelo": "nova",
   "nombre": "Sofá Nova con Chaise Modular",
   "categoriaClave": "modulares",
-  "esDestacado": true,
   "descripcionCorta": "La máxima expresión del confort minimalista. Un sofá de diseño vanguardista con un generoso chaise longue para un relax absoluto y total.",
   "descripcionLarga": {
     "sabor": "El Sofá Nova con Chaise rompe con lo tradicional para ofrecerte una experiencia de confort total. Su diseño de perfil bajo y líneas puras se define por una estética minimalista y una generosa profundidad que invita al descanso. El protagonista indiscutido es su módulo chaise longue, una isla de relajación perfecta. Además, su diseño 100% modular te permite separar las piezas para reconfigurar tu espacio, ofreciendo una flexibilidad sin igual.",
@@ -1972,7 +1970,6 @@
   "modelo": "nova",
   "nombre": "Sofá Nova Chaise Modular (3 Piezas)",
   "categoriaClave": "modulares",
-  "esDestacado": true,
   "descripcionCorta": "Tu living, tus reglas. Un sofá 100% modular con un generoso chaise longue que se adapta a tu espacio y a tus momentos. Diseño de vanguardia y confort total.",
   "descripcionLarga": {
     "sabor": "Llevamos el diseño minimalista de la familia Nova a su máxima expresión de versatilidad y confort. Este conjunto de tres módulos independientes te da libertad absoluta para crear el living que siempre quisiste. El protagonista es su amplio módulo chaise, una verdadera isla de relax para tus maratones de series o momentos de lectura. Juega con las piezas, reconfigura tu espacio y vive un diseño que se mueve con vos.",
@@ -1980,6 +1977,7 @@
     "cta": "Diseña tu propio confort. Consulta por las opciones de tapizados y colores para que tu Sofá Nova Modular sea tan único como tu living."
   },
   "precioBase": 22900,
+  "esDestacado": true,
   "imagenPrincipal": "/img/productos/nova/nova-chaise-modular_3p_beige_3q.jpg",
   "imagenesGaleria": [
     "/img/productos/nova/nova-chaise-modular_3p_beige_piezas-separadas.jpg",
