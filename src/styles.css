@@ -1274,6 +1274,8 @@ footer.site-footer {
 .telas-page-header {
   text-align: center;
   margin-bottom: 50px; /* Espacio antes de la grilla de telas */
+  position: relative;
+  z-index: 1;
 }
 
 .telas-main-title { /* Hereda de .section-title si le pones esa clase, o estilos propios */
