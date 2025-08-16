@@ -1,0 +1,6 @@
+[
+  { "id": 1, "icon": "faCommentDots", "title": "Consulta y Diseño", "description": "Explora nuestros modelos o cuéntanos tu idea. Juntos diseñamos el sofá perfecto para ti, adaptando medidas, telas y colores a tu gusto." },
+  { "id": 2, "icon": "faTools", "title": "Fabricación Artesanal", "description": "Con pasión y precisión, construimos tu sofá desde cero utilizando maderas nobles seleccionadas y materiales de primera calidad." },
+  { "id": 3, "icon": "faCheckCircle", "title": "Control de Calidad", "description": "Cada pieza es sometida a un riguroso control para asegurar que recibas un producto impecable, durable y fiel a tu visión." },
+  { "id": 4, "icon": "faTruck", "title": "Entrega y Felicidad", "description": "Coordinamos la entrega para que pronto estés disfrutando de tu nuevo centro de confort y estilo en tu hogar." }
+]

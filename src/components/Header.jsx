@@ -23,6 +23,22 @@ function Header() {
      };
   }, []);
 
+  // Este efecto se ejecuta cada vez que el estado 'menuOpen' cambia.
+  useEffect(() => {
+    // Si el menú está abierto, se añade la clase 'no-scroll' al body.
+    if (menuOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      // Si el menú está cerrado, me aseguro de quitar la clase.
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Función de limpieza para asegurarme de que la clase se quite si el componente se desmonta.
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [menuOpen]); // El efecto depende del estado 'menuOpen'
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -43,7 +59,7 @@ function Header() {
             </Link>
           </div>
 
-          {/* Botón Hamburguesa para móvil */}
+          {/* Botón Hamburguesa para celular */}
           <button className="navbar-toggler" onClick={toggleMenu} aria-label="Toggle navigation" aria-expanded={menuOpen}>
             {/* Puedes usar un icono de FontAwesome aquí o spans para las barras */}
             <span className="navbar-toggler-icon bar1"></span>

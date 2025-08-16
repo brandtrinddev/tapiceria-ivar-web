@@ -83,7 +83,7 @@ function ContactoPage() {
             <div className="contact-map-embed">
               <iframe
                 title="Ubicacion Tapiceria Ivar"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.6614503910155!2d-56.15464288794746!3d-34.83960367275752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a02a66a07da1c7%3A0x8e2916bef6ac6be3!2sChapicuy%203868%2C%2012300%20Montevideo%2C%20Departamento%20de%20Montevideo!5e0!3m2!1ses-419!2suy!4v1754848009032!5m2!1ses-419!2suy"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d871.842883771632!2d-56.15232876909167!3d-34.83927796503274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a02b7a58a0a435%3A0xca907635ffbe9c1!2sTapicer%C3%ADa%20IVAR!5e0!3m2!1ses-419!2suy!4v1755351105327!5m2!1ses-419!2suy"
                 width="100%"
                 height="300"
                 style={{ border: 0, borderRadius: '8px' }}

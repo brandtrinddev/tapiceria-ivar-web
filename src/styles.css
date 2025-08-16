@@ -2,7 +2,6 @@
 
 /* 1. Importaciones, Variables y Resets
 -------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&family=Raleway:wght@700&display=swap');
 
 :root {
   --color-primario: #0A2F51; /* Azul petróleo oscuro */
@@ -163,6 +162,11 @@ nav.navbar .logo img {
 
 nav.navbar .logo:hover {
   opacity: 0.85;
+}
+
+/* Clase para bloquear el scroll del body cuando el menú móvil está abierto */
+body.no-scroll {
+  overflow: hidden;
 }
 
 /* El resto de los estilos del navbar (nav-links, dropdown, etc.) */
@@ -619,10 +623,10 @@ footer.site-footer {
 
 /* --- Estilos definitivos para la sección de medidas --- */
 
-/* Contenedor general de la sección (product-info-section) */
+/* Contenedor general de la sección (product-info-section)
 .product-detail-dimensions {
-  /* Esta clase ya recibe padding-top de .product-info-section */
-}
+   Esta clase ya recibe padding-top de .product-info-section
+} */
 
 /* Grilla para los bloques (SOLO para productos compuestos) */
 .product-detail-dimensions .dimensions-grid {
@@ -954,7 +958,7 @@ footer.site-footer {
 
 /* 8. Sobre Nosotros Page (Estilos existentes, adaptados a variables V2)
 -------------------------------------------------- */
-.nosotros-page { /* Ya no usa standard-page-padding */ }
+/* .nosotros-page {  Ya no usa standard-page-padding } */
 .nosotros-hero {
   position: relative; display: flex; align-items: center; justify-content: center;
   text-align: center; min-height: 55vh; padding: 60px 30px;
@@ -1079,14 +1083,24 @@ footer.site-footer {
 }
 .accordion-title.active .icon { transform: rotate(135deg); color: var(--color-acento); }
 .accordion-content {
-  padding: 0px 25px; background-color: var(--color-blanco);
-  max-height: 0; overflow: hidden;
-  transition: max-height 0.35s ease-out, padding 0.35s ease-out;
+  display: grid;
+  grid-template-rows: 0fr; /* Inicia Colapsado */
+  transition: grid-template-rows 0.35s ease-out;
 }
-.accordion-content.active { padding: 20px 25px; }
+.accordion-content.active {
+  grid-template-rows: 1fr; /* Se expande al contenido */
+}
+
+.accordion-content > div {
+  overflow: hidden; /* Necesario para que la animación funcione */
+}
+
 .accordion-content p {
-  font-size: 0.95rem; color: var(--color-texto-secundario);
-  line-height: 1.7; margin: 0;
+  padding: 20px 25px; /* El Padding ahora va en el <p> de adentro */
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.7;
+  margin: 0;
 }
 
 /* 10. Botones Flotantes (Redes Sociales) */
@@ -1252,9 +1266,9 @@ footer.site-footer {
 
 /* 13. Telas Page
 -------------------------------------------------- */
-.telas-page-container {
-  /* standard-page-padding ya le da padding superior e inferior general */
-}
+/* .telas-page-container {
+  standard-page-padding ya le da padding superior e inferior general
+} */
 
 .telas-page-header {
   text-align: center;
@@ -1360,6 +1374,10 @@ footer.site-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
   cursor: help; /* Para indicar que el title tiene info */
 }
 
@@ -1518,7 +1536,7 @@ nav.navbar.scrolled .logo {
     transform: none; opacity: 1; visibility: visible; display: none;
   }
   nav.navbar .nav-links li.dropdown.open > .dropdown-menu { display: block; }
-  nav.navbar .nav-links li.dropdown > a::after { /* content: '+'; transform: none; */ }
+  /* nav.navbar .nav-links li.dropdown > a::after {  content: '+'; transform: none; } */
   nav.navbar .nav-links li .dropdown-menu::before { display: none; }
   .hero-section-v2 {
     text-align: center; min-height: auto;
@@ -1571,7 +1589,7 @@ nav.navbar.scrolled .logo {
   .sort-control { justify-content: space-between; }
   .sort-select { min-width: auto; flex-grow: 1; }
   .pagination-button { padding: 8px 10px; font-size: 0.85rem; min-width: 35px; }
-  .pagination-button.page-number { /* Ocultar algunos números de página en móvil si son muchos */ }
+/*  .pagination-button.page-number { */ /* Ocultar algunos números de página en móvil si son muchos  } */
   .pagination-ellipsis { font-size: 0.85rem; padding: 8px 3px;}
 }
 

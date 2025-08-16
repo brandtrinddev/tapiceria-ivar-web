@@ -20,16 +20,15 @@ function AccordionItem({ title, content, index, isOpen, toggleAccordion }) {
         </span>
       </button>
       <div
-        id={`accordion-content-${index}`}
-        className={`accordion-content ${isOpen ? 'active' : ''}`}
-        style={{ maxHeight: isOpen ? '500px' : '0' }} // O un valor suficientemente grande para tu contenido
-        // El max-height se puede controlar mejor con CSS si conoces la altura, o usando JS para medir.
-        // Aquí '500px' es un placeholder para la altura máxima cuando está abierto.
-        aria-hidden={!isOpen}
-      >
-        <p>{content}</p>
+          id={`accordion-content-${index}`}
+          className={`accordion-content ${isOpen ? 'active' : ''}`}
+          aria-hidden={!isOpen}
+        >
+          <div>
+              <p>{content}</p>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
 

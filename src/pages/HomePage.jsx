@@ -11,7 +11,15 @@ import iconCustomUrl from '../assets/icons/icon-custom-design.svg';
 
 // Iconos para la sección "Cómo Trabajamos" (Font Awesome)
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import homeData from '../data/homeContent.json';
 import { faCommentDots, faTools, faCheckCircle, faTruck } from '@fortawesome/free-solid-svg-icons';
+
+const iconMap = {
+  faCommentDots,
+  faTools,
+  faCheckCircle,
+  faTruck
+};
 
 function HomePage() {
     useEffect(() => {
@@ -19,13 +27,6 @@ function HomePage() {
   }, []);
 
   const featuredProducts = productData.filter(producto => producto.esDestacado === true);
-
-  const processSteps = [
-    { id: 1, icon: faCommentDots, title: "Consulta y Diseño", description: "Explora nuestros modelos o cuéntanos tu idea. Juntos diseñamos el sofá perfecto para ti, adaptando medidas, telas y colores a tu gusto." },
-    { id: 2, icon: faTools, title: "Fabricación Artesanal", description: "Con pasión y precisión, construimos tu sofá desde cero utilizando maderas nobles seleccionadas y materiales de primera calidad." },
-    { id: 3, icon: faCheckCircle, title: "Control de Calidad", description: "Cada pieza es sometida a un riguroso control para asegurar que recibas un producto impecable, durable y fiel a tu visión." },
-    { id: 4, icon: faTruck, title: "Entrega y Felicidad", description: "Coordinamos la entrega para que pronto estés disfrutando de tu nuevo centro de confort y estilo en tu hogar." }
-  ];
 
   return (
     <div className="homepage-container">
@@ -87,11 +88,13 @@ function HomePage() {
         <div className="section-container">
           <h2 className="section-title">Tu sofá ideal en simples pasos</h2>
           <div className="process-steps-grid-v2">
-            {processSteps.map(step => (
+            {homeData.map(step => (
               <div key={step.id} className="process-step-item-v2">
                 <div className="process-step-icon-wrapper">
-                  <FontAwesomeIcon icon={step.icon} className="process-step-icon-v2" />
+                  {/* Acá está el cambio clave */}
+                  <FontAwesomeIcon icon={iconMap[step.icon]} className="process-step-icon-v2" />
                 </div>
+                {/* El resto sigue igual */}
                 <h3 className="process-step-title-v2">{step.title}</h3>
                 <p className="process-step-description-v2">{step.description}</p>
               </div>

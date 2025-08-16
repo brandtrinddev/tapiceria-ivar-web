@@ -52,7 +52,7 @@ function TelasPage() {
                 )}
               <div className="colores-muestrario">
                 {tela.colores.map(color => (
-                  <div key={color.nombre} className="color-swatch-item" title={color.nombre} onClick={() => setColorSeleccionado({ telaId: tela.id, nombre: color.nombre})}>
+                  <button key={color.nombre} className="color-swatch-item" title={color.nombre} onClick={() => setColorSeleccionado({ telaId: tela.id, nombre: color.nombre})}>
                     {color.tipoMuestra === 'hex' ? (
                       <div
                         className="color-swatch"
@@ -66,7 +66,7 @@ function TelasPage() {
                       />
                     )}
                     {/* <span className="color-name">{color.nombre}</span> = Mostrar color de texto debajo */}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

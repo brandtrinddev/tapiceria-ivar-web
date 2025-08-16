@@ -3,7 +3,7 @@
     "id": "tela-alpha",
     "nombre": "Tela Alpha (Estándar)",
     "descripcion": "Nuestra opción base, ideal para quienes buscan una solución económica y funcional. Variedad de colores lisos con una textura suave y resistente para el uso diario.",
-    "imagenMuestrarioGeneral": "../img/contacto.png",
+    "imagenMuestrarioGeneral": "",
     "costoAdicionalPorCuerpo": 0,
     "colores": [
       { "nombre": "Alpha 02", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/alpha/alpha 02.jpg" },
@@ -28,21 +28,21 @@
       { "nombre": "Carla Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Beige.jpg" },
       { "nombre": "Carla Vison", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Vison.jpg" },
       { "nombre": "Carla Rojo", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Rojo.jpg" },
-      { "nombre": "Carla Amarillo", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Amarillo.jpg" },
-      { "nombre": "Carla Naranja", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Naranja.jpg" },
-      { "nombre": "Carla Camel", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Camel.jpg" },
-      { "nombre": "Carla Azul", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Azul.jpg" },
-      { "nombre": "Carla Lima", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Lima.jpg" },
-      { "nombre": "Carla Turquesa", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Turquesa.jpg" },
-      { "nombre": "Carla Perla", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Perla.jpg" },
-      { "nombre": "Carla Gris", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Gris.jpg" },
-      { "nombre": "Carla Negro", "tipoMuestra": "imagen", "valorMuestra": "img/telas/carla/Carla Negro.jpg" }
+      { "nombre": "Carla Amarillo", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Amarillo.jpg" },
+      { "nombre": "Carla Naranja", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Naranja.jpg" },
+      { "nombre": "Carla Camel", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Camel.jpg" },
+      { "nombre": "Carla Azul", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Azul.jpg" },
+      { "nombre": "Carla Lima", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Lima.jpg" },
+      { "nombre": "Carla Turquesa", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Turquesa.jpg" },
+      { "nombre": "Carla Perla", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Perla.jpg" },
+      { "nombre": "Carla Gris", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Gris.jpg" },
+      { "nombre": "Carla Negro", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Negro.jpg" }
     ]
   },
     {
     "id": "tela-tach",
     "nombre": "Tela Tach (Anti-Mancha / Impermeable)",
-    "descripcion": "Tela con proceso anti-mancha e impermeable, repele y limpia cualquier tipo de líquidos fácilmente con un trapo húmedo, sin complicaciones.",
+    "descripcion": "Tela con propiedades impermeables, repele líquidos",
     "imagenMuestrarioGeneral": "",
     "costoAdicionalPorCuerpo": 600,
     "colores": [
@@ -62,7 +62,7 @@
     {
     "id": "tela-pane",
     "nombre": "Tela Pané (Anti-Mancha / Impermeable)",
-    "descripcion": "Tejido de alta durabilidad con doble proceso anti-mancha y propiedades impermeables que repelen líquidos. Perfecta para hogares con niños o mascotas.",
+    "descripcion": "Tejido de alta durabilidad con doble proceso anti-mancha y propiedades impermeables que repelen líquidos. Perfecta para hogares con niños o mascotas. Limpia cualquier tipo de mancha o líquido fácilmente con un trapo húmedo, sin complicaciones.",
     "imagenMuestrarioGeneral": "",
     "costoAdicionalPorCuerpo": 780,
     "colores": [

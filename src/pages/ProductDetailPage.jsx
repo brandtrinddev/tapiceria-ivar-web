@@ -1,10 +1,22 @@
 // src/pages/ProductDetailPage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
+import { formatPriceUYU } from '../utils/formatters.js';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import productData from '../data/productos.json';
 import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
+
+const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
+
+const NOMBRES_MEDIDAS = {
+  ancho: 'Ancho',
+  profundidad: 'Profundidad',
+  alto: 'Altura',
+  profundidadTotalChaise: 'Profundidad Total Chaise',
+  profundidadChaise: 'Profundidad Chaise',
+  profundidadTotal: 'Profundidad Total'
+};
 
 function ProductDetailPage() {
   const { productId } = useParams();
@@ -64,12 +76,7 @@ function ProductDetailPage() {
     );
   }
 
-  const formattedPrice = product.precioBase.toLocaleString('es-UY', {
-    style: 'currency',
-    currency: 'UYU',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  const formattedPrice = formatPriceUYU(product.precioBase);
 
   const handleThumbnailClick = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -127,7 +134,7 @@ function ProductDetailPage() {
 
             {product.promo && (
               <p className="product-detail-promo-price">
-                ¡Oferta Especial! Llévate {product.promo.cantidad} por ${product.promo.precio.toLocaleString('es-UY')}
+                ¡Oferta Especial! Llévate {product.promo.cantidad} por {formatPriceUYU(product.promo.precio)}
               </p>
             )}
             
@@ -153,7 +160,7 @@ function ProductDetailPage() {
                     <ul>
                       {Object.entries(Object.values(product.medidas)[0]).map(([medida, valor]) => (
                         <li key={medida}>
-                          <strong>{medida}:</strong> {valor}
+                          <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
                         </li>
                       ))}
                     </ul>
@@ -161,7 +168,6 @@ function ProductDetailPage() {
                 ) : (
                   <div className="dimensions-grid">
                     {Object.entries(product.medidas).map(([componenteKey, medidasComponente]) => {
-                      const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo' };
                       const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
                       return (
                         <div key={componenteKey} className="dimension-block">
@@ -169,7 +175,7 @@ function ProductDetailPage() {
                           <ul>
                             {Object.entries(medidasComponente).map(([medida, valor]) => (
                               <li key={medida}>
-                                <strong>{medida}:</strong> {valor}
+                                <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
                               </li>
                             ))}
                           </ul>

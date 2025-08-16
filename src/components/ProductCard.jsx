@@ -1,17 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // 1. Importa Link
+import { formatPriceUYU } from '../utils/formatters';
 
 function ProductCard({ product }) {
   if (!product) {
     return null;
   }
 
-  const formattedPrice = product.precioBase.toLocaleString('es-UY', {
-    style: 'currency',
-    currency: 'UYU',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  const formattedPrice = formatPriceUYU(product.precioBase);
 
   const imageStyle = {
     // Si el producto tiene una posición definida en el JSON, la usamos. Si no, se usa el default del CSS.
