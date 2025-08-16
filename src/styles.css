@@ -1,0 +1,1593 @@
+/* STYLES.CSS - TAPICERÍA IVAR - V2.3 CATÁLOGO (23-MAY-2025) */
+
+/* 1. Importaciones, Variables y Resets
+-------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&family=Raleway:wght@700&display=swap');
+
+:root {
+  --color-primario: #0A2F51; /* Azul petróleo oscuro */
+  --color-primario-hover: #082642;
+  --color-secundario: #F8F9FA; /* Gris muy claro para fondos */
+  --color-acento: #EAAA00; /* Dorado/mostaza vibrante */
+  --color-acento-rgb: 234, 170, 0;
+  --color-acento-hover: #d69a00;
+  --color-texto-principal: #212529;
+  --color-texto-secundario: #495057;
+  --color-texto-claro: #F8F9FA;
+  --color-blanco: #ffffff;
+  --color-borde: #dee2e6;
+  --color-borde-input: #ced4da;
+
+  --fuente-titulos: 'Montserrat', sans-serif;
+  --fuente-cuerpo: 'Open Sans', sans-serif;
+
+  --radio-borde-suave: 6px;
+  --radio-borde-medio: 10px;
+  --radio-borde-grande: 16px;
+
+  --sombra-sutil: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --sombra-estandar: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --sombra-elevada: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  --transicion-rapida: all 0.25s ease-in-out;
+  --transicion-media: all 0.4s ease-in-out;
+
+  --ancho-max-container: 1140px;
+  --padding-seccion-desktop: 80px;
+  --padding-seccion-mobile: 50px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-blanco);
+  color: var(--color-texto-principal);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#root, .app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main.page-content-container, .page-content-container {
+  flex: 1 0 auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* .page-content-container { flex-grow: 1; } */
+
+.section-container {
+  width: 100%;
+  max-width: var(--ancho-max-container);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.standard-page-padding {
+  padding-top: var(--padding-seccion-desktop);
+  padding-bottom: var(--padding-seccion-desktop);
+}
+
+a { text-decoration: none; color: var(--color-primario); transition: var(--transicion-rapida); }
+a:hover { color: var(--color-primario-hover); }
+img { max-width: 100%; height: auto; display: block; }
+.section-title {
+  font-family: var(--fuente-titulos); font-size: 2.6rem; font-weight: 700;
+  color: var(--color-primario); margin-bottom: 50px; text-align: center;
+  line-height: 1.3; position: relative; padding-bottom: 15px;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%); width: 70px; height: 3px;
+  background-color: var(--color-acento);
+}
+.section-title-left {
+  font-family: var(--fuente-titulos); font-size: 2.2rem; font-weight: 700;
+  color: var(--color-primario); margin-bottom: 30px; padding-bottom: 10px;
+  border-bottom: 3px solid var(--color-primario); display: inline-block;
+}
+
+.page-content-container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 2. Header / Navegación (Navbar)
+-------------------------------------------------- */
+
+header {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1020;
+}
+
+nav.navbar {
+  background-color: var(--color-blanco);
+  padding: 15px 0; /* Un padding base que no cambiará mucho */
+  border-bottom: 1px solid var(--color-borde);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  transition: box-shadow 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+nav.navbar.scrolled {
+  padding: 10px 0;
+  box-shadow: var(--sombra-estandar);
+}
+
+nav.navbar .navbar-content {
+  display: flex;
+  justify-content: flex-end; /* 1. Alineamos los links a la derecha */
+  align-items: center;
+  height: 50px; /* 2. Le damos una altura FIJA a la fila */
+  position: relative; /* 3. MUY IMPORTANTE: para que el logo se posicione respecto a esta caja */
+  transition: height 0.3s ease-in-out;
+}
+
+nav.navbar.scrolled .navbar-content {
+  height: 40px;
+}
+
+nav.navbar .logo {
+  position: absolute; /* 4. SACAMOS EL LOGO DEL FLUJO NORMAL */
+  left: 20px; /* 5. Lo posicionamos a la izquierda (respetando el padding del section-container) */
+  top: 50%; /* 6. Lo centramos verticalmente */
+  transform: translateY(-50%); /* 7. Ajuste fino para el centrado vertical perfecto */
+  height: 80px; /* <-- ¡AHORA SÍ! CONTROLA EL TAMAÑO DESDE AQUÍ */
+  transition: height 0.3s ease-in-out;
+}
+
+nav.navbar.scrolled .logo {
+  height: 70px; /* <-- Y el tamaño al hacer scroll desde aquí */
+}
+
+nav.navbar .logo img { 
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+nav.navbar .logo:hover {
+  opacity: 0.85;
+}
+
+/* El resto de los estilos del navbar (nav-links, dropdown, etc.) */
+
+nav.navbar .nav-links {
+  list-style: none; display: flex; align-items: center; margin: 0; padding: 0;
+}
+nav.navbar .nav-links li { margin-left: 25px; position: relative; }
+nav.navbar .nav-links li:first-child { margin-left: 0; }
+nav.navbar .nav-links li a {
+  color: var(--color-texto-principal); font-size: 0.9rem; font-weight: 600;
+  font-family: var(--fuente-titulos); padding: 10px 4px;
+  text-decoration: none; transition: var(--transicion-rapida);
+  position: relative; letter-spacing: 0.5px; text-transform: uppercase;
+  white-space: nowrap; display: flex; align-items: center;
+}
+nav.navbar .nav-links li a::after {
+  content: ''; position: absolute; bottom: 0px; left: 0; width: 0;
+  height: 2px; background-color: var(--color-acento);
+  transition: width 0.3s ease-in-out;
+}
+nav.navbar .nav-links li a.active-link { color: var(--color-primario); }
+nav.navbar .nav-links li a.active-link::after { width: 100%; }
+nav.navbar .nav-links li a:not(.active-link):hover { color: var(--color-primario); }
+nav.navbar .nav-links li a:not(.active-link):hover::after { width: 100%; }
+nav.navbar .nav-links li.dropdown > a::after {
+  content: '▼'; font-size: 0.6em; margin-left: 6px; display: inline-block;
+  transition: transform 0.2s ease-in-out; background-color: transparent;
+  width: auto; height: auto; position: relative; bottom: auto; line-height: 1;
+}
+nav.navbar .nav-links li.dropdown:hover > a::after { transform: rotate(180deg); }
+nav.navbar .nav-links li .dropdown-menu {
+  display: block; opacity: 0; visibility: hidden; position: absolute;
+  top: calc(100% + 15px); left: 50%; transform: translateX(-50%) translateY(10px);
+  background-color: var(--color-blanco); border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave); box-shadow: var(--sombra-estandar);
+  list-style: none; padding: 8px 0; min-width: 230px; z-index: 1000;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+nav.navbar .nav-links li .dropdown-menu::before {
+  content: ""; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  border-width: 0 7px 7px 7px; border-style: solid;
+  border-color: transparent transparent var(--color-blanco) transparent;
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.02));
+}
+nav.navbar .nav-links li.dropdown:hover .dropdown-menu {
+  opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+}
+nav.navbar .nav-links li .dropdown-menu li { padding: 0; margin-left: 0; }
+nav.navbar .nav-links li .dropdown-menu li a {
+  color: var(--color-texto-principal); font-size: 0.9rem; font-weight: 500;
+  font-family: var(--fuente-cuerpo); display: block; padding: 10px 20px;
+  white-space: nowrap; transition: var(--transicion-rapida);
+  text-transform: none; letter-spacing: normal;
+}
+nav.navbar .nav-links li .dropdown-menu li a::after { display: none; }
+nav.navbar .nav-links li .dropdown-menu li a:hover {
+  background-color: var(--color-secundario); color: var(--color-primario);
+}
+.navbar-toggler {
+ display: none; background: none; border: none; padding: 0.25rem 0.5rem;
+ cursor: pointer; z-index: 10;
+}
+.navbar-toggler-icon {
+ display: block; width: 22px; height: 2px; background-color: var(--color-primario);
+ border-radius: 1px; transition: var(--transicion-rapida);
+}
+.navbar-toggler-icon + .navbar-toggler-icon { margin-top: 4px; }
+.navbar-toggler.active .bar1 { transform: translateY(6px) rotate(45deg); margin-top:0; }
+.navbar-toggler.active .bar2 { opacity: 0; }
+.navbar-toggler.active .bar3 { transform: translateY(-6px) rotate(-45deg); margin-top:0; }
+
+/* 3. Footer */
+footer.site-footer {
+  flex-shrink: 0;
+}
+
+.site-footer {
+  background-color: var(--color-primario); color: var(--color-texto-claro);
+  text-align: center; padding: 30px 20px; margin-top: auto; font-size: 0.9rem;
+}
+.site-footer p { margin: 0; opacity: 0.8; }
+
+/* 4. HomePage V2 */
+.hero-section-v2 {
+  position: relative; display: flex; align-items: center; min-height: 80vh;
+  padding-top: 60px; padding-bottom: 60px; color: var(--color-blanco);
+  overflow: hidden; background-image: url('/img/hero-main-image.jpg');
+  background-size: cover; background-position: center 65%;
+}
+.hero-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to right, rgba(10, 47, 81, 0.85) 0%, rgba(10, 47, 81, 0.6) 50%, rgba(10, 47, 81, 0.1) 100%);
+  z-index: 1;
+}
+.hero-content-v2 { position: relative; z-index: 2; text-align: left; }
+.hero-title-v2 {
+  font-family: var(--fuente-titulos); font-size: 3.5rem; font-weight: 800;
+  line-height: 1.1; margin-bottom: 20px; color: var(--color-blanco);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.hero-title-v2 span { display: block; margin-bottom: 5px; }
+.hero-subtitle-v2 {
+  font-family: var(--fuente-cuerpo); font-size: 1.2rem; font-weight: 400;
+  line-height: 1.7; margin-bottom: 35px; max-width: 600px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.hero-cta-button-v2 {
+  display: inline-block; background-color: var(--color-acento); color: var(--color-primario);
+  padding: 16px 40px; font-family: var(--fuente-titulos); font-size: 1.05rem;
+  font-weight: 700; text-decoration: none; border-radius: 50px;
+  transition: var(--transicion-rapida), transform 0.2s ease;
+  text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: var(--sombra-estandar); border: 2px solid transparent;
+}
+.hero-cta-button-v2:hover {
+  background-color: var(--color-acento-hover); color: var(--color-primario-hover);
+  transform: translateY(-3px) scale(1.03); box-shadow: var(--sombra-elevada);
+}
+.why-choose-us-section-v2 {
+  padding-top: var(--padding-seccion-desktop); padding-bottom: var(--padding-seccion-desktop);
+  background-color: var(--color-blanco);
+}
+.features-grid-v2 {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px; margin-top: 20px;
+}
+.feature-item-v2 {
+  background-color: var(--color-blanco); padding: 35px 30px;
+  border-radius: var(--radio-borde-medio); box-shadow: var(--sombra-estandar);
+  text-align: center; transition: var(--transicion-rapida), transform 0.2s ease;
+  border-top: 4px solid transparent;
+}
+.feature-item-v2:hover {
+  transform: translateY(-10px); box-shadow: var(--sombra-elevada);
+  border-top-color: var(--color-acento);
+}
+.feature-icon-wrapper {
+  background-color: var(--color-primario); width: 75px; height: 75px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 25px auto; box-shadow: 0 4px 10px rgba(10, 47, 81, 0.3);
+}
+.feature-icon-v2 { width: 36px; height: 36px; /* filter: brightness(0) invert(1); */ }
+.feature-title-v2 {
+  font-family: var(--fuente-titulos); /* Montserrat */
+  font-size: 1.2rem; /* Puedes ajustar este tamaño si ALL CAPS se ve muy grande o pequeño */
+  font-weight: 700; /* Buen peso para ALL CAPS */
+  color: var(--color-primario);
+  margin-bottom: 15px; /* Aumentamos un poco el margen para más aire */
+  text-transform: uppercase; /* ¡Aquí está la magia! */
+  letter-spacing: 0.8px; /* Espaciado entre letras para mejorar legibilidad de ALL CAPS */
+}
+.feature-description-v2 {
+  font-family: var(--fuente-cuerpo); font-size: 0.95rem; line-height: 1.7;
+  color: var(--color-texto-secundario);
+}
+.how-we-work-section-v2 {
+  padding-top: var(--padding-seccion-desktop); padding-bottom: var(--padding-seccion-desktop);
+  background-color: var(--color-secundario);
+}
+.process-steps-grid-v2 {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px; text-align: center;
+}
+.process-step-item-v2 { padding: 25px; }
+.process-step-icon-wrapper { margin-bottom: 20px; }
+.process-step-icon-v2 {
+  font-size: 2.8rem; color: var(--color-primario);
+  margin-bottom: 15px; transition: var(--transicion-rapida);
+}
+.process-step-item-v2:hover .process-step-icon-v2 {
+  color: var(--color-acento); transform: scale(1.1);
+}
+.process-step-title-v2 {
+  font-family: var(--fuente-titulos); /* Montserrat */
+  font-size: 1.15rem; /* Puedes ajustar este tamaño */
+  font-weight: 700; /* Aumentamos un poco el peso para ALL CAPS */
+  color: var(--color-texto-principal);
+  margin-bottom: 12px; /* Aumentamos un poco el margen */
+  text-transform: uppercase; /* ¡ALL CAPS! */
+  letter-spacing: 0.7px; /* Espaciado entre letras */
+}
+.process-step-description-v2 {
+  font-size: 0.9rem; line-height: 1.65; color: var(--color-texto-secundario);
+}
+.featured-products-section-v2 {
+  padding-top: var(--padding-seccion-desktop); padding-bottom: var(--padding-seccion-desktop);
+  background-color: var(--color-blanco);
+}
+.all-products-link-container-v2 { margin-top: 50px; text-align: center; }
+.cta-button-secondary-v2 {
+  display: inline-block; background-color: transparent; color: var(--color-primario);
+  padding: 14px 35px; font-family: var(--fuente-titulos); font-size: 1rem;
+  font-weight: 600; text-decoration: none; border-radius: 50px;
+  transition: var(--transicion-rapida); text-transform: uppercase;
+  letter-spacing: 0.8px; border: 2px solid var(--color-primario);
+}
+.cta-button-secondary-v2:hover {
+  background-color: var(--color-primario); color: var(--color-blanco);
+  transform: translateY(-2px); box-shadow: var(--sombra-sutil);
+}
+.recognition-section-v2 {
+  padding-top: var(--padding-seccion-desktop); padding-bottom: var(--padding-seccion-desktop);
+  background-color: var(--color-primario); color: var(--color-texto-claro);
+}
+.recognition-section-v2 .section-title { color: var(--color-blanco); }
+.recognition-section-v2 .section-title::after { background-color: var(--color-acento); }
+.recognition-content-v2 {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 40px; align-items: center; margin-top: 20px;
+}
+.recognition-text-v2 p {
+  font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.recognition-text-v2 p strong { color: var(--color-blanco); font-weight: 700; }
+.recognition-links-v2 {
+  margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;
+}
+.cta-button-recognition-v2 {
+  display: inline-block; background-color: var(--color-acento); color: var(--color-primario);
+  padding: 14px 30px; font-family: var(--fuente-titulos); font-size: 0.95rem;
+  font-weight: 700; text-decoration: none; border-radius: var(--radio-borde-suave);
+  transition: var(--transicion-rapida); text-transform: uppercase;
+  letter-spacing: 0.5px; border: 2px solid transparent;
+}
+.cta-button-recognition-v2:hover {
+  background-color: var(--color-acento-hover); color: var(--color-primario-hover);
+  transform: translateY(-2px); box-shadow: var(--sombra-sutil);
+}
+.recognition-image-container-v2 { text-align: center; }
+.mercado-libre-screenshot-v2 {
+  max-width: 100%; width: auto; max-height: 380px;
+  border-radius: var(--radio-borde-medio); box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  border: 3px solid var(--color-blanco);
+}
+.image-caption-v2 {
+  font-size: 0.85rem; color: rgba(255, 255, 255, 0.7);
+  margin-top: 15px; font-style: italic;
+}
+
+/* 5. Product Card y Product Grid (Estilos V2 - Restaurados y Asegurados)
+-------------------------------------------------------------------- */
+.product-card-link {
+  text-decoration: none;
+  color: inherit; 
+  display: block; 
+  height: 100%; 
+}
+
+.product-card {
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio); 
+  overflow: hidden; 
+  background-color: var(--color-blanco);
+  box-shadow: var(--sombra-sutil); 
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+  transition: var(--transicion-rapida), transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card-description {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.5;
+  margin-bottom: 15px;
+  /* La propiedad flex-grow del h3 y el margin-top del price-container 
+     se encargarán de posicionarla bien verticalmente. */
+}
+
+.product-card:hover {
+  transform: translateY(-8px); 
+  box-shadow: var(--sombra-elevada); 
+  border-color: var(--color-primario); 
+}
+
+.product-card-image-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-secundario); 
+  aspect-ratio: 4 / 3; /* Mantenemos la proporción que te gustó */
+}
+
+.product-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  transition: transform 0.4s ease; 
+}
+
+.product-card:hover .product-card-image {
+  transform: scale(1.05); 
+}
+
+.product-card-content {
+  padding: 20px 25px; 
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+}
+
+.product-card-name {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem; 
+  color: var(--color-primario);
+  margin-bottom: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  flex-grow: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-variant-numeric: lining-nums;
+}
+
+.product-card-price {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1.3rem; 
+  color: var(--color-texto-principal);
+  font-weight: 700; 
+  margin-top: auto; 
+  margin-bottom: 0;
+}
+
+.product-card-price-container {
+  margin-top: auto;
+  margin-bottom: 0;
+  transition: transform 0.2 ease-in-out;
+}
+
+.product-card-price-container:hover .product-card-promo-price {
+  transform: scale(1.05);
+  transition: transform 0.2 ease-in-out;
+}
+
+.product-card-promo-price {
+  font-family: 'Lora', serif;
+  font-size: 0.9rem;
+  color: var(--color-primario);
+  font-weight: 700;
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  background-color: rgba(var(--color-acento-rgb), 0.2);
+  padding: 3px 8px;
+  border-radius: var(--radio-borde-suave);
+  display: inline-block;
+  align-self: center;
+}
+
+.product-grid { /* Regla genérica para todas las grillas de productos */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));  /* Prueb con 280px, 300px o 320px para el min */
+  gap: 30px;
+  /* section-container se aplica en el JSX para el product-grid en CatalogoPage */
+}
+
+.price-unit {
+  font-size: 0.7em; /* O 0.8em, ajusta a tu gusto */
+  color: #666;
+  font-weight: 500;
+  margin-left: 5px;
+  text-transform: uppercase;
+}
+
+/* 6. Product Detail Page - (Estilos existentes, adaptados a variables V2)
+-------------------------------------------------- */
+.product-detail-container {
+  padding-top: 50px;
+  padding-right: 20px;
+  padding-bottom: var(--padding-seccion-desktop);
+  padding-left: 20px;
+  max-width: var(--ancho-max-container);
+  margin: 0 auto;
+  background-color: var(--color-blanco);
+}
+
+.product-detail-promo-price {
+  font-family: var(--fuente-titulos);
+  background-color: var(--color-secundario);
+  border: 1px dashed var(--color-acento);
+  color: var(--color-primario);
+  padding: 12px 18px;
+  border-radius: var(--radio-borde-suave);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.product-detail-layout {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 50px;
+}
+.product-detail-images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: sticky;
+  top: 85px;
+  align-self: flex-start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+.main-image-wrapper {
+  width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+  border-radius: var(--radio-borde-medio); background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+}
+.product-detail-main-image { width: 100%; height: 100%; object-fit: cover; }
+.product-detail-thumbnail-gallery {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-start;
+}
+.product-detail-thumbnail {
+  width: 80px; height: 80px; object-fit: cover;
+  border-radius: var(--radio-borde-suave); border: 2px solid transparent;
+  cursor: pointer; transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+.product-detail-thumbnail:hover { opacity: 0.75; }
+.product-detail-thumbnail.active { border-color: var(--color-primario); opacity: 1; }
+.product-detail-info { display: flex; flex-direction: column; gap: 25px; }
+.product-detail-name {
+  font-family: 'Georgia', serif;
+  font-size: 2.15rem;
+  color: var(--color-primario);
+  margin-bottom: 5px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-variant-numeric: lining-nums;
+}
+.product-detail-price {
+  font-family: var(--fuente-titulos); font-size: 2rem;
+  color: var(--color-texto-principal); font-weight: 600; margin-bottom: 15px;
+}
+.product-info-section { padding-top: 20px; border-top: 1px solid var(--color-borde); }
+.product-info-section:first-of-type { border-top: none; padding-top: 0; }
+.product-info-section h2 {
+  font-family: var(--fuente-titulos); font-size: 1.25rem;
+  color: var(--color-primario); margin-bottom: 15px; font-weight: 600;
+}
+.product-detail-description p {
+  font-size: 1rem; line-height: 1.75; color: var(--color-texto-secundario);
+  white-space: pre-line;
+}
+
+/* --- Estilos definitivos para la sección de medidas --- */
+
+/* Contenedor general de la sección (product-info-section) */
+.product-detail-dimensions {
+  /* Esta clase ya recibe padding-top de .product-info-section */
+}
+
+/* Grilla para los bloques (SOLO para productos compuestos) */
+.product-detail-dimensions .dimensions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* El bloque de estilo individual (se usa en AMBOS casos, simple y compuesto) */
+.product-detail-dimensions .dimension-block {
+  background-color: var(--color-secundario);
+  padding: 20px;
+  border-radius: var(--radio-borde-suave);
+  border-left: 4px solid var(--color-acento);
+}
+
+/* El subtítulo dentro de cada bloque (ej: "Butaca") */
+.product-detail-dimensions .dimension-component-title {
+  font-family: var(--fuente-titulos);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  text-transform: capitalize;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* La lista <ul> DENTRO de cada bloque (se aplica a AMBOS casos) */
+.product-detail-dimensions ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* La orden para que sea una lista VERTICAL */
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+}
+
+/* Estilo para el texto en negrita <strong> */
+.product-detail-dimensions li strong {
+  color: var(--color-texto-principal);
+  font-weight: 600;
+}
+
+/* Regla "mágica" para evitar el bloque huérfano en el caso de 3 elementos */
+.dimensions-grid .dimension-block:first-child:nth-last-child(3) {
+  grid-column: 1 / -1; /* Le ordena al primer elemento que ocupe todo el ancho */
+}
+
+.product-detail-cta-button {
+  display: inline-block; background-color: var(--color-primario); color: var(--color-blanco);
+  padding: 15px 35px; font-family: var(--fuente-titulos); font-size: 1.05rem;
+  font-weight: 600; text-decoration: none; border-radius: var(--radio-borde-suave);
+  transition: var(--transicion-rapida), transform 0.2s ease;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  border: 2px solid transparent; cursor: pointer; margin-top: 20px;
+  align-self: flex-start; box-shadow: var(--sombra-sutil);
+}
+.product-detail-cta-button:hover {
+  background-color: var(--color-primario-hover);
+  color: var(--color-blanco);
+  transform: translateY(-2px); box-shadow: var(--sombra-estandar);
+  box-shadow: var(--sombra-estandar);
+}
+
+.product-detail-price .price-unit {
+    font-size: 0.5em; 
+}
+
+/* Estilos para las flechas de la galería */
+.main-image-wrapper {
+  position: relative; /* Necesario para posicionar las flechas */
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(10, 47, 81, 0.5); /* Fondo semitransparente */
+  color: var(--color-blanco);
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: var(--transicion-rapida);
+  opacity: 0; /* Ocultas por defecto */
+}
+
+/* Las flechas aparecen cuando pasas el mouse sobre la imagen */
+.main-image-wrapper:hover .gallery-arrow {
+  opacity: 1;
+}
+
+.gallery-arrow:hover {
+  background-color: var(--color-primario);
+}
+
+.prev-arrow {
+  left: 15px;
+}
+
+.next-arrow {
+  right: 15px;
+}
+
+/* 5.5 / 6.5. Estilos para Nuevos Bloques en Product Detail Page
+-------------------------------------------------- */
+
+/* --- Sección de Llamado a la Acción (CTA) de Personalización --- */
+.customization-cta-section {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  padding: 30px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.customization-cta-section h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.5rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.customization-cta-section p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-texto-secundario);
+  max-width: 600px;
+  margin: 0 auto 25px auto;
+}
+
+.customization-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap; /* Para que se adapte en móviles */
+}
+
+/* Hacemos que el botón original de WhatsApp ahora viva aquí */
+.customization-cta-buttons .product-detail-cta-button {
+  margin-top: 0; 
+}
+
+/* Creamos un estilo 'secundario' para el botón de telas */
+.product-detail-cta-button.secondary {
+  background-color: var(--color-blanco);
+  color: var(--color-primario);
+  border: 2px solid var(--color-primario);
+}
+
+.product-detail-cta-button.secondary:hover {
+  background-color: var(--color-secundario);
+  color: var(--color-primario-hover);
+  border-color: var(--color-primario-hover);
+}
+
+
+/* --- Sección de Variantes del Producto --- */
+.variants-section {
+  padding-top: var(--padding-seccion-desktop);
+  margin-top: 20px;
+  /* La siguiente línea es opcional, por si quieres un separador visual */
+  /* border-top: 1px solid var(--color-borde); */
+}
+
+.variants-section-title {
+  text-align: center;
+  font-family: var(--fuente-titulos);
+  font-size: 2rem;
+  color: var(--color-primario);
+  margin-bottom: 40px;
+}
+
+/* Usamos la grilla existente pero podemos limitarla si queremos */
+.variants-grid {
+  /* Opcional: Si no quieres que muestre demasiadas variantes en una fila */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  max-width: 1000px; /* Limita el ancho máximo para que no se estire tanto */
+  margin: 0 auto; /* Centra la grilla */
+}
+
+/* 7. Contact Page V2 - (Estilos existentes, adaptados a variables V2)
+-------------------------------------------------- */
+.contact-page-v2-container {
+  padding-right: 20px; padding-bottom: var(--padding-seccion-desktop); padding-left: 20px;
+  max-width: var(--ancho-max-container); margin: 0 auto;
+}
+.contact-hero {
+  text-align: center; padding: 60px 20px 50px 20px; margin-bottom: 60px;
+  background-color: var(--color-primario); color: var(--color-blanco);
+  border-radius: var(--radio-borde-medio); box-shadow: var(--sombra-estandar);
+}
+.contact-hero .contact-page-title {
+  font-family: var(--fuente-titulos); font-size: 2.8rem;
+  color: var(--color-blanco); margin-bottom: 15px; font-weight: 700;
+}
+.contact-hero .contact-page-subtitle {
+  font-family: var(--fuente-cuerpo); font-size: 1.25rem;
+  color: var(--color-texto-claro); max-width: 700px; margin: 0 auto; line-height: 1.7;
+}
+.contact-main-grid {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 50px; align-items: flex-start;
+}
+.contact-info-column {
+  background-color: var(--color-primario); color: var(--color-blanco);
+  padding: 40px 35px; border-radius: var(--radio-borde-grande);
+  box-shadow: 0 8px 25px rgba(10, 47, 81, 0.2);
+  display: flex; flex-direction: column; gap: 30px;
+}
+.contact-info-block {
+  display: flex; align-items: center; gap: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 25px;
+}
+.contact-info-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.contact-info-icon {
+  flex-shrink: 0; font-size: 1.5rem; color: var(--color-acento);
+  background-color: rgba(255, 255, 255, 0.05);
+  width: 55px; height: 55px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.contact-info-column h3 {
+  font-family: var(--fuente-titulos); font-size: 1.25rem;
+  color: var(--color-blanco); margin-bottom: 8px; font-weight: 600;
+}
+.contact-info-column p {
+  font-size: 1rem; color: var(--color-texto-claro);
+  line-height: 1.6; margin: 0;
+}
+.contact-info-column p a {
+  color: var(--color-blanco); text-decoration: none; font-weight: 500;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.6);
+}
+.contact-info-column p a:hover { border-bottom-style: solid; }
+.contact-map-embed {
+  border-radius: var(--radio-borde-medio); overflow: hidden;
+  aspect-ratio: 16 / 9; height: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.contact-map-embed iframe { width: 100%; height: 100%; border: 0; }
+.contact-form-column {
+  background-color: var(--color-blanco); padding: 45px;
+  border-radius: var(--radio-borde-grande); box-shadow: var(--sombra-elevada);
+}
+.contact-form-column h2 {
+  font-family: var(--fuente-titulos); font-size: 2rem;
+  color: var(--color-primario); margin-bottom: 15px; font-weight: 700;
+}
+.contact-form-column > p {
+  font-size: 1.05rem; color: var(--color-texto-secundario);
+  margin-bottom: 40px; line-height: 1.7;
+}
+.contact-form-v2 .form-group { margin-bottom: 25px; }
+.contact-form-v2 label {
+  display: block; font-size: 0.95rem; color: var(--color-texto-principal);
+  font-weight: 600; margin-bottom: 10px;
+}
+.contact-form-v2 input[type="text"],
+.contact-form-v2 input[type="email"],
+.contact-form-v2 input[type="tel"],
+.contact-form-v2 textarea {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--color-borde-input);
+  border-radius: var(--radio-borde-suave);
+  background-color: #fdfdff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--color-texto-principal);
+}
+.contact-form-v2 input[type="text"]:focus,
+.contact-form-v2 input[type="email"]:focus,
+.contact-form-v2 input[type="tel"]:focus,
+.contact-form-v2 textarea:focus {
+  border-color: var(--color-primario); outline: none;
+  box-shadow: 0 0 0 3.5px rgba(10, 47, 81, 0.15);
+  background-color: var(--color-blanco);
+}
+.contact-form-v2 textarea { resize: vertical; min-height: 150px; }
+.contact-submit-button-v2 {
+  display: inline-block; background-color: var(--color-primario); color: var(--color-blanco);
+  padding: 16px 40px; font-family: var(--fuente-titulos); font-size: 1.05rem;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  border: none; border-radius: var(--radio-borde-suave); cursor: pointer;
+  transition: var(--transicion-rapida), transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(10, 47, 81, 0.2);
+}
+.contact-submit-button-v2:hover {
+  background-color: var(--color-primario-hover);
+  transform: translateY(-3px); box-shadow: 0 6px 15px rgba(10, 47, 81, 0.3);
+}
+.required-asterisk {
+  color: red; /* O el color que prefieras para el asterisco */
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+.form-validation-error {
+  color: red; /* O un color de error de tu paleta */
+  font-size: 0.85rem;
+  margin-top: 5px;
+  padding-left: 2px; /* Para alinear con el input si es necesario */
+}
+
+.form-validation-error p { /* Si hay múltiples errores generales */
+  margin-bottom: 3px;
+}
+
+.general-form-error { /* Para errores que no son de un campo específico */
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: var(--radio-borde-suave);
+  background-color: #ffebee; /* Un fondo rosado claro */
+}
+
+/* 8. Sobre Nosotros Page (Estilos existentes, adaptados a variables V2)
+-------------------------------------------------- */
+.nosotros-page { /* Ya no usa standard-page-padding */ }
+.nosotros-hero {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  text-align: center; min-height: 55vh; padding: 60px 30px;
+  color: var(--color-blanco); overflow: hidden;
+  background-color: var(--color-primario-hover);
+}
+.nosotros-hero::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: linear-gradient(rgba(10, 47, 81, 0.2), rgba(10, 47, 81, 0.9)), url('/img/nosotros-hero-image.jpg');
+  background-size: cover; background-position: center 70%; background-repeat: no-repeat;
+  z-index: 1;
+}
+.nosotros-hero-content { position: relative; z-index: 2; max-width: 850px; /* .section-container se aplica en JSX */ }
+.nosotros-page-title {
+  font-family: var(--fuente-titulos); font-size: 2.6rem; font-weight: 700;
+  color: var(--color-blanco); margin-bottom: 20px; line-height: 1.25;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding-bottom: 0;
+}
+.nosotros-page-title::after { display:none; }
+.nosotros-page-subtitle {
+  font-family: var(--fuente-cuerpo); font-size: 1.2rem; font-weight: 400;
+  color: var(--color-texto-claro); max-width: 750px; margin: 0 auto;
+  line-height: 1.7; opacity: 0.95; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+.nosotros-section {
+  padding-top: var(--padding-seccion-desktop);
+  padding-bottom: var(--padding-seccion-desktop);
+}
+.nosotros-section p {
+  font-size: 1.05rem; color: var(--color-texto-secundario);
+  line-height: 1.8; margin-bottom: 20px;
+}
+.nosotros-section p:last-of-type { margin-bottom: 0; }
+.nosotros-calidad { background-color: var(--color-secundario); }
+.calidad-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px; margin-top: 30px;
+}
+.calidad-item {
+  background-color: var(--color-blanco); padding: 35px 30px;
+  border-radius: var(--radio-borde-medio); text-align: center;
+  border: 1px solid var(--color-borde); box-shadow: var(--sombra-sutil);
+  transition: var(--transicion-rapida);
+}
+.calidad-item:hover { transform: translateY(-5px); box-shadow: var(--sombra-estandar); }
+.calidad-icon-placeholder, .calidad-icon {
+  font-size: 1rem; color: var(--color-blanco); background-color: var(--color-primario);
+  width: 70px; height: 70px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 25px auto; font-weight: 600; text-transform: uppercase;
+}
+.calidad-icon svg {
+  width: 36px;
+  height: 36px;
+}
+.calidad-icon svg { width: 32px; height: 32px; }
+.calidad-item h3 {
+  font-family: var(--fuente-titulos); /* Montserrat */
+  font-size: 1.2rem; /* El original era 1.3rem. Probemos con 1.2rem para ALL CAPS, puedes ajustar */
+  font-weight: 700; /* Más peso para destacar en ALL CAPS */
+  color: var(--color-primario);
+  margin-bottom: 12px; /* Un poco más de margen inferior */
+  text-transform: uppercase; /* ¡ALL CAPS! */
+  letter-spacing: 0.8px; /* Espaciado entre letras, similar al de HomePage */
+}
+.nosotros-personalizacion .nosotros-section-content-flex {
+  display: flex; align-items: center; gap: 40px;
+}
+.nosotros-personalizacion .text-content { flex: 1.5; }
+.nosotros-personalizacion .image-content {
+  flex: 1; max-width: 420px; text-align: center;
+}
+.nosotros-personalizacion .image-content img {
+  border-radius: var(--radio-borde-medio); box-shadow: var(--sombra-estandar);
+}
+.image-placeholder-nosotros {
+  width: 100%; aspect-ratio: 5 / 3.5; background-color: var(--color-borde);
+  border-radius: var(--radio-borde-medio); display: flex;
+  align-items: center; justify-content: center; color: #a0aec0; font-style: italic;
+}
+.cta-button-nosotros {
+  display: inline-block; background-color: var(--color-primario); color: var(--color-blanco);
+  padding: 14px 32px; font-family: var(--fuente-titulos); font-size: 1rem;
+  font-weight: 600; text-decoration: none; border-radius: var(--radio-borde-suave);
+  transition: var(--transicion-rapida), transform 0.2s ease;
+  margin-top: 25px; text-transform: uppercase; letter-spacing: 0.5px;
+  border: 2px solid transparent; box-shadow: var(--sombra-sutil);
+}
+.cta-button-nosotros:hover {
+  background-color: var(--color-primario-hover); color: var(--color-blanco);
+  transform: translateY(-2px); box-shadow: var(--sombra-estandar);
+}
+
+/* 9. FAQ Page - (Estilos existentes, adaptados a variables V2)
+-------------------------------------------------- */
+.faq-section {
+  padding-right: 20px; padding-bottom: var(--padding-seccion-desktop); padding-left: 20px;
+  max-width: 900px; margin: 0 auto;
+}
+.faq-section .section-title { margin-bottom: 50px; }
+.faq-container { display: flex; flex-direction: column; gap: 15px; }
+.accordion-item {
+  background-color: var(--color-blanco); border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave); overflow: hidden;
+  transition: box-shadow var(--transicion-rapida);
+}
+.accordion-item:hover { box-shadow: var(--sombra-sutil); }
+.accordion-item.active {
+  border-color: var(--color-primario); box-shadow: var(--sombra-estandar);
+}
+.accordion-title {
+  background-color: transparent; color: var(--color-primario); cursor: pointer;
+  padding: 18px 25px; width: 100%; text-align: left; border: none; outline: none;
+  font-family: var(--fuente-titulos); font-size: 1.1rem; font-weight: 600;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: color 0.2s ease;
+}
+.accordion-title:hover { color: var(--color-primario-hover); }
+.accordion-title.active { color: var(--color-primario); }
+.accordion-title .icon {
+  font-size: 1.1rem; transition: transform 0.3s ease; color: var(--color-primario);
+}
+.accordion-title.active .icon { transform: rotate(135deg); color: var(--color-acento); }
+.accordion-content {
+  padding: 0px 25px; background-color: var(--color-blanco);
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease-out, padding 0.35s ease-out;
+}
+.accordion-content.active { padding: 20px 25px; }
+.accordion-content p {
+  font-size: 0.95rem; color: var(--color-texto-secundario);
+  line-height: 1.7; margin: 0;
+}
+
+/* 10. Botones Flotantes (Redes Sociales) */
+.botones-flotantes {
+  position: fixed; bottom: 25px; right: 25px;
+  display: flex; flex-direction: column; gap: 12px; z-index: 1000;
+}
+.btn-float {
+  width: 55px; height: 55px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: var(--color-blanco); text-decoration: none;
+  box-shadow: var(--sombra-estandar);
+  transition: var(--transicion-rapida), transform 0.2s ease-in-out;
+}
+.btn-float:hover {
+  transform: translateY(-3px) scale(1.05); box-shadow: var(--sombra-elevada);
+}
+.btn-float.whatsapp { background-color: #25D366; }
+.btn-float.facebook { background-color: #1877F2; }
+.btn-float.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+
+/* 11. Catálogo Page V2 - NUEVOS ESTILOS (Header, Controles, Paginación)
+-------------------------------------------------------------------- */
+
+.catalog-page-header {
+  background-color: var(--color-primario); /* CAMBIO: Fondo azul oscuro */
+  color: var(--color-texto-claro);       /* AÑADIDO: Texto claro por defecto */
+  margin-bottom: 40px;
+  border-bottom: 4px solid var(--color-acento); /* CAMBIO: Borde de acento más grueso */
+  /* Se elimina la sombra y el borde sutil */
+}
+
+.catalog-page-header .section-container {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  /* Sin cambios aquí */
+}
+
+.catalog-breadcrumb,
+.catalog-breadcrumb a {
+  color: rgba(255, 255, 255, 0.7); /* CAMBIO: Blanco semitransparente */
+  margin-bottom: 25px;
+}
+
+.catalog-breadcrumb a:hover {
+  color: var(--color-blanco); /* CAMBIO: Blanco sólido al pasar el mouse */
+}
+
+.catalog-breadcrumb span {
+  color: rgba(255, 255, 255, 0.4); /* CAMBIO: Separador más sutil */
+}
+
+.catalog-main-title {
+  font-family: 'Georgia', serif;
+  font-size: 2.7rem; /* CAMBIO: Título más grande */
+  color: var(--color-blanco); /* CAMBIO: Título blanco */
+  margin: 0 0 25px 0;
+  text-align: center;
+  line-height: 1.2;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.catalog-main-title::after {
+  display: none;
+}
+
+.catalog-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* CAMBIO: Línea divisoria más sutil */
+}
+
+.product-count,
+.sort-control label {
+  color: rgba(255, 255, 255, 0.8); /* CAMBIO: Texto de controles más claro */
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-select {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* CAMBIO */
+  border-radius: var(--radio-borde-suave);
+  background-color: rgba(255, 255, 255, 0.1); /* CAMBIO */
+  color: var(--color-blanco); /* CAMBIO */
+  cursor: pointer;
+  min-width: 180px;
+  transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.sort-select:focus {
+  outline: none;
+  background-color: rgba(0,0,0,0.2); /* CAMBIO */
+  border-color: var(--color-acento); /* CAMBIO */
+  box-shadow: 0 0 0 3px rgba(234, 170, 0, 0.2); /* CAMBIO */
+}
+
+/* AÑADIDO: Estilo para las opciones del desplegable */
+.sort-select option {
+  background-color: var(--color-blanco);
+  color: var(--color-texto-principal);
+}
+
+/* TUS OTRAS REGLAS COMO .no-products-message PUEDEN QUEDAR COMO ESTABAN */
+.no-products-message {
+  text-align: center; padding: 60px 20px; font-size: 1.15rem;
+  color: var(--color-texto-secundario); border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-borde-medio); background-color: var(--color-secundario);
+  margin-top: 30px; margin-bottom: 30px;
+}
+.no-products-message p { margin-bottom: 25px; }
+
+/* Paginación V2 (Estilos ya deberían estar, pero se repiten aquí para asegurar) */
+.pagination-controls {
+  display: flex; justify-content: center; align-items: center;
+  margin-top: 60px; padding-bottom: 30px; gap: 8px;
+  /* section-container se aplica en JSX */
+}
+.pagination-button {
+  font-family: var(--fuente-cuerpo); font-size: 0.95rem; font-weight: 600;
+  padding: 10px 15px; border: 1px solid var(--color-borde);
+  background-color: var(--color-blanco); color: var(--color-primario);
+  border-radius: var(--radio-borde-suave); cursor: pointer;
+  transition: background-color var(--transicion-rapida), color var(--transicion-rapida), border-color var(--transicion-rapida);
+  min-width: 40px; text-align: center;
+}
+.pagination-button:hover:not(:disabled) {
+  background-color: var(--color-secundario); border-color: var(--color-primario);
+}
+.pagination-button.active {
+  background-color: var(--color-primario); color: var(--color-blanco);
+  border-color: var(--color-primario); cursor: default;
+}
+.pagination-button.active:hover { /* Corrección para hover en activo */
+  background-color: var(--color-primario-hover); /* Fondo ligeramente diferente para feedback */
+  color: var(--color-blanco); /* Texto sigue blanco */
+  border-color: var(--color-primario-hover);
+}
+.pagination-button:disabled {
+  color: var(--color-borde); border-color: var(--color-borde);
+  background-color: var(--color-secundario); cursor: not-allowed; opacity: 0.7;
+}
+.pagination-ellipsis {
+    padding: 10px 5px;
+    color: var(--color-texto-secundario);
+    font-size: 0.95rem; /* Coherente con botones */
+    font-weight: 600; /* Coherente con botones */
+}
+
+/* 13. Telas Page
+-------------------------------------------------- */
+.telas-page-container {
+  /* standard-page-padding ya le da padding superior e inferior general */
+}
+
+.telas-page-header {
+  text-align: center;
+  margin-bottom: 50px; /* Espacio antes de la grilla de telas */
+}
+
+.telas-main-title { /* Hereda de .section-title si le pones esa clase, o estilos propios */
+  font-family: var(--fuente-titulos);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  margin-bottom: 15px;
+}
+/* Si quieres el adorno de .section-title: */
+/* .telas-main-title::after { ... } */
+
+
+.telas-page-subtitle {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1.1rem;
+  color: var(--color-texto-secundario);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.telas-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Por defecto, un bloque de tela por fila */
+  gap: 40px; /* Espacio entre bloques de tela */
+}
+
+/* 2 COLUMNAS  
+@media (min-width: 768px) {
+  .telas-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}*/
+
+.tela-block {
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  padding: 30px;
+  box-shadow: var(--sombra-sutil);
+  display: flex;
+  flex-direction: column;
+}
+
+.tela-nombre {
+  font-family: 'Georgia', serif;
+  font-size: 1.3rem; /* Tamaño del nombre de la tela */
+  color: var(--color-primario);
+  margin-bottom: 10px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-acento); /* Línea de acento */
+  padding-bottom: 8px;
+  display: inline-block; /* Para que el borde solo ocupe el texto */
+  text-transform: uppercase;
+}
+
+.tela-muestrario-general-img { /* Estilo para la imagen general del muestrario */
+  width: 100%;
+  max-height: 200px; /* Ajusta según necesidad */
+  object-fit: cover;
+  border-radius: var(--radio-borde-suave);
+  margin-bottom: 15px;
+  border: 1px solid var(--color-borde);
+}
+
+.tela-descripcion {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.65;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Para que ocupe espacio si las descripciones varían en longitud */
+}
+
+.colores-muestrario-container {
+  margin-bottom: 20px;
+}
+
+.colores-muestrario-titulo {
+  font-family: var(--fuente-titulos);
+  font-size: 1rem;
+  color: var(--color-texto-principal);
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.colores-muestrario {
+  display: flex;
+  flex-wrap: wrap; /* Para que los círculos pasen a la siguiente línea si no caben */
+  gap: 10px; /* Espacio entre círculos */
+  align-items: center;
+}
+
+.color-swatch-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: help; /* Para indicar que el title tiene info */
+}
+
+.color-swatch {
+  width: 35px; /* Tamaño del círculo de color */
+  height: 35px;
+  border-radius: 50%; /* Para hacerlo circular */
+  border: 2px solid var(--color-borde); /* Un borde sutil */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+.color-swatch:hover {
+  transform: scale(1.1);
+  border-color: var(--color-primario);
+}
+
+.texture-swatch { /* Si la muestra es una imagen de textura */
+  object-fit: cover; /* Para que la textura llene el círculo */
+}
+
+.color-name { /* Opcional: si quieres mostrar el nombre del color debajo del swatch */
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+  margin-top: 4px;
+  text-align: center;
+  max-width: 50px; /* Para evitar nombres muy largos rompiendo el layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tela-precio-adicional {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
+  color: var(--color-primario);
+  margin-top: auto; /* Empuja el precio abajo */
+  padding-top: 15px; /* Espacio arriba del precio */
+  border-top: 1px dashed var(--color-borde); /* Línea separadora */
+  text-align: right; /* Alinear precio a la derecha */
+}
+.tela-precio-adicional strong {
+  font-weight: 700;
+}
+
+/* Responsive para TelasPage */
+@media (max-width: 576px) {
+  .telas-main-title {
+    font-size: 2rem;
+  }
+  .telas-page-subtitle {
+    font-size: 1rem;
+  }
+  .tela-block {
+    padding: 20px;
+  }
+  .tela-nombre {
+    font-size: 1.5rem;
+  }
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* --- Estilos para el color seleccionado (Añadir al final del CSS) --- */
+.color-nombre-seleccionado {
+  position: relative;
+  font-family: var(--fuente-cuerpo);
+  background-color: #f4f4f4; /* Un fondo gris claro */
+  border: 1px solid var(--color-borde);
+  color: var(--color-texto-principal);
+  padding: 8px 25px 8px 15px; /* Más padding a la derecha para el botón X */
+  border-radius: var(--radio-borde-suave);
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.cerrar-seleccion {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 1.5rem; /* Tamaño del '×' */
+  line-height: 1;
+  color: var(--color-texto-secundario);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.cerrar-seleccion:hover {
+  color: var(--color-primario);
+}
+
+/* 12. Media Queries Generales (Consolidadas y V2)
+-------------------------------------------------- */
+@media (max-width: 992px) {
+  .section-title { font-size: 2.2rem; }
+  .section-title-left { font-size: 2rem; }
+  .hero-title-v2 { font-size: 2.8rem; }
+  .hero-subtitle-v2 { font-size: 1.1rem; max-width: 90%; }
+  .features-grid-v2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+  .feature-title-v2 { font-size: 1.2rem; }
+  .process-steps-grid-v2 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .process-step-icon-v2 { font-size: 2.5rem; }
+  nav.navbar .nav-links li { margin-left: 18px; }
+  nav.navbar .nav-links li a { font-size: 0.85rem; padding: 8px 2px; }
+  .product-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .contact-main-grid { grid-template-columns: 1fr; gap: 40px; }
+  .contact-info-column { margin-bottom: 30px; }
+  .catalog-main-title { font-size: 2rem; }
+}
+
+@media (max-width: 768px) {
+
+.standard-page-padding {
+    padding-top: var(--padding-seccion-mobile);
+    padding-bottom: var(--padding-seccion-mobile);
+}
+
+nav.navbar .navbar-content {
+  justify-content: space-between; /* En móvil, volvemos a separar los elementos */
+  height: auto; /* Dejamos que la altura sea flexible en móvil */
+}
+
+nav.navbar .logo {
+  position: static; /* MUY IMPORTANTE: el logo vuelve al flujo normal */
+  transform: none; /* Quitamos la transformación vertical */
+  height: 50px;    /* Le damos un tamaño fijo y apropiado para móvil */
+}
+
+nav.navbar.scrolled .logo {
+  height: 45px; /* Y un tamaño ligeramente más pequeño al hacer scroll */
+}
+
+  .section-title { font-size: 1.9rem; margin-bottom: 35px; }
+  .section-title::after { width: 50px; height: 2px; }
+  .section-title-left { font-size: 1.7rem; text-align: center; display: block; border-bottom-width: 2px; }
+  .navbar-toggler { display: flex; flex-direction: column; justify-content: space-around; }
+  nav.navbar .nav-links {
+    display: none; flex-direction: column; align-items: flex-start;
+    position: absolute; top: calc(100% - 1px); left: 0; right: 0;
+    background-color: var(--color-blanco); padding: 15px 20px;
+    box-shadow: var(--sombra-estandar); border-top: 1px solid var(--color-borde);
+    z-index: 1000;
+  }
+  nav.navbar .nav-links.active { display: flex; }
+  nav.navbar .nav-links li { margin: 8px 0; width: 100%; }
+  nav.navbar .nav-links li a { padding: 10px 5px; display: block; width: 100%; }
+  nav.navbar .nav-links li a::after { bottom: 0px; }
+  nav.navbar .nav-links li .dropdown-menu {
+    position: static; box-shadow: none; border: none;
+    border-top: 1px dashed var(--color-borde);
+    min-width: auto; margin-top: 8px; padding-left: 15px;
+    transform: none; opacity: 1; visibility: visible; display: none;
+  }
+  nav.navbar .nav-links li.dropdown.open > .dropdown-menu { display: block; }
+  nav.navbar .nav-links li.dropdown > a::after { /* content: '+'; transform: none; */ }
+  nav.navbar .nav-links li .dropdown-menu::before { display: none; }
+  .hero-section-v2 {
+    text-align: center; min-height: auto;
+    padding-top: calc(var(--padding-seccion-mobile) + 20px);
+    padding-bottom: calc(var(--padding-seccion-mobile) + 20px);
+  }
+  .hero-overlay { background: linear-gradient(to bottom, rgba(10, 47, 81, 0.85) 0%, rgba(10, 47, 81, 0.7) 70%, rgba(10, 47, 81, 0.3) 100%); }
+  .hero-title-v2 { font-size: 2.2rem; }
+  .hero-subtitle-v2 { font-size: 1rem; max-width: 100%; }
+  .hero-cta-button-v2 { padding: 14px 30px; font-size: 0.95rem; }
+  .features-grid-v2 { grid-template-columns: 1fr; gap: 25px; }
+  .feature-item-v2 { padding: 30px 25px; }
+  .feature-title-v2 { font-size: 1.25rem; }
+  .feature-icon-wrapper { width: 65px; height: 65px; margin-bottom: 20px; }
+  .feature-icon-v2 { width: 30px; height: 30px; }
+  .process-steps-grid-v2 { grid-template-columns: 1fr; gap: 30px; }
+  .process-step-icon-v2 { font-size: 2.4rem; }
+  .process-step-title-v2 { font-size: 1.15rem; }
+  .product-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .product-card-name { font-size: 1.1rem; }
+  .product-card-price { font-size: 1.15rem; }
+  .product-detail-layout { grid-template-columns: 1fr; gap: 30px; }
+  .product-detail-images { position: static; max-height: none; overflow-y: visible; }
+  .main-image-wrapper { aspect-ratio: 4 / 3; }
+  .product-detail-name { font-size: 2rem; }
+  .product-detail-price { font-size: 1.7rem; }
+  .product-info-section h2 { font-size: 1.15rem; }
+  .contact-hero .contact-page-title { font-size: 2.2rem; }
+  .contact-form-column h2 { font-size: 1.6rem; }
+  .contact-map-embed { height: 300px; aspect-ratio: unset; }
+  .nosotros-hero { padding: 50px 20px; min-height: 45vh; }
+  .nosotros-page-title { font-size: 2rem; }
+  .nosotros-page-subtitle { font-size: 1.05rem; }
+  .nosotros-personalizacion .nosotros-section-content-flex { flex-direction: column; text-align: center; }
+  .nosotros-personalizacion .image-content { margin-top: 30px; max-width: 80%; }
+  .cta-button-nosotros { margin: 20px auto 0 auto; }
+  .recognition-content-v2 { grid-template-columns: 1fr; text-align: center; }
+  .recognition-text-v2 { padding-right: 0; margin-bottom: 30px; }
+  .recognition-links-v2 { justify-content: center; }
+  .mercado-libre-screenshot-v2 { max-height: 300px; }
+  /* Catálogo Responsive */
+  .catalog-page-header { padding: 20px 0; margin-bottom: 20px; }
+  .catalog-page-header .section-container { padding-top: 15px; padding-bottom: 15px; }
+  .catalog-main-title { text-align: center; font-size: 1.8rem; margin-bottom: 20px; }
+  .catalog-breadcrumb { text-align: center; margin-bottom: 15px; font-size: 0.85rem; }
+  .catalog-controls {
+    flex-direction: column; align-items: stretch; gap: 15px; padding: 0; /* El padding lo da el .catalog-page-header .section-container */
+  }
+  .product-count { text-align: center; margin-bottom: 10px; }
+  .sort-control { justify-content: space-between; }
+  .sort-select { min-width: auto; flex-grow: 1; }
+  .pagination-button { padding: 8px 10px; font-size: 0.85rem; min-width: 35px; }
+  .pagination-button.page-number { /* Ocultar algunos números de página en móvil si son muchos */ }
+  .pagination-ellipsis { font-size: 0.85rem; padding: 8px 3px;}
+}
+
+@media (max-width: 480px) {
+  body { line-height: 1.65; }
+  .section-title { font-size: 1.7rem; }
+  .section-title-left { font-size: 1.6rem; }
+  .hero-title-v2 { font-size: 2rem; }
+  .hero-subtitle-v2 { font-size: 0.9rem; }
+  nav.navbar .logo img { max-height: 45px; }
+  nav.navbar .nav-links li a { font-size: 0.9rem; }
+  .product-grid { grid-template-columns: 1fr; }
+  .contact-hero .contact-page-title { font-size: 1.8rem; }
+  .contact-hero .contact-page-subtitle { font-size: 1rem; }
+  .nosotros-page-title { font-size: 1.8rem; }
+  .nosotros-page-subtitle { font-size: 0.95rem; }
+  .calidad-item h3 { font-size: 1.15rem; }
+  .catalog-main-title { font-size: 1.6rem; }
+}

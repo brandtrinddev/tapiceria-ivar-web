@@ -1,0 +1,28 @@
+/* src/index.css (Versión Limpia Sugerida) */
+:root {
+  /* Elige una: la de system-ui (abajo) o la que ya tienes en styles.css (Arial). 
+     Si prefieres Arial, puedes borrar la siguiente línea. */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5; /* Valor base general, puedes ajustarlo */
+  font-weight: 400; /* Valor base general */
+
+  /* Mejoras para el renderizado de fuentes (¡Buenas!) */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Opcional: Para soporte básico de tema claro/oscuro del navegador en elementos no estilizados.
+     Si no te interesa, puedes eliminar la siguiente línea. */
+  color-scheme: light dark; 
+}
+
+body {
+  /* margin: 0; YA ESTÁ EN TU styles.css (*) */
+  min-width: 320px; /* Bueno para responsive */
+  min-height: 100vh; /* Asegura que el body ocupe toda la altura */
+}
+
+/* Todos los estilos de 'a', 'h1', 'button' y el bloque @media (prefers-color-scheme: light) 
+   han sido eliminados porque los manejarás desde tu styles.css, 
+   o no son necesarios para el layout base. */

@@ -1,0 +1,1850 @@
+[
+{
+  "id": "butaca_bernat",
+  "modelo": "bernat",
+  "nombre": "Butaca Bernat",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "Diseño moderno y una silueta elevada. La Butaca Bernat, con sus patas altas y líneas limpias, aporta un toque de ligereza y estilo a tu espacio.",
+  "descripcionLarga": {
+    "sabor": "La Butaca Bernat es diseño en estado puro. Su silueta se eleva sobre unas patas altas y estilizadas que le otorgan una increíble sensación de ligereza visual, ideal para espacios modernos. Los brazos de líneas rectas y el sutil capitoné en el respaldo crean un equilibrio perfecto entre minimalismo y confort. Es una pieza versátil que funciona de maravilla tanto en un living como en un dormitorio o una oficina con estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale un toque de diseño a tu rincón favorito. Consulta por las opciones de tapizados para personalizar tu Butaca Bernat."
+  },
+  "precioBase": 5490,
+  "imagenPrincipal": "/img/productos/bernat/bernat_1c_terracota_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernat/bernat_1c_terracota_frente.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg"
+  ],
+  "medidas": {
+    "butaca": {
+      "Ancho": "cm",
+      "Profundidad": "cm",
+      "Alto": "cm"
+    }
+  },
+  "posicionImagen": "center 35%"
+},
+{
+  "id": "butaca_gala",
+  "modelo": "gala",
+  "nombre": "Butaca Gala",
+  "categoriaClave": ["butacas", "complementos"],
+  "descripcionCorta": "Pura elegancia y diseño orgánico. La Butaca Gala, con su respaldo curvo y asiento redondo, es la pieza de acento perfecta para tu hogar.",
+  "descripcionLarga": {
+    "sabor": "La Butaca Gala es una joya escultural. Su diseño de inspiración art déco se define por sus líneas fluidas y orgánicas, con un asiento redondo que se funde en un respaldo envolvente en forma de concha. Es una pieza de acento, pensada para destacar y aportar un toque de sofisticación en cualquier rincón. Perfecta para un dormitorio, un vestidor o como un punto de color y diseño en un living que no teme ser audaz.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale un toque de distinción a tu espacio. Consulta por las opciones de tapizados para que tu Butaca Gala sea única."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/gala/gala_1c_rosa_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/gala/gala_1c_rosa_frente.jpg",
+    "/img/productos/gala/gala_1c_rosa_3q-perfil.jpg"
+  ],
+  "medidas": {
+    "butaca": {
+      "Ancho": "cm",
+      "Profundidad": "cm",
+      "Alto": "cm"
+    }
+  },
+  "posicionImagen": "center 25%"
+},
+  {
+    "id": "butaca_apolo",
+    "modelo": "apolo",
+    "nombre": "Butaca Apolo",
+    "categoriaClave": "butacas",
+    "descripcionCorta": "Un clásico con una pinta increíble. Diseñada para ser ese rincón de la casa donde siempre querés estar. Pura comodidad y estilo.",
+    "descripcionLarga": {
+      "sabor": "La Apolo tiene ese encanto de los muebles que simplemente no pasan de moda. Su respaldo alto, con el detalle clásico del capitoné de botones, y sus líneas redondeadas la hacen súper acogedora. No es solo una butaca, es la pieza perfecta para armar ese rincón de lectura que tenés en mente, o para darle a tu living ese toque de diseño y calidez que le faltaba.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu Butaca Apolo y hacerla verdaderamente tuya."
+    },
+    "precioBase": 4500,
+    "promo": {
+      "cantidad": 2,
+      "precio": 8000
+    },
+    "imagenPrincipal": "/img/productos/apolo/apolo_par_terracota_3q_contexto.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_1c_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_1c_gris_frente.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_costura-brazo.jpg",
+      "/img/productos/apolo/apolo_par_beige_3q_contexto.jpg",
+      "/img/productos/apolo/apolo_par_gris_3q.jpg",
+      "/img/productos/apolo/apolo_par_amarillo_3q.jpg",
+      "/img/productos/apolo/apolo_par_bordo_3q.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "mostrarUnidad": true,
+    "aclaracionFoto": "El precio corresponde a una (1) unidad. Las fotos del producto en pares o en conjunto son a modo ilustrativo, para que aprecies el diseño en contexto."
+  },
+  {
+    "id": "mecedora_apolo",
+    "modelo": "apolo",
+    "nombre": "Mecedora Apolo",
+    "categoriaClave": "butacas",
+    "descripcionCorta": "El suave vaivén del mejor descanso. Una mecedora clásica, con el confort y la pinta del diseño Apolo. Ideal para ese rincón de calma.",
+    "descripcionLarga": {
+      "sabor": "La Mecedora Apolo es más que un asiento, es un refugio. Mantiene el diseño que te encanta del modelo Apolo y le suma el placer de un balanceo suave y constante. Es la compañera perfecta para leer, para arrullar al bebé o simplemente para regalarte una pausa. Creada para convertirse en la pieza más querida de tu casa, donde se fabrican los mejores recuerdos.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Descubre el placer de mecerte con estilo. Consulta por nuestra paleta de colores y telas para personalizar tu Mecedora Apolo."
+    },
+    "precioBase": 6990,
+    "imagenPrincipal": "/img/productos/apolo/apolo_mecedora_rosa_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_mecedora_camel_perfil.jpg",
+      "/img/productos/apolo/apolo_mecedora_negro_3q_contexto.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_capitone-respaldo.jpg",
+      "/img/productos/apolo/apolo_mecedora_verde_3q.jpg",
+      "/img/productos/apolo/apolo_mecedora_negro_3q.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "95 cm"
+      }
+    },
+    "posicionImagen": "center 70%"
+  },
+  {
+    "id": "mecedora_apolo_ra",
+    "modelo": "apolo",
+    "nombre": "Mecedora Apolo Respaldo Alto",
+    "categoriaClave": "butacas",
+    "descripcionCorta": "El máximo confort para tu espalda. La mecedora Apolo con un plus de soporte cervical, pensada para la lactancia y el descanso total.",
+    "descripcionLarga": {
+      "sabor": "Llevamos el confort de la Mecedora Apolo a otro nivel. Esta versión de respaldo alto fue diseñada pensando en un apoyo total para la espalda, el cuello y la cabeza. Es la aliada definitiva para las mamás en período de lactancia o para cualquiera que busque un refugio de relajación absoluta. Mismo diseño icónico, mismo suave balanceo, pero con un soporte superior que convierte el descanso en una experiencia única.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Experimenta un nuevo nivel de confort. Consulta por las telas y colores para personalizar esta mecedora de diseño exclusivo."
+    },
+    "precioBase": 8490,
+    "imagenPrincipal": "/img/productos/apolo/apolo_mecedora-ra_blanco_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_mecedora_rosa_3q.jpg",
+      "/img/productos/apolo/apolo_mecedora_camel_perfil.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_capitone-respaldo.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "110 cm"
+      }
+    }
+  },
+  {
+    "id": "mecedora_apolo_isla",
+    "modelo": "apolo",
+    "nombre": "Mecedora Apolo (+ Isla)",
+    "categoriaClave": ["butacas", "complementos"],
+    "descripcionCorta": "El combo definitivo para tu relax. La comodidad de la mecedora Apolo, ahora con una isla a juego para un descanso insuperable.",
+    "descripcionLarga": {
+      "sabor": "Creamos el santuario de descanso perfecto. A la experiencia relajante de la Mecedora Apolo le sumamos su compañera ideal: una isla a juego para que puedas estirar las piernas y desconectar de verdad. Este conjunto transforma cualquier rincón en tu refugio personal de confort. El diseño clásico del modelo Apolo se eleva a su máxima expresión de comodidad, invitándote a disfrutar de tus pausas como nunca antes.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu juego de living Apolo y hacerlo verdaderamente tuyo."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/apolo/apolo_mecedora-isla_gris_detalle.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_mecedora-isla_amarillo_3q_contexto.jpg",
+      "/img/productos/complementos/isla-estandar_gris_frente.jpg",
+      "/img/productos/complementos/isla-estandar_detalle_capitone.jpg",
+      "/img/productos/apolo/apolo_mecedora_rosa_3q.jpg",
+      "/img/productos/apolo/apolo_mecedora_camel_perfil.jpg",
+      "/img/productos/complementos/isla-estandar_amarillo_3q.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_costura-brazo.jpg",
+      "/img/productos/apolo/apolo_mecedora-isla_verde_3q_contexto.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "95 cm"
+      },
+      "isla": {
+        "Ancho": "55 cm",
+        "Profundidad": "55 cm",
+        "Alto": "50 cm"
+      }
+    },
+    "aclaracionFoto": "El precio incluye el combo completo que ves en la foto principal: una (1) mecedora y una (1) isla a juego. ¡La solución de confort definitiva!"
+  },
+  {
+    "id": "sofa_apolo_2c",
+    "modelo": "apolo",
+    "nombre": "Sofá Apolo 2 Cuerpos",
+    "categoriaClave": "sofas",
+    "descripcionCorta": "El clásico de siempre, en el tamaño ideal para tus espacios. Un sofá de 2 cuerpos con una pinta increíble y el confort que te abraza.",
+    "descripcionLarga": {
+      "sabor": "El Sofá Apolo de 2 cuerpos lleva el diseño atemporal al corazón de tu living. Mantiene las formas redondeadas y el sutil capitoné que definen a la línea, pero en un formato compacto ideal para compartir con estilo. Es la pieza perfecta para espacios modernos o como un toque de diseño en tu oficina, ofreciendo el balance justo entre elegancia, confort y funcionalidad para el día a día.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu sofá Apolo y hacerla verdaderamente tuya."
+    },
+    "precioBase": 6490,
+    "imagenPrincipal": "/img/productos/apolo/apolo_2c_azul_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_2c_terracota_frente.jpg",
+      "/img/productos/apolo/apolo_2c_gris-oscuro_frente_contexto.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_costura-brazo.jpg",
+      "/img/productos/apolo/apolo_2c_gris-oscuro_3q.jpg",
+      "/img/productos/apolo/apolo_2c_beige_3q.jpg",
+      "/img/productos/apolo/apolo_2c_gris_3q.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "posicionImagen": "center 75%"
+  },
+  {
+    "id": "sofa_apolo_3c",
+    "modelo": "apolo",
+    "nombre": "Sofá Apolo 3 Cuerpos",
+    "categoriaClave": "sofas",
+    "descripcionCorta": "El protagonista de tu living. Un sofá de 3 cuerpos con espacio de sobra, el diseño clásico de Apolo y un confort que invita a quedarse.",
+    "descripcionLarga": {
+      "sabor": "El Sofá Apolo de 3 Cuerpos está pensado para ser el centro de la vida en tu hogar. Es donde pasan las juntadas con amigos, las noches de series en familia y las siestas de domingo. Ofrece todo el encanto del diseño Apolo —sus líneas suaves y el clásico capitoné— pero con una generosidad de espacio que lo convierte en el verdadero corazón de tu living. Un clásico diseñado no solo para decorar, sino para vivirlo.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu sofá Apolo y hacerla verdaderamente tuya."
+    },
+    "precioBase": 7490,
+    "imagenPrincipal": "/img/productos/apolo/apolo_3c_bordo_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_3c_beige_frente.jpg",
+      "/img/productos/apolo/apolo_3c_marron_perfil_contexto.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_capitone-respaldo.jpg",
+      "/img/productos/apolo/apolo_3c_celeste_frente_contexto.jpg",
+      "/img/productos/apolo/apolo_3c_gris_3q.jpg",
+      "/img/productos/apolo/apolo_3c_gris-oscuro_3q.jpg",
+      "/img/productos/apolo/apolo_3c_celeste_3q_contexto.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    }
+  },
+  {
+    "id": "juego_apolo_2-1",
+    "modelo": "apolo",
+    "nombre": "Juego Apolo (2+1)",
+    "categoriaClave": "juegos_living",
+    "descripcionCorta": "La solución perfecta para espacios con estilo. Todo el diseño Apolo en un sofá de 2 cuerpos y una butaca. Confort y pinta en formato compacto.",
+    "descripcionLarga": {
+      "sabor": "¿Poco espacio? Mucho estilo. Este juego está pensado para quienes no quieren renunciar al buen diseño. Te ofrece la versatilidad del sofá Apolo de 2 cuerpos, ideal para el día a día, y la comodidad de una butaca individual para crear tu propio espacio. Es la combinación perfecta para armar un living acogedor y funcional, demostrando que el gran diseño no entiende de tamaños.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu juego de living Apolo y hacerlo verdaderamente tuyo."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/apolo/apolo_juego-2-1_celeste_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_2c_azul_3q.jpg",
+      "/img/productos/apolo/apolo_1c_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_juego-2-1_celeste_frente.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_costura-brazo.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "aclaracionFoto": "El precio incluye el juego de living completo. En este caso: un (1) sofá de 2 cuerpos y una (1) butaca. Las fotos de las piezas por separado son para mostrarte cada detalle."
+  },
+  {
+    "id": "juego_apolo_3-1",
+    "modelo": "apolo",
+    "nombre": "Juego Apolo (3+1)",
+    "categoriaClave": "juegos_living",
+    "descripcionCorta": "La solución ideal para tu living. El confort del sofá Apolo de 3 cuerpos y la compañía de una butaca. Estilo y funcionalidad a tu medida.",
+    "descripcionLarga": {
+      "sabor": "Armar tu living nunca fue tan fácil. Este juego te da lo mejor de dos mundos: el amplio espacio del sofá de 3 cuerpos para compartir y una butaca individual para crear tu propio rincón de confort. Ambos con el diseño clásico y la calidad de la línea Apolo, listos para convertirse en el centro de tu hogar. Es la combinación perfecta de funcionalidad y estilo, pensada para disfrutar en compañía o en tus momentos de calma.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu juego de living Apolo y hacerlo verdaderamente tuyo."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/apolo/apolo_juego-3-1_gris_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_3c_bordo_3q.jpg",
+      "/img/productos/apolo/apolo_1c_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_textura-tela.jpg",
+      "/img/productos/apolo/apolo_juego-3-1_celeste_3q_contexto.jpg",
+      "/img/productos/apolo/apolo_juego-3-1_naranja_frente.jpg",
+      "/img/productos/apolo/apolo_juego-3-1_verde_3q.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "aclaracionFoto": "El precio incluye el juego de living completo. En este caso: un (1) sofá de 3 cuerpos y una (1) butaca. Las fotos de las piezas por separado son para mostrarte cada detalle."
+  },
+  {
+    "id": "juego_apolo_2-1-1",
+    "modelo": "apolo",
+    "nombre": "Juego Apolo (2+1+1)",
+    "categoriaClave": "juegos_living",
+    "descripcionCorta": "El juego de living completo, en su versión más versátil. Un sofá de 2 cuerpos y dos butacas con todo el estilo y confort de la línea Apolo.",
+    "descripcionLarga": {
+      "sabor": "La solución perfecta para quienes buscan un living completo sin saturar el espacio. Este juego te ofrece la comodidad del sofá de dos cuerpos, ideal para el día a día, y la flexibilidad de dos butacas que podés mover y adaptar según la ocasión. Mantiene toda la pinta y la calidad del diseño Apolo, pero en un formato más compacto y dinámico. Es la prueba de que no necesitás un espacio gigante para tener un living con mucho estilo.",
+      "base":"Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu juego de living Apolo y hacerlo verdaderamente tuyo."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/apolo/apolo_juego-2-1-1_terracota_frente.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_2c_azul_3q.jpg",
+      "/img/productos/apolo/apolo_1c_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_juego-2-1-1_celeste_detalle.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_textura-tela.jpg",
+      "/img/productos/apolo/apolo_juego-2-1-1_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_juego-2-1-1_gris_frente.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "aclaracionFoto": "El precio corresponde al juego de living completo de 3 piezas: un (1) sofá de 2 cuerpos y dos (2) butacas. Las fotos de las piezas por separado son para mostrarte cada detalle."
+  },
+  {
+    "id": "juego_apolo_3-1-1",
+    "modelo": "apolo",
+    "nombre": "Juego Apolo (3+1+1)",
+    "categoriaClave": "juegos_living",
+    "descripcionCorta": "El clásico de nuestro taller. La solución definitiva para tu living con un sofá de 3 cuerpos y dos butacas. Diseño, confort y calidad de acá.",
+    "descripcionLarga": {
+      "sabor": "Este es nuestro juego insignia, el que define un espacio. Pensado para ser el centro de la vida familiar, el Apolo 3+1+1 te ofrece una solución completa y armoniosa para tu living. Combina la generosidad del sofá de tres cuerpos con la versatilidad de dos butacas individuales, todo bajo el paraguas del diseño atemporal y el confort que nos caracteriza. Es más que un conjunto de muebles, es la base para crear un hogar acogedor y lleno de estilo.",
+      "base":"Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tu juego de living Apolo y hacerlo verdaderamente tuyo."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/apolo/apolo_juego-3-1-1_terracota_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/apolo/apolo_3c_bordo_3q.jpg",
+      "/img/productos/apolo/apolo_1c_celeste_3q.jpg",
+      "/img/productos/apolo/apolo_juego-3-1-1_terracota_frente.jpg",
+      "/img/productos/apolo/apolo_juego-3-1-1_gris_3q.jpg",
+      "/img/productos/apolo/apolo_detalle_calidad-general.jpg",
+      "/img/productos/apolo/apolo_detalle_textura-tela.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+    "aclaracionFoto": "El precio corresponde al juego de living completo de 3 piezas: un (1) sofá de 3 cuerpos y dos (2) butacas. Las fotos de las piezas por separado son para mostrarte cada detalle."
+  },
+  {
+    "id": "butaca_evan",
+    "modelo": "evan",
+    "nombre": "Butaca Evan",
+    "categoriaClave": "butacas",
+    "descripcionCorta": "Un diseño robusto con un confort que invita a quedarse. Sus brazos anchos y asiento mullido la hacen la butaca ideal para tus momentos de relax.",
+    "descripcionLarga": {
+      "sabor": "La Butaca Evan tiene carácter. Su diseño se destaca por sus brazos anchos y generosos que se abren como una invitación a la comodidad. El capitoné en cuadrícula del respaldo y el asiento no solo le da una pinta increíble, sino que crea una sensación mullida y acogedora. Es una butaca con presencia, ideal para convertirse en la protagonista de tu rincón favorito y dueña de tus mejores pausas.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Dale tu toque personal a la Butaca Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+    },
+    "precioBase": 3990,
+    "promo": {
+      "cantidad": 2,
+      "precio": 7490
+    },
+    "imagenPrincipal": "/img/productos/evan/evan_par_aqua_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/evan/evan_1c_azul-jean_cenital.jpg",
+      "/img/productos/evan/evan_1c_gris_frente_contexto.jpg",
+      "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+      "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+      "/img/productos/evan/evan_par_azul-oscuro_3q.jpg",
+      "/img/productos/evan/evan_par_rosa_3q.jpg",
+      "/img/productos/evan/evan_par_verde_3q.jpg",
+      "/img/productos/evan/evan_1c_marron_3q.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+    "mostrarUnidad": true,
+    "aclaracionFoto": "El precio corresponde a una (1) unidad. Las fotos del producto en pares o en conjunto son a modo ilustrativo, para que aprecies el diseño en contexto.",
+    "posicionImagen": "center 80%"
+  },
+  {
+    "id": "butaca_evan_isla",
+    "modelo": "evan",
+    "nombre": "Butaca Evan (+ Isla)",
+    "categoriaClave": ["butacas", "complementos"],
+    "descripcionCorta": "Tu rincón de confort, ahora completo. La robusta butaca Evan con una isla a juego para una comodidad insuperable.",
+    "descripcionLarga": {
+      "sabor": "Llevamos la comodidad de la Butaca Evan a otro nivel. Este conjunto te ofrece no solo el diseño robusto y acogedor que ya conocés, sino también una isla a juego para que puedas poner los pies en alto y desconectar de verdad. Es la combinación perfecta para crear tu santuario personal de lectura, series o simplemente de una buena pausa. El confort total, pensado para vos.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Dale tu toque personal a la Butaca Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+    },
+    "precioBase": 0,
+    "imagenPrincipal": "/img/productos/evan/evan_1c-isla_gris_contexto.jpg",
+    "imagenesGaleria": [
+      "/img/productos/evan/evan_1c_azul-jean_cenital.jpg",
+      "/img/productos/complementos/isla-estandar_gris_frente.jpg",
+      "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+      "/img/productos/complementos/isla-estandar_detalle_capitone.jpg",
+      "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+      "/img/productos/complementos/isla-estandar_amarillo_3q.jpg"
+    ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "isla": {
+        "Ancho": "55 cm",
+        "Profundidad": "55 cm",
+        "Alto": "50 cm"
+      }
+    },
+    "aclaracionFoto": "El precio incluye el combo completo que ves en la foto principal: una (1) butaca y una (1) isla a juego. ¡La solución de confort definitiva!",
+    "posicionImagen": "center 70%"
+  },
+  {
+    "id": "sofa_evan_2c",
+    "modelo": "evan",
+    "nombre": "Sofá Evan 2 Cuerpos",
+    "categoriaClave": "sofas",
+    "descripcionCorta": "Todo el carácter y el confort del diseño Evan en un sofá de 2 cuerpos. Robusto, acogedor y perfecto para optimizar tu espacio con estilo.",
+    "descripcionLarga": {
+      "sabor": "El Sofá Evan de 2 cuerpos concentra toda la personalidad de su hermano mayor en un formato más versátil y compacto. Mantiene sus característicos brazos anchos que invitan a la comodidad y el capitoné en cuadrícula que le da una pinta única. Es la pieza ideal para protagonizar un living más pequeño o para sumar un toque de diseño robusto en otro ambiente de la casa. Un sofá con presencia, pensado para disfrutar.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Dale tu toque personal a la Butaca Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+    },
+    "precioBase": 5900,
+    "imagenPrincipal": "/img/productos/evan/evan_2c_gris-claro_3q_contexto.jpg",
+    "imagenesGaleria": [
+      "/img/productos/evan/evan_2c_azul-jean_3q.jpg",
+      "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+      "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+      "/img/productos/evan/evan_2c_beige_3q.jpg",
+      "/img/productos/evan/evan_2c_negro_3q.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    }
+  },
+  {
+    "id": "sofa_evan_3c",
+    "modelo": "evan",
+    "nombre": "Sofá Evan 3 Cuerpos",
+    "categoriaClave": "sofas",
+    "descripcionCorta": "El protagonista de tu living. Nuestro sofá Evan de 3 cuerpos te da todo el espacio que necesitás con un diseño robusto y un confort que invita.",
+    "descripcionLarga": {
+      "sabor": "El Sofá Evan de 3 cuerpos es el centro de la vida en casa. Con sus generosas dimensiones y su diseño de brazos anchos, es el lugar ideal para las juntadas con amigos o las maratones de series en familia. Su característico capitoné en cuadrícula le da una pinta robusta y acogedora, convirtiéndolo en una pieza con carácter que define cualquier espacio. Es más que un sofá, es una invitación a crear y compartir momentos.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Dale tu toque personal a la Butaca Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+    },
+    "precioBase": 7000,
+    "imagenPrincipal": "/img/productos/evan/evan_3c_rojo_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/evan/evan_3c_amarillo_frente.jpg",
+      "/img/productos/evan/evan_3c_gris_frente_contexto.jpg",
+      "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+      "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+      "/img/productos/evan/evan_3c_azul-jean_3q.jpg",
+      "/img/productos/evan/evan_3c_aqua_3q.jpg",
+      "/img/productos/evan/evan_3c_verde_3q.jpg",
+      "/img/productos/evan/evan_3c_blanco_3q.jpg",
+      "/img/productos/evan/evan_3c_marron_3q.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+    "posicionImagen": "center 70%"
+  },
+  {
+  "id": "sofa_evan_4c",
+  "modelo": "evan",
+  "nombre": "Sofá Evan 4 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "El Evan en su máxima expresión. Un sofá de 4 cuerpos con espacio de sobra para toda la familia y el diseño robusto que te encanta.",
+  "descripcionLarga": {
+    "sabor": "Te presentamos la versión más generosa de nuestra familia Evan. Este sofá de 4 cuerpos está diseñado para ser el centro de reunión, el lugar donde siempre hay espacio para uno más. Ideal para familias numerosas o para quienes aman recibir invitados, combina el diseño robusto y acogedor del modelo Evan con una amplitud insuperable. Es la pieza definitiva para un living espacioso, donde el confort se comparte a lo grande.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal a la familia Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/evan/evan_4c_marron_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/evan/evan_4c_marron_3q_contexto.jpg",
+    "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+    "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+    "/img/productos/evan/evan_4c_naranja_3q_contexto.JPG"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+  "aclaracionFoto": "Este modelo cuenta con 4 plazas. Las medidas son personalizables, no dudes en consultar.",
+  "posicionImagen":"center 70%"
+},
+  {
+    "id": "juego_evan_3-1-1",
+    "modelo": "evan",
+    "nombre": "Juego Evan (3+1+1)",
+    "categoriaClave": "juegos_living",
+    "descripcionCorta": "La solución completa para tu living con el carácter del diseño Evan. Un sofá de 3 cuerpos y dos butacas, robustos y súper cómodos.",
+    "descripcionLarga": {
+      "sabor": "Este es el juego de living para quienes lo quieren todo: espacio, confort y un diseño con mucha presencia. El robusto sofá de 3 cuerpos es el centro de reunión, mientras que las dos butacas Evan a juego aportan flexibilidad y asientos extra con su comodidad inconfundible. Con sus brazos anchos y su estilo acogedor, este conjunto está pensado para ser el corazón de un hogar vivo, donde siempre hay lugar para uno más.",
+      "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+      "cta": "Dale tu toque personal a la Butaca Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+    },
+    "precioBase": 13490,
+    "imagenPrincipal": "/img/productos/evan/evan_juego-3-1-1_beige_3q.jpg",
+    "imagenesGaleria": [
+      "/img/productos/evan/evan_juego-3-1-1_azul_frente_contexto.jpg",
+      "/img/productos/evan/evan_3c_rojo_3q.jpg",
+      "/img/productos/evan/evan_1c_azul-jean_cenital.jpg",
+      "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+      "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+      "/img/productos/evan/evan_juego-3-1-1_naranja_3q.jpg",
+      "/img/productos/evan/evan_juego-3-1-1_gris-claro_3q.jpg",
+      "/img/productos/evan/evan_juego-3-1-1_negro_frente_contexto.jpg",
+      "/img/productos/evan/evan_juego-3-1-1_amarillo_frente.jpg"
+    ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+    "aclaracionFoto": "El precio corresponde al juego de living completo de 3 piezas: un (1) sofá de 3 cuerpos y dos (2) butacas. Las fotos de las piezas por separado son para mostrarte cada detalle."
+  },
+{
+  "id": "sofa-evan-modular-3c",
+  "modelo": "evan",
+  "nombre": "Sofá Evan Modular (3 Cuerpos)",
+  "categoriaClave": "modulares",
+  "descripcionCorta": "Máxima versatilidad y espacio. Nuestro sofá Evan de 3 cuerpos con módulo puff movible y un moderno diseño de patas block. Adaptalo a tu living.",
+  "descripcionLarga": {
+    "sabor": "La versión más espaciosa y adaptable del diseño Evan. Este conjunto te ofrece la amplitud de un sofá de 3 cuerpos y la increíble flexibilidad de un módulo puff que podés acomodar como quieras. Creá un chaise longue para máximo relax, úsalo como mesa de centro o como un asiento extra. Su distintivo diseño de patas block le da una base sólida y un look más moderno y robusto. Es el sofá ideal para quienes buscan un living con carácter, espacio de sobra y la libertad de cambiarlo todo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+    "cta": "Dale tu toque personal al Sofá Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/evan/evan_sofa-modular-3c_negro_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/evan/evan_3c_rojo_3q.jpg",
+    "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+    "/img/productos/evan/evan_detalle_brazo-curva.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "modulo": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el conjunto modular completo: un (1) sofá de 3 cuerpos y un (1) módulo puff movible. ¡Armalo como más te guste y adaptalo a tu espacio!"
+},
+{
+  "id": "juego_evan_3-1-isla",
+  "modelo": "evan",
+  "nombre": "Juego Evan (3+1+Isla)",
+  "categoriaClave": ["juegos_living", "complementos"],
+  "descripcionCorta": "La experiencia de confort total. Nuestro juego Evan de 3 cuerpos y butaca, ahora con una isla a juego para una comodidad insuperable.",
+  "descripcionLarga": {
+    "sabor": "El juego de living definitivo para quienes no quieren renunciar a nada. Te ofrecemos la solución más completa: la amplitud de nuestro sofá Evan de 3 cuerpos, la comodidad de una butaca individual y la increíble versatilidad de la isla a juego. Usala para estirar las piernas, como mesa de centro o como asiento extra. Es todo lo que tu living necesita para convertirse en el espacio más cómodo y funcional de la casa, con el estilo robusto que caracteriza a la familia Evan.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+    "cta": "Dale tu toque personal a la familia Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/evan/evan_juego-3-1-isla_azul_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/evan/evan_3c_rojo_3q.jpg",
+    "/img/productos/evan/evan_1c_azul-jean_cenital.jpg",
+    "/img/productos/complementos/isla-estandar_gris_frente.jpg",
+    "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+    "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+    "/img/productos/complementos/isla-estandar_detalle_capitone.jpg",
+    "/img/productos/evan/evan_juego-3-1-isla_negro_3q_contexto.jpg",
+    "/img/productos/evan/evan_juego-3-1-isla_gris_3q.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "isla": {
+        "Ancho": "55 cm",
+        "Profundidad": "55 cm",
+        "Alto": "50 cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego completo de 3 piezas: un (1) sofá de 3 cuerpos, una (1) butaca y una (1) isla a juego. Las fotos de las piezas por separado son para mostrarte cada detalle.",
+  "posicionImagen": "center 80%"
+},
+{
+  "id": "juego_evan_3-1",
+  "modelo": "evan",
+  "nombre": "Juego Evan (3+1)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "La combinación ideal de espacio y confort. El generoso sofá Evan de 3 cuerpos más una butaca a juego para un living completo y funcional.",
+  "descripcionLarga": {
+    "sabor": "Este juego te ofrece el equilibrio perfecto. Combina la gran capacidad del sofá Evan de 3 cuerpos, ideal para recibir invitados, con la comodidad individual de una butaca a juego que podés ubicar donde prefieras. Juntos, crean un ambiente armónico y funcional, manteniendo el diseño robusto y el confort que define a la familia Evan. Es la solución ideal para quienes buscan un living completo sin ocupar todo el espacio.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve. Cada pieza está construida sobre una robusta estructura interna de madera maciza de eucalipto, garantizando años de durabilidad y estabilidad. Utilizamos espuma de alta densidad que ofrece un confort equilibrado y mantiene su forma con el uso diario. Todo el proceso, desde el corte hasta la última costura reforzada, es supervisado por manos artesanas uruguayas comprometidas con entregar un mueble excepcional.",
+    "cta": "Dale tu toque personal a la familia Evan. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/evan/evan_juego-3-1_azul_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/evan/evan_3c_rojo_3q.jpg",
+    "/img/productos/evan/evan_1c_azul-jean_cenital.jpg",
+    "/img/productos/evan/evan_detalle_respaldo-asiento.jpg",
+    "/img/productos/evan/evan_detalle_brazo-curva.jpg",
+    "/img/productos/evan/evan_juego-3-1_beige_3q_contexto.jpg",
+    "/img/productos/evan/evan_juego-3-1_marron_3q_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego de living completo. En este caso: un (1) sofá de 3 cuerpos y una (1) butaca. Las fotos de las piezas por separado son para mostrarte cada detalle.",
+  "posicionImagen":"center 90%"
+},
+{
+  "id": "butaca_ares",
+  "modelo": "ares",
+  "nombre": "Butaca Ares",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "Diseño contemporáneo y líneas puras. Una butaca versátil y funcional, con el confort justo para darle un toque moderno a cualquier espacio.",
+  "descripcionLarga": {
+    "sabor": "La Butaca Ares es la definición de la elegancia simple. Su diseño se basa en líneas limpias y una silueta minimalista que se adapta a cualquier ambiente sin robar protagonismo. El sutil detalle de dos botones en el respaldo es un guiño clásico que le aporta carácter y distinción. Es una pieza funcional y súper versátil, ideal como el asiento extra que tu living necesita, para un rincón de lectura moderno o incluso para una sala de espera con estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal a la Butaca Ares. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 4900,
+  "promo": {
+    "cantidad": 2,
+    "precio": 8500
+  },
+  "imagenPrincipal": "/img/productos/ares/ares_par_gris_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ares/ares_1c_rojo_3q_contexto.jpg",
+    "/img/productos/ares/ares_1c_gris-oscuro_frente.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg",
+    "/img/productos/ares/ares_detalle_capitone-respaldo.jpg",
+    "/img/productos/ares/ares_par_azul_frente.jpg",
+    "/img/productos/ares/ares_par_beige_3q_contexto.jpg",
+    "/img/productos/ares/ares_1c_azul_3q_contexto.jpg"
+  ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+  "mostrarUnidad": true,
+  "aclaracionFoto": "El precio corresponde a una (1) unidad. Las fotos del producto en pares o en conjunto son a modo ilustrativo, para que aprecies el diseño en contexto."
+},
+{
+  "id": "sofa_ares_2c",
+  "modelo": "ares",
+  "nombre": "Sofá Ares 2 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "La elegancia del diseño Ares en un sofá de 2 cuerpos. Minimalista, funcional y con el tamaño perfecto para livings modernos y con estilo.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Ares de 2 cuerpos es la pieza central para quienes aman el diseño que no necesita gritar para destacar. Su estética minimalista, definida por líneas puras y brazos elegantes, aporta una sensación de orden y modernidad a cualquier espacio. El sutil detalle de capitoné en el respaldo es ese guiño clásico que le da un toque único. Es el sofá ideal para un living contemporáneo, una oficina con estilo o un apartamento que busca maximizar el espacio sin sacrificar el buen gusto.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalitpo para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal al Sofá Ares. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 6900,
+  "imagenPrincipal": "/img/productos/ares/ares_2c_azul_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ares/ares_1c_rojo_3q_contexto.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg",
+    "/img/productos/ares/ares_detalle_capitone-respaldo.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+  "posicionImagen": "center 80%"
+},
+{
+  "id": "sofa_ares_3c",
+  "modelo": "ares",
+  "nombre": "Sofá Ares 3 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Diseño minimalista a gran escala. Nuestro Sofá Ares de 3 cuerpos te da más espacio y el mismo estilo depurado para un living moderno y funcional.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Ares de 3 cuerpos es la pieza central para un living que respira diseño y serenidad. Ofrece un espacio generoso para compartir, manteniendo siempre la estética limpia y minimalista que caracteriza a la familia Ares. Sus líneas puras y su estructura visualmente ligera lo convierten en la opción ideal para quienes buscan un sofá amplio sin que el ambiente se sienta sobrecargado. Es la combinación perfecta de funcionalidad, espacio y estilo contemporáneo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal al Sofá Ares. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 7900,
+  "imagenPrincipal": "/img/productos/ares/ares_3c_aqua_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ares/ares_3c_rojo_frente.jpg",
+    "/img/productos/ares/ares_3c_gris-oscuro_3q_contexto.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg",
+    "/img/productos/ares/ares_detalle_perfil-completo.jpg",
+    "/img/productos/ares/ares_3c_terracota_3q.jpg",
+    "/img/productos/ares/ares_3c_naranja_frente.jpg",
+    "/img/productos/ares/ares_3c_verde_3q.jpg",
+    "/img/productos/ares/ares_3c_beige_3q.jpg",
+    "/img/productos/ares/ares_3c_azul_3q_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    }
+},
+{
+  "id": "juego_ares_3-1",
+  "modelo": "ares",
+  "nombre": "Juego Ares (3+1)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "La solución completa para un living moderno. El sofá Ares de 3 cuerpos y una butaca a juego. Diseño minimalista y confort funcional.",
+  "descripcionLarga": {
+    "sabor": "Creá un ambiente de armonía y diseño contemporáneo con el Juego Ares 3+1. Este conjunto une la generosidad de nuestro sofá de 3 cuerpos con la versatilidad de una butaca individual, ambos definidos por las líneas puras y la elegancia minimalista del modelo Ares. Es la opción ideal para quienes buscan una solución de living completa que se sienta ordenada, moderna y súper funcional, creando un espacio cohesivo y con mucho estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal a la familia Ares. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/ares/ares_juego-3-1_rojo_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ares/ares_3c_aqua_3q.jpg",
+    "/img/productos/ares/ares_1c_rojo_3q_contexto.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg",
+    "/img/productos/ares/ares_detalle_capitone-respaldo.jpg",
+    "/img/productos/ares/ares_juego-3-1_rojo_3q_alternativo.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego de living completo. En este caso: un (1) sofá de 3 cuerpos y una (1) butaca. Las fotos de las piezas por separado son para mostrarte cada detalle.",
+  "posicionImagen": "center 80%"
+},
+{
+  "id": "juego_ares_3-1-1",
+  "modelo": "ares",
+  "nombre": "Juego Ares (3+1+1)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "La solución completa para un living moderno y ordenado. Un sofá de 3 cuerpos y dos butacas con el diseño minimalista de la línea Ares.",
+  "descripcionLarga": {
+    "sabor": "Amueblá tu living con la elegancia serena del Juego Ares. Este conjunto de 3 piezas es la máxima expresión del diseño minimalista: un generoso sofá de 3 cuerpos y dos butacas a juego que crean un ambiente armónico y sin estridencias. Sus líneas puras y su confort funcional son la base perfecta para un hogar contemporáneo, donde el buen diseño se siente en la calma y el orden. Es el set ideal para quienes buscan crear un espacio cohesivo y con mucho estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale tu toque personal a la familia Ares. Consulta nuestra paleta de colores y texturas para crear la pieza perfecta para tu espacio."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/ares/ares_juego-3-1-1_gris-claro_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ares/ares_3c_aqua_3q.jpg",
+    "/img/productos/ares/ares_1c_rojo_3q_contexto.jpg",
+    "/img/productos/ares/ares_juego-3-1-1_azul_detalle.jpg",
+    "/img/productos/ares/ares_detalle_brazo-curva.jpg",
+    "/img/productos/ares/ares_detalle_capitone-respaldo.jpg",
+    "/img/productos/ares/ares_juego-3-1-1_gris_frente_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      },
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    },
+  "aclaracionFoto": "El precio corresponde al juego de living completo de 3 piezas: un (1) sofá de 3 cuerpos y dos (2) butacas. Las fotos de las piezas por separado son para mostrarte cada detalle."
+},
+{
+  "id": "sofa_boston_3c",
+  "modelo": "boston",
+  "nombre": "Sofá Boston 3 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Un toque de elegancia retro para tu living. El Sofá Boston combina un diseño de inspiración vintage con el confort moderno que buscás.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Boston es una pieza con historia. Su silueta se define por sus brazos delgados y estilizados, sus patas cónicas de madera y un característico capitoné en cuadrícula que le da un toque de elegancia retro. Es un diseño que no pasa de moda, pensado para ser el protagonista de un living con personalidad. Además, te damos la opción de personalizar el lustre de sus patas para que combine a la perfección con tu estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Dale un toque de distinción a tu living con el Sofá Boston. Consulta nuestra paleta de colores para encontrar el acabado perfecto para tu estilo."
+  },
+  "precioBase": 7490,
+  "imagenPrincipal": "/img/productos/boston/boston_3c_amarillo_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/boston/boston_3c_amarillo_frente.jpg",
+    "/img/productos/boston/boston_3c_camel_frente_patas-oscuras.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "70 cm",
+        "Alto": "85 cm"
+      }
+    }
+},
+{
+  "id": "butaca_bernal",
+  "modelo": "bernal",
+  "nombre": "Butaca Bernal",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "Un ícono de robustez y confort superior. Una butaca con presencia, diseñada con materiales de primera calidad para durar toda la vida.",
+  "descripcionLarga": {
+    "sabor": "La Butaca Bernal es una declaración de estilo y solidez. Su diseño se define por sus brazos anchos que descienden en una curva elegante hasta la base, creando una silueta imponente y acogedora. El respaldo, adornado con un clásico capitoné de cuatro botones, no solo aporta un detalle de distinción, sino que también realza la sensación de confort. Es la butaca perfecta para quienes valoran un diseño con carácter y una presencia que llena el espacio.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, con un bastidor de madera maciza en el asiento que crea una base firme e indeformable. En su interior, una plancha de alta densidad ofrece una sentada de soporte excepcional y una comodidad superior que se mantiene intacta con el paso de los años. Es una pieza de gran peso y resistencia, para quienes buscan una inversión en calidad.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Butaca Bernal sea tan única como tu hogar."
+  },
+  "precioBase": 5490,
+  "promo": {
+    "cantidad": 2,
+    "precio": 9980
+  },
+  "imagenPrincipal": "/img/productos/bernal-bastidor/bernal_par_gris_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-bastidor/bernal_detalle_capitone-costura.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_base-perfil.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_respaldo.jpg"
+  ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "80 cm",
+        "Alto": "83 cm"
+      }
+    },
+  "mostrarUnidad": true,
+  "aclaracionFoto": "El precio corresponde a una (1) unidad. La foto del producto en par es a modo ilustrativo, para que aprecies el diseño en contexto."
+},
+{
+  "id": "sofa_bernal_2c_bastidor",
+  "modelo": "bernal-bastidor",
+  "nombre": "Sofá Bernal 2 Cuerpos (Asiento Fijo)",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "La máxima robustez y confort en formato de 2 cuerpos. Un sofá con presencia, calidad superior y el asiento fijo que garantiza su durabilidad.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Bernal de 2 cuerpos concentra toda la solidez y el confort de la línea en un tamaño ideal para livings con carácter. Su diseño de brazos anchos y silueta imponente se mantiene, ofreciendo una pieza de gran presencia. El clásico capitoné en el respaldo aporta ese toque de elegancia atemporal que lo define. Es la elección perfecta para quienes buscan un sofá robusto, de confort superior y que se sienta como una verdadera inversión en diseño y calidad.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, con un bastidor de madera maciza en el asiento que crea una base firme e indeformable. En su interior, una plancha de alta densidad ofrece una sentada de soporte excepcional y una comodidad superior que se mantiene intacta con el paso de los años. Es una pieza de gran peso y resistencia, para quienes buscan una inversión en calidad.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Sofá Bernal sea tan único como tu hogar."
+  },
+  "precioBase": 8900,
+  "imagenPrincipal": "/img/productos/bernal-bastidor/bernal-bastidor_2c_verde_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c_verde_3q.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_capitone-costura.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_base-perfil.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_respaldo.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c_aqua_3q.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c_negro_3q_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "80 cm",
+        "Alto": "83 cm"
+      }
+    }
+},
+{
+  "id": "sofa_bernal_2c-xl_bastidor",
+  "modelo": "bernal-bastidor",
+  "nombre": "Sofá Bernal 2 Cuerpos XL (Asiento Fijo)",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Comodidad extra grande. Nuestro Sofá Bernal XL te da el espacio de un 3 cuerpos con un robusto diseño de 2 asientos fijos y calidad superior.",
+  "descripcionLarga": {
+    "sabor": "Para quienes buscan un confort sin límites, creamos el Sofá Bernal XL. Este diseño mantiene la presencia imponente y los brazos robustos del modelo original, pero sobre una estructura más ancha, equivalente a un 3 cuerpos. El resultado son dos asientos fijos increíblemente generosos, perfectos para estirarse a gusto o para compartir sin apretarse. Es la pieza ideal para ser el centro de un living espacioso, combinando un diseño de carácter con un nivel de comodidad y espacio superior.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, con un bastidor de madera maciza en el asiento que crea una base firme e indeformable. En su interior, una plancha de espuma de alta densidad ofrece una sentada de soporte excepcional y una comodidad superior que se mantiene intacta con el paso de los años. Es una pieza de gran peso y resistencia, para quienes buscan una inversión en calidad.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Sofá Bernal sea tan único como tu hogar."
+  },
+  "precioBase": 10490,
+  "imagenPrincipal": "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_gris-claro_frente.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_capitone-costura.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_base-perfil.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_respaldo.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_gris-oscuro_3q_contexto.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_verde_3q.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_aqua_frente_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "170 cm",
+        "Profundidad": "80 cm",
+        "Alto": "83 cm"
+      }
+    },
+  "posicionImagen":"center 60%"
+},
+{
+  "id": "juego_bernal_2xl-2_bastidor",
+  "modelo": "bernal-bastidor",
+  "nombre": "Juego Bernal (2XL+2)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "La solución definitiva para livings amplios. Un imponente juego de dos sofás Bernal (uno XL y uno estándar) con la máxima calidad y presencia.",
+  "descripcionLarga": {
+    "sabor": "Este es nuestro juego de living más imponente, pensado para espacios que merecen un mobiliario a su altura. Combina la generosidad de nuestro Sofá Bernal 2 Cuerpos XL con un Sofá Bernal de 2 cuerpos estándar, creando una solución de asientos de gran capacidad y perfecta simetría. Ambos comparten el diseño robusto, el confort superior y la calidad premium de la línea Bernal. Es la elección ideal para familias numerosas o para quienes buscan hacer una declaración de estilo y solidez en su living.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, con un bastidor de madera maciza en el asiento que crea una base firme e indeformable. En su interior, una plancha de alta densidad ofrece una sentada de soporte excepcional y una comodidad superior que se mantiene intacta con el paso de los años. Es una pieza de gran peso y resistencia, para quienes buscan una inversión en calidad.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Juego Bernal sea tan único como tu hogar."
+  },
+  "precioBase": 19390,
+  "imagenPrincipal": "/img/productos/bernal-bastidor/bernal-bastidor_juego-2xl-2_aqua_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c-xl_beige_3q.jpg",
+    "/img/productos/bernal-bastidor/bernal-bastidor_2c_verde_frente.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_capitone-costura.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_base-perfil.jpg",
+    "/img/productos/bernal-bastidor/bernal_detalle_respaldo.jpg"
+  ],
+    "medidas": {
+      "sofa_xl": {
+        "Ancho": "180 cm",
+        "Profundidad": "80 cm",
+        "Alto": "83 cm"
+      },
+      "sofa_estandar": {
+        "Ancho": "130 cm",
+        "Profundidad": "80 cm",
+        "Alto": "83 cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego completo de 2 piezas: un (1) Sofá Bernal 2 Cuerpos XL y un (1) Sofá Bernal 2 Cuerpos. Las fotos de las piezas individuales son para mostrarte cada detalle."
+},
+{
+  "id": "sofa_bernal_2c_almohadon",
+  "modelo": "bernal-almohadon",
+  "nombre": "Sofá Bernal 2 Cuerpos (Almohadones)",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "El icónico diseño Bernal, ahora con la practicidad de los almohadones desmontables. Confort superior, calidad premium y fácil mantenimiento.",
+  "descripcionLarga": {
+    "sabor": "Esta versión de nuestro Sofá Bernal combina la robustez y el diseño imponente que lo caracteriza con una funcionalidad superior. Sus dos generosos almohadones de asiento son completamente independientes y desenfundables, lo que facilita enormemente su limpieza y mantenimiento. Es la opción ideal para quienes aman el estilo del Bernal pero buscan un plus de practicidad para el día a día, sin sacrificar ni un poco del confort y la calidad premium.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, mientras que sus almohadones de asiento desmontables combinan una espuma de alta densidad con una capa de guata para una sentada envolvente y un soporte que no se deforma. Es la fusión perfecta entre un diseño imponente y la practicidad que exige la vida moderna.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Sofá Bernal sea tan único como tu hogar."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/bernal-almohadon/bernal-almohadon_2c_negro_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-almohadon/bernal-almohadon_2c_negro_frente_contexto.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_perfil-base.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "aclaracionFoto": "Este modelo cuenta con almohadones de asiento desmontables. También disponible en versión con asiento fijo (bastidores)."
+},
+{
+  "id": "sofa_bernal_3c_almohadon",
+  "modelo": "bernal-almohadon",
+  "nombre": "Sofá Bernal 3 Cuerpos (Almohadones)",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "El confort y la practicidad a lo grande. Nuestro Sofá Bernal de 3 cuerpos con almohadones desmontables. Calidad premium para toda la familia.",
+  "descripcionLarga": {
+    "sabor": "Disfrutá del diseño imponente y la calidad superior del Sofá Bernal, ahora en su versión más espaciosa y funcional. Con tres generosos almohadones de asiento completamente desmontables, este sofá está pensado para la vida familiar: fácil de limpiar, súper cómodo y con espacio para todos. Es la combinación perfecta de un estilo robusto que define tu living y la practicidad que necesitás para disfrutarlo sin preocupaciones.",
+    "base": "Este diseño representa nuestra gama más alta de confort y durabilidad. Su estructura está pensada para perdurar, mientras que sus almohadones de asiento desmontables combinan una espuma de alta densidad con una capa de guata para una sentada envolvente y un soporte que no se deforma. Es la fusión perfecta entre un diseño imponente y la practicidad que exige la vida moderna.",
+    "cta": "Experimenta el máximo confort. Consulta por las opciones de tapizados y colores para que tu Sofá Bernal sea tan único como tu hogar."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/bernal-almohadon/bernal-almohadon_3c_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/bernal-almohadon/bernal-almohadon_3c_beige_frente.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_perfil-base.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_3c_gris-oscuro_3q.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_3c_beige_frente_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "aclaracionFoto": "Este modelo cuenta con almohadones de asiento desmontables. También disponible en versión con asiento fijo (bastidores)."
+},
+{
+  "id": "sofa_igor_2c",
+  "modelo": "igor",
+  "nombre": "Sofá Igor 2 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Elegancia compacta y un diseño inteligente. El Sofá Igor es ideal para optimizar tus espacios con un estilo moderno y un confort accesible.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Igor es la combinación perfecta de diseño inteligente y elegancia atemporal. Sus líneas limpias y estructura compacta se realzan con detalles de carácter, como sus brazos delgados y un sutil capitoné de botones en el respaldo. Su diseño ergonómico presenta una altura de asiento pensada para tu comodidad, facilitando el sentarse y levantarse sin esfuerzo. Es una pieza funcional que aporta estilo y accesibilidad a cualquier espacio.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Descubre un nuevo nivel de confort y estilo con el Sofá Igor. Consulta por nuestra completa gama de telas y colores."
+  },
+  "precioBase": 5490,
+  "imagenPrincipal": "/img/productos/igor/igor_2c_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/igor/igor_2c_camel_frente_contexto.jpg",
+    "/img/productos/apolo/apolo_detalle_costura-brazo.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "70 cm",
+        "Alto": "82 cm"
+      }
+    },
+  "posicionImagen":"center 65%"
+},
+{
+  "id": "sofa_igor_3c",
+  "modelo": "igor",
+  "nombre": "Sofá Igor 3 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "El diseño inteligente y elegante del Igor, ahora con más espacio para compartir. Confort accesible para toda la familia.",
+  "descripcionLarga": {
+    "sabor": "La versión de 3 cuerpos del Sofá Igor lleva su elegancia compacta a un nuevo nivel de capacidad. Mantiene el diseño de líneas puras y brazos finos que lo hacen ideal para espacios modernos, pero ahora con el espacio que necesitás para compartir en familia o con amigos. Su confort accesible y su estética atemporal lo convierten en la pieza central perfecta para un living funcional y lleno de estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Descubre un nuevo nivel de confort y estilo con el Sofá Igor. Consulta por nuestra completa gama de telas y colores."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/igor/igor_3c_azul_3q.jpg",
+  "imagenesGaleria": [
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    }
+},
+{
+  "id": "sofa_igor_modular_3c-isla",
+  "modelo": "igor",
+  "nombre": "Sofá Igor Modular (3C + Isla)",
+  "categoriaClave": "modulares",
+  "descripcionCorta": "El diseño inteligente del Igor se une al confort total de una isla. Un sofá modular versátil, ideal para el relax diario y las noches de series.",
+  "descripcionLarga": {
+    "sabor": "Llevamos la funcionalidad del Sofá Igor a su máxima expresión. Esta versión modular combina un sofá de 3 cuerpos con una isla a juego que podés mover y adaptar a tu gusto. Creá un chaise longue para estirar las piernas a la derecha o a la izquierda, úsala como asiento extra o como una mesa de centro. Es la solución perfecta para transformar tu living en una zona de confort total, manteniendo siempre un estilo moderno, limpio y ordenado.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Descubre un nuevo nivel de confort y estilo con el Sofá Igor. Consulta por nuestra completa gama de telas y colores."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/igor/igor_modular-3c-isla_azul_3q-der.jpg",
+  "imagenesGaleria": [
+    "/img/productos/igor/igor_modular-3c-isla_azul_3q-izq.jpg",
+    "/img/productos/igor/igor_modular-3c-isla_azul_frente.jpg",
+    "/img/productos/igor/igor_3c_azul_3q.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      },
+      "isla": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    }
+},
+{
+  "id": "juego_igor_2xl-2",
+  "modelo": "igor",
+  "nombre": "Juego Igor (2XL+2)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "Una solución de gran capacidad con un estilo minimalista. Este juego de dos sofás Igor (uno XL y uno estándar) es ideal para livings amplios y modernos.",
+  "descripcionLarga": {
+    "sabor": "Este imponente juego de living combina dos sofás de la línea Igor en tamaños diferentes para crear una solución de asientos de gran capacidad y con un look súper moderno. Ideal para espacios amplios, te permite jugar con la distribución y asegurarte de que nunca falte lugar. Mantiene la elegancia compacta y el diseño inteligente del modelo Igor, pero a una escala pensada para compartir.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Descubre un nuevo nivel de confort y estilo con el Sofá Igor. Consulta por nuestra completa gama de telas y colores."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/igor/igor_juego-2xl-2_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/igor/igor_2c_beige_3q.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "posicionImagen": "center 80%"
+},
+{
+  "id": "sofa_london_2c",
+  "modelo": "london",
+  "nombre": "Sofá London 2 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Diseño contemporáneo de gran carácter. Un sofá robusto, de líneas puras y confort excepcional gracias a sus almohadones independientes.",
+  "descripcionLarga": {
+    "sabor": "El Sofá London se inspira en el diseño urbano y contemporáneo, creando una pieza de gran carácter y presencia. Su silueta se define por líneas rectas y volúmenes puros, con brazos anchos y una base sólida que le confieren una estética robusta y sofisticada. A pesar de su fuerte personalidad visual, sus generosos almohadones invitan a una experiencia de confort total. Es el sofá ideal para quienes buscan una pieza central moderna, imponente y con un estilo que nunca pasa desapercibido.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 10900,
+  "imagenPrincipal": "/img/productos/london/london_2c_gris_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_2c_marron_frente.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg",
+    "/img/productos/london/london_2c_marron_3q_contexto.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "140 cm",
+        "Profundidad": "80 cm",
+        "Alto": "90 cm"
+      }
+    },
+  "posicionImagen": "center 60%"
+},
+{
+  "id": "sofa_london_2c-xl",
+  "modelo": "london",
+  "nombre": "Sofá London 2 Cuerpos XL",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Diseño contemporáneo en formato extra grande. El Sofá London XL te ofrece dos asientos súper amplios con la robustez y el confort premium que lo definen.",
+  "descripcionLarga": {
+    "sabor": "Llevamos el imponente diseño del Sofá London a una nueva dimensión de confort. La versión XL mantiene la estética robusta y de líneas puras, pero con dos asientos extra anchos que te dan la sensación de espacio de un sofá más grande. Es la elección perfecta para quienes aman el look de dos almohadones pero no quieren sacrificar ni un centímetro de comodidad. Un diseño contemporáneo pensado para disfrutar a lo grande.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/london/london_2c-xl_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_2c-xl_blanco_frente_contexto.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg",
+    "/img/productos/london/london_2c-xl_verde_3q_contexto.jpg",
+    "/img/productos/london/london_2c-xl_blanco_3q.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "80 cm",
+        "Alto": "90 cm"
+      }
+    }
+},
+{
+  "id": "sofa_london_3c",
+  "modelo": "london",
+  "nombre": "Sofá London 3 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "La pieza central para un living moderno. Nuestro Sofá London de 3 cuerpos combina un diseño robusto y de gran presencia con un confort premium.",
+  "descripcionLarga": {
+    "sabor": "Llevá el diseño urbano y contemporáneo a su máxima expresión con el Sofá London de 3 cuerpos. Creado para ser el protagonista, su silueta de líneas rectas y brazos anchos define el carácter de cualquier living. Su generoso tamaño lo convierte en el centro de reunión ideal, mientras que sus mullidos almohadones aseguran que el confort esté a la altura de su imponente estética. Una pieza sólida, sofisticada y con una personalidad que no pasa desapercibida.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 12900,
+  "imagenPrincipal": "/img/productos/london/london_3c_marron_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_3c_marron_frente.jpg",
+    "/img/productos/london/london_3c_marron_perfil.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg",
+    "/img/productos/london/london_3c_gris-oscuro_3q.jpg",
+    "/img/productos/london/london_3c_gris-claro_3q.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "80 cm",
+        "Alto": "90 cm"
+      }
+    }
+},
+{
+  "id": "juego_london_3-2",
+  "modelo": "london",
+  "nombre": "Juego London (3+2)",
+  "categoriaClave": "juegos_living",
+  "descripcionCorta": "Máxima capacidad con un diseño imponente. El juego de sofás London 3+2 es la solución perfecta para livings amplios y modernos.",
+  "descripcionLarga": {
+    "sabor": "La solución definitiva para quienes piensan a lo grande. Este juego combina la generosidad de nuestro sofá London de 3 cuerpos con un sofá de 2 cuerpos a juego, creando una propuesta de asientos de altísima capacidad y gran impacto visual. Ambos comparten el diseño contemporáneo, los brazos anchos y la estética robusta que define a la familia London. Es el conjunto perfecto para livings espaciosos, salas de estar familiares o cualquier lugar donde el confort y el estilo se deban disfrutar en grupo.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 22900,
+  "imagenPrincipal": "/img/productos/london/london_juego-3-2_marron_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_3c_marron_3q.jpg",
+    "/img/productos/london/london_2c_gris_3q.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg"
+  ],
+    "medidas": {
+      "sofa_3c": {
+        "Ancho": "cm",
+        "Profundidad": "80 cm",
+        "Alto": "90 cm"
+      },
+      "sofa_2c": {
+        "Ancho": "140 cm",
+        "Profundidad": "80 cm",
+        "Alto": "90 cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego completo de 2 sofás (uno de 3 cuerpos y uno de 2 cuerpos). Las fotos de las piezas individuales son para mostrarte cada modelo en detalle."
+},
+{
+  "id": "sofa_london_modular_2xl-isla",
+  "modelo": "london",
+  "nombre": "Sofá London Modular (2XL + Isla)",
+  "categoriaClave": "modulares",
+  "descripcionCorta": "El confort premium en su máxima expresión. El Sofá London XL con un módulo (isla) a juego para crear un chaise longue de lujo. Pura versatilidad.",
+  "descripcionLarga": {
+    "sabor": "Llevamos el lujo y el confort a una nueva dimensión. Este conjunto combina nuestro generoso Sofá London de 2 cuerpos XL con un módulo (isla) a la altura del asiento, creando un chaise longue espectacularmente cómodo y espacioso. La versatilidad es total: úsalo como extensión de tu sofá, como un asiento extra o como una imponente mesa de centro. Es la pieza ideal para quienes buscan un confort sin concesiones y un diseño moderno que se adapta a sus momentos de relax.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/london/london_modular-2xl-puff_verde_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_2c-xl_beige_3q.jpg",
+    "/img/productos/complementos/isla-premium_gris_principal.jpg",
+    "/img/productos/complementos/isla-premium_gris_perfil.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      },
+      "isla": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el conjunto modular completo: un (1) sofá de 2 cuerpos XL y un (1) módulo puff a la altura del asiento."
+},
+{
+  "id": "juego_london_2c-1-isla",
+  "modelo": "london",
+  "nombre": "Juego London (2C + 1 + Isla)",
+  "categoriaClave": ["juegos_living", "complementos"],
+  "descripcionCorta": "La solución premium completa. Un Sofá London 2C, una butaca y una isla a juego para un living de lujo, versátil y súper confortable.",
+  "descripcionLarga": {
+    "sabor": "El juego de living ideal para quienes buscan una solución de diseño integral. Este conjunto te ofrece el confort del Sofá London de 2 cuerpos, la versatilidad de una butaca individual y la funcionalidad del módulo isla premium a juego. Creá un espacio sofisticado y completamente equipado, donde cada pieza aporta estilo y una comodidad excepcional. Es la máxima expresión de la familia London, pensada para un living moderno y funcional.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Aporta un toque de estilo cosmopolita a tu hogar con el Sofá London. Descubre nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/london/london_juego-2c-1-puff_verde_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_2c_gris_3q.jpg",
+    "/img/productos/complementos/isla-premium_gris_principal.jpg",
+    "/img/productos/complementos/isla-premium_gris_perfil.jpg",
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      },
+      "butaca": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      },
+      "isla": {
+        "Ancho": "cm",
+        "Profundidad": "cm",
+        "Alto": "cm"
+      }
+    },
+  "aclaracionFoto": "El precio incluye el juego completo de 3 piezas: un (1) sofá de 2 cuerpos, una (1) butaca y un (1) módulo puff a juego. Las fotos de las piezas por separado son para mostrarte cada detalle."
+},
+{
+  "id": "butaca_berger_lisa",
+  "modelo": "berger-lisa",
+  "nombre": "Butaca Berger Lisa",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "La silueta icónica de siempre, con un toque contemporáneo. La Butaca Berger Lisa combina elegancia clásica con un diseño de respaldo liso.",
+  "descripcionLarga": {
+    "sabor": "Para los amantes del diseño clásico que prefieren una estética más limpia y minimalista, creamos la Butaca Berger Lisa. Mantiene la silueta señorial, el respaldo alto y las 'orejas' que la convierten en un refugio de confort, pero actualiza su look con un respaldo liso, sin capitoné. El resultado es una pieza de gran presencia, que fusiona la elegancia atemporal con una serenidad muy contemporánea. Es el equilibrio perfecto entre tradición y modernidad.",
+    "base": "Este modelo icónico combina la elegancia clásica con un confort superior y práctico. Su característica principal es un almohadón de asiento completamente desmontable, lo que facilita enormemente su limpieza y mantenimiento. El interior, con espuma de alta densidad y una capa de guata, asegura una sentada envolvente y un soporte que no se deforma. Una pieza construida para durar y convertirse en una herencia.",
+    "cta": "Haz tuyo este clásico del diseño. Consulta por nuestra selección de tapizados premium para personalizar tu Butaca Berger."
+  },
+  "precioBase": 8900,
+  "imagenPrincipal": "/img/productos/berger/berger-lisa_1c_gris-claro_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/berger/berger_1c_rojo_3q_contexto.jpg",
+    "/img/productos/berger/berger_detalle_oreja-curva.jpg",
+    "/img/productos/berger/berger_detalle_perfil-patas.jpg",
+    "/img/productos/berger/berger_detalle_costura-almohadon.jpg"
+  ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "80 cm",
+        "Alto": "105 cm"
+      }
+    },
+  "aclaracionFoto": "El precio corresponde a una (1) unidad. También disponible en versión clásica con capitoné."
+},
+{
+  "id": "butaca_berger",
+  "modelo": "berger",
+  "nombre": "Butaca Berger",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "El ícono de la elegancia y el confort atemporal. Una butaca señorial que se convierte en la joya de cualquier espacio de tu casa.",
+  "descripcionLarga": {
+    "sabor": "La Butaca Berger es la definición de un clásico que nunca pasa de moda. Su diseño icónico, con el respaldo alto y las 'orejas' que te acogen, crea un refugio de confort y privacidad. El delicado capitoné artesanal y sus brazos curvos dibujan una silueta que es sinónimo de distinción y buen gusto. No es simplemente un asiento, es esa pieza central que eleva la decoración de tu living o dormitorio, tu trono personal para los mejores momentos.",
+    "base": "Este modelo icónico combina la elegancia clásica con un confort superior y práctico. Su característica principal es un almohadón de asiento completamente desmontable, lo que facilita enormemente su limpieza y mantenimiento. El interior, con espuma de alta densidad y una capa de guata, asegura una sentada envolvente y un soporte que no se deforma. Una pieza construida para durar y convertirse en una herencia.",
+    "cta": "Haz tuyo este clásico del diseño. Consulta por nuestra selección de tapizados premium para personalizar tu Butaca Berger."
+  },
+  "precioBase": 8900,
+  "imagenPrincipal": "/img/productos/berger/berger_par_gris_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/berger/berger_1c_rojo_3q_contexto.jpg",
+    "/img/productos/berger/berger_1c_negro_frente.jpg",
+    "/img/productos/berger/berger_1c_beige_frente_contexto-mate.jpg",
+    "/img/productos/berger/berger_detalle_capitone-espalda.jpg",
+    "/img/productos/berger/berger_detalle_oreja-curva.jpg",
+    "/img/productos/berger/berger_detalle_perfil-patas.jpg",
+    "/img/productos/berger/berger_detalle_costura-almohadon.jpg",
+    "/img/productos/berger/berger_1c_gris-oscuro_frente_patas-oscuras.jpg"
+  ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "80 cm",
+        "Alto": "105 cm"
+      }
+    },
+  "mostrarUnidad": true,
+  "aclaracionFoto": "El precio corresponde a una (1) unidad. Las fotos del producto en par son a modo ilustrativo, para que aprecies el diseño en contexto."
+},
+{
+  "id": "mecedora_berger",
+  "modelo": "berger",
+  "nombre": "Mecedora Berger",
+  "categoriaClave": "butacas",
+  "descripcionCorta": "La elegancia icónica del Berger, ahora con un suave vaivén. La mecedora definitiva para crear tu santuario de confort y distinción.",
+  "descripcionLarga": {
+    "sabor": "Llevamos el diseño clásico a un nuevo nivel de confort. La Mecedora Berger mantiene su icónico respaldo alto con 'orejas' y su porte señorial, pero ahora te invita a la relajación total con el suave ritmo de su balanceo. Es la pieza perfecta para crear un santuario de paz en tu living, dormitorio o rincón de lectura. A la elegancia que ya conoces, le sumamos el placer de un movimiento que calma y reconforta.",
+    "base": "Este modelo icónico combina la elegancia clásica con un confort superior y práctico. Su característica principal es un almohadón de asiento completamente desmontable, lo que facilita enormemente su limpieza y mantenimiento. El interior, con espuma de alta densidad y una capa de guata, asegura una sentada envolvente y un soporte que no se deforma.",
+    "cta": "Haz tuyo este clásico del diseño en su versión más relajante. Consulta por nuestra selección de tapizados premium."
+  },
+  "precioBase": 12900,
+  "imagenPrincipal": "/img/productos/berger/berger_mecedora_blanco_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/berger/berger_1c_rojo_3q_contexto.jpg",
+    "/img/productos/berger/berger_mecedora_terracota_3q.jpg",
+    "/img/productos/berger/berger_detalle_capitone-espalda.jpg",
+    "/img/productos/berger/berger_detalle_oreja-curva.jpg",
+    "/img/productos/berger/berger_detalle_costura-almohadon.jpg"
+  ],
+    "medidas": {
+      "butaca": {
+        "Ancho": "90 cm",
+        "Profundidad": "80 cm",
+        "Alto": "115 cm"
+      }
+    }
+},
+{
+  "id": "sofa_berger_2c",
+  "modelo": "berger",
+  "nombre": "Sofá Berger 2 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "La elegancia icónica de la butaca Berger, ahora para compartir. Un sofá de 2 cuerpos con un diseño señorial y un confort insuperable.",
+  "descripcionLarga": {
+    "sabor": "El diseño más clásico y señorial de nuestro catálogo, ahora en un formato pensado para dos. El Sofá Berger de 2 cuerpos mantiene cada detalle que lo hace único: su respaldo alto con 'orejas' que invitan a la intimidad, el capitoné artesanal y sus elegantes brazos curvos. Es la pieza perfecta para quienes buscan llevar la distinción y el confort atemporal de la butaca Berger a su living, creando un espacio sofisticado y acogedor para compartir.",
+    "base": "Este modelo icónico combina la elegancia clásica con un confort superior y práctico. Su característica principal es un almohadón de asiento completamente desmontable, lo que facilita enormemente su limpieza y mantenimiento. El interior, con espuma de alta densidad y una capa de guata, asegura una sentada envolvente y un soporte que no se deforma. Una pieza construida para durar y convertirse en una herencia.",
+    "cta": "Haz tuyo este clásico del diseño. Consulta por nuestra selección de tapizados premium para personalizar tu Sofá Berger."
+  },
+  "precioBase": 18490,
+  "imagenPrincipal": "/img/productos/berger/berger_2c_terracota_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/berger/berger_1c_rojo_3q_contexto.jpg",
+    "/img/productos/berger/berger_detalle_capitone-espalda.jpg",
+    "/img/productos/berger/berger_detalle_oreja-curva.jpg",
+    "/img/productos/berger/berger_detalle_perfil-patas.jpg",
+    "/img/productos/berger/berger_detalle_costura-almohadon.jpg"
+  ],
+    "medidas": {
+      "sofa": {
+        "Ancho": "130 cm",
+        "Profundidad": "80 cm",
+        "Alto": "105 cm"
+      }
+    },
+  "posicionImagen": "center 60%"
+},
+{
+  "id": "sofa_ivar_xl",
+  "modelo": "ivar",
+  "nombre": "Sofá Ivar XL",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Nuestro sofá insignia. El Ivar de 2 cuerpos es el equilibrio perfecto entre un confort que te abraza y una elegancia que decora tu living.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Ivar no es solo un mueble, es la pieza que lleva nuestro nombre y encapsula nuestra filosofía. Diseñado para ser el corazón del hogar, combina una estética moderna y sofisticada con un nivel de confort insuperable. Sus brazos, finos y elegantemente redondeados, definen una silueta estilizada, mientras que sus generosos almohadones de asiento y respaldo invitan a relajarse sin reservas. Es versátil, atemporal y está pensado para adaptarse a tu vida.",
+    "base": "Este modelo insignia combina la elegancia con un confort superior y práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables, con fundas internas que facilitan enormemente su limpieza y mantenimiento. El interior está compuesto por una plancha de espuma de alta densidad, envuelta en una suave capa de guata para una sensación de acogida inigualable. Esta combinación asegura una sentada sumamente cómoda y un soporte que no se deforma.",
+    "cta": "Descubre por qué este sofá lleva nuestro nombre y hazlo parte de tu historia. Personalízalo con nuestra exclusiva selección de telas y colores."
+  },
+  "precioBase": 12900,
+  "imagenPrincipal": "/img/productos/ivar/ivar_2c_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/ivar/ivar_detalle_almohadones-sueltos.jpg",
+    "/img/productos/ivar/ivar_detalle_funda-desmontable.jpg",
+    "/img/productos/ivar/ivar_2c_gris_3q.jpg",
+    "/img/productos/ivar/ivar_detalle_brazo-curva.jpg",
+    "/img/productos/ivar/ivar_detalle_perfil-base.jpg"
+  ],
+  "medidas": {
+    "sofa": {
+      "Ancho": "160 cm",
+      "Profundidad": "80 cm",
+      "Alto": "90 cm"
+    }
+  }
+},
+{
+  "id": "sofa_brianna_2c",
+  "modelo": "brianna",
+  "nombre": "Sofá Brianna 2 Cuerpos",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Diseño minimalista y máxima versatilidad. Un sofá sin brazos, ideal para optimizar espacios modernos con un look ligero y súper confortable.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Brianna es la respuesta al diseño contemporáneo. Su estructura sin brazos y de líneas puras ofrece una increíble sensación de amplitud y ligereza visual, convirtiéndolo en el aliado perfecto para optimizar cualquier espacio. Sus dos grandes almohadones en el respaldo aseguran un confort envolvente, mientras que su asiento firme invita al descanso. Es una pieza camaleónica: ideal como sofá principal en un living minimalista, como un elegante diván en un estudio o como un asiento funcional en una zona de paso.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Adapta el diseño minimalista del Sofá Brianna a tu estilo. Consulta nuestra completa paleta de colores y texturas."
+  },
+  "precioBase": 8490,
+  "imagenPrincipal": "/img/productos/brianna/brianna_2c_azul_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/brianna/brianna_2c_beige_frente.jpg",
+    "/img/productos/brianna/brianna_2c_beige_detalle-funcional.jpg",
+    "/img/productos/brianna/brianna_2c_beige_3q.jpg"
+  ],
+  "medidas": {
+    "sofa": {
+      "Ancho": "120 cm",
+      "Profundidad": "80 cm",
+      "Alto": "90 cm"
+    }
+  }
+},
+{
+  "id": "sofa_rimini_xl",
+  "modelo": "rimini",
+  "nombre": "Sofá Rimini XL",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Puro diseño de vanguardia. Un sofá escultural y minimalista de inspiración italiana que se convierte en el centro de todas las miradas.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Rimini es una pieza que destaca por su minimalismo y diseño de vanguardia. Inspirado en las líneas puras del mobiliario italiano, se presenta como una obra de arte funcional que captura la mirada. Su estructura geométrica, con anchos brazos que se alinean a la altura del respaldo, crea un marco audaz y definido. La base, que apoya directamente sobre el suelo, refuerza su carácter de bloque sólido y contemporáneo. En contraste, sus mullidos almohadones de respaldo ofrecen un confort inesperado, invitando a la relajación.",
+    "base": "Este modelo combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de respaldo completamente desmontables, lo que facilita enormemente su limpieza y mantenimiento. El interior de los almohadones y del asiento integrado está compuesto por una plancha de espuma de alta densidad, envuelta en una suave capa de guata para una sensación de acogida inigualable. Esta combinación asegura una sentada sumamente cómoda y un soporte que no se deforma.",
+    "cta": "Llevá el diseño de vanguardia a tu espacio. El Sofá Rimini es más que un asiento, es una declaración de estilo. Consúltanos para personalizarlo."
+  },
+  "precioBase": 10490,
+  "imagenPrincipal": "/img/productos/rimini/rimini_2c_blanco_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/rimini/rimini_2c_blanco_frente_contexto.jpg",
+    "/img/productos/rimini/rimini_2c_blanco_3q-alternativo.jpg"
+  ],
+  "medidas": {
+    "sofa": {
+      "Ancho": "170 cm",
+      "Profundidad": "80 cm",
+      "Alto": "90 cm"
+    }
+  }
+},
+{
+  "id": "modulo_zar_set-2",
+  "modelo": "zar",
+  "nombre": "Módulo Zar (Set de 2)",
+  "categoriaClave": ["modulares", "complementos"],
+  "descripcionCorta": "La base de tu living soñado. Dos módulos versátiles para crear un sofá, un diván o dos asientos individuales. Tu espacio, tus reglas.",
+  "descripcionLarga": {
+    "sabor": "El Set de 2 Módulos Zar es el punto de partida para un espacio 100% adaptable. Juntalos para formar un cómodo sofá de dos cuerpos sin brazos, úsalos por separado como puffs individuales, o combinalos para crear un diván perfecto para el relax. Su diseño minimalista y de líneas puras te da la libertad de transformar tu ambiente según tus necesidades. Es la solución inteligente para livings modernos y dinámicos.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tus módulos Zar y hacerlos verdaderamente tuyos."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/zar/zar_set-2_naranja_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/zar/zar_set-2_beige_3q.jpg"
+  ],
+  "medidas": { "anchoModulo": "cm", "profundidadModulo": "cm", "altoModulo": "cm" },
+  "posicionImagen":"center 60%"
+},
+{
+  "id": "modulo_zar_set-3",
+  "modelo": "zar",
+  "nombre": "Módulo Zar (Set de 3)",
+  "categoriaClave": ["modulares", "complementos"],
+  "descripcionCorta": "Tres módulos, infinitas posibilidades. Creá un sofá en L, un gran diván o asientos separados. El sistema modular que se adapta a tu vida.",
+  "descripcionLarga": {
+    "sabor": "Llevá la flexibilidad a otro nivel con el Set de 3 Módulos Zar. Esta configuración te permite crear un sofá esquinero compacto, un sofá extra largo para recibir a todos tus amigos, o distribuir las piezas por el espacio como puffs independientes. Su diseño minimalista y de líneas puras es la base perfecta para que diseñes un living tan único como vos. La solución ideal para quienes aman cambiar y adaptar su hogar.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tus módulos Zar y hacerlos verdaderamente tuyos."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/zar/zar_set-3_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/zar/zar_set-3_beige_3q-alternativo.jpg",
+    "/img/productos/zar/zar_set-2_beige_3q.jpg"
+  ],
+  "medidas": { "anchoModulo": "cm", "profundidadModulo": "cm", "altoModulo": "cm" },
+  "posicionImagen": "center 20%"
+},
+{
+  "id": "modulo_zar-cubo_set-3",
+  "modelo": "zar",
+  "nombre": "Módulo Zar Cubo (Set de 3)",
+  "categoriaClave": ["modulares", "complementos"],
+  "descripcionCorta": "Diseño minimalista en formato compacto. Tres módulos cúbicos para jugar con tu espacio. Ideal para salas de estar, oficinas o cuartos de juegos.",
+  "descripcionLarga": {
+    "sabor": "El Módulo Zar Cubo es la versión más compacta y lúdica de nuestro sistema modular. Sus tres piezas de forma cúbica son como bloques de construcción para tu living, perfectas para espacios reducidos, recepciones modernas o salas de juegos. Su tapizado en eco-cuero es súper fácil de limpiar, combinando un diseño de vanguardia con la máxima practicidad. Creá, mové y reconfigurá tu espacio sin límites.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Consulta por nuestra paleta completa de colores y telas para personalizar tus módulos Zar y hacerlos verdaderamente tuyos."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/zar/zar-cubo_set-3_blanco_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/zar/zar-cubo_set-3_blanco_frente.jpg"
+  ],
+  "medidas": { "anchoModulo": "cm", "profundidadModulo": "cm", "altoModulo": "cm" },
+  "posicionImagen":"center 40%"
+},
+{
+  "id": "sofa_adara_chaise",
+  "modelo": "adara",
+  "nombre": "Sofá Adara con Chaise",
+  "categoriaClave": "modulares",
+  "descripcionCorta": "El sofá esquinero para tu relax total. Diseño moderno, confort premium y un chaise longue para estirar las piernas. Hecho a tu medida.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Adara está diseñado para ser el centro del confort en tu hogar. Su generoso módulo chaise longue es la invitación perfecta para relajarse, leer un libro o disfrutar de una noche de series. Con un diseño de líneas rectas y contemporáneas, similar a nuestro modelo London, el Adara define el espacio de tu living con estilo y una gran funcionalidad. Además, lo fabricamos a medida para vos: podés elegir de qué lado va el chaise para que se adapte perfectamente a tu casa.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su característica principal son sus almohadones de asiento y respaldo completamente desmontables. Los del asiento, con plancha de alta densidad, ofrecen un soporte firme, mientras que los del respaldo, más mullidos y rellenos de soft, aseguran una comodidad envolvente. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Transforma tu living en un oasis de confort y diseño. Consulta por las opciones de tapizados y colores para personalizar tu Sofá Adara."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/adara/adara_chaise_gris_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/london/london_detalle_brazo-costura.jpg",
+    "/img/productos/bernal-almohadon/bernal-almohadon_detalle_cierre.jpg"
+  ],
+  "medidas": { 
+    "anchoTotal": "cm", 
+    "profundidadChaise": "cm", 
+    "profundidadSofa": "cm",
+    "alto": "cm"
+  },
+  "aclaracionFoto": "Este sofá modular se fabrica con el chaise longue a la derecha o a la izquierda, según tu necesidad. ¡Consúltanos para personalizarlo!"
+},
+{
+  "id": "sofa_nova_2c-xl",
+  "modelo": "nova",
+  "nombre": "Sofá Nova 2 Cuerpos XL",
+  "categoriaClave": "sofas",
+  "descripcionCorta": "Diseño minimalista de vanguardia. Un sofá de 2 cuerpos extra grande que redefine el lujo y el confort con sus líneas puras y calidad excepcional.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Nova es una pieza escultural. Su diseño se basa en la pureza de los volúmenes geométricos, delineados por una elegante costura francesa que resalta su carácter único. Esta versión XL de 2 cuerpos ofrece dos asientos increíblemente amplios para un confort sin igual. Es la pieza central perfecta para un living contemporáneo que valora el diseño, la calidad y los espacios despejados.",
+    "base": "Reservado para nuestra línea de diseño más audaz, este modelo se construye sobre una estructura reforzada y utiliza espuma de alta resiliencia para un confort que perdura. Cada costura es una declaración de intenciones, realizada con una técnica artesanal que define y realza la forma. Los almohadones son completamente desmontables, con fundas internas, garantizando la máxima practicidad. Es la fusión definitiva entre artesanía, durabilidad y un diseño de vanguardia.",
+    "cta": "Transforma tu living con una pieza de diseño de autor. Consulta por las opciones de tapizados para personalizar tu Sofá Nova."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/nova/nova_2c-xl_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/nova/nova_2c-xl_vista-arriba.jpg",
+    "/img/productos/nova/nova_2c-xl_gris_frente.jpg",
+    "/img/productos/nova/nova_detalle_brazo-costura.jpg",
+    "/img/productos/nova/nova_detalle_vista-superior.jpg"
+  ],
+  "medidas": { "ancho": "180 cm", "profundidad": "90 cm", "alto": "80 cm" }
+},
+{
+  "id": "sofa_nova_chaise",
+  "modelo": "nova",
+  "nombre": "Sofá Nova con Chaise Modular",
+  "categoriaClave": "modulares",
+  "esDestacado": true,
+  "descripcionCorta": "La máxima expresión del confort minimalista. Un sofá de diseño vanguardista con un generoso chaise longue para un relax absoluto y total.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Nova con Chaise rompe con lo tradicional para ofrecerte una experiencia de confort total. Su diseño de perfil bajo y líneas puras se define por una estética minimalista y una generosa profundidad que invita al descanso. El protagonista indiscutido es su módulo chaise longue, una isla de relajación perfecta. Además, su diseño 100% modular te permite separar las piezas para reconfigurar tu espacio, ofreciendo una flexibilidad sin igual.",
+    "base": "Reservado para nuestra línea de diseño más audaz, este modelo se construye sobre una estructura reforzada y utiliza espuma de alta resiliencia para un confort que perdura. Cada costura es una declaración de intenciones, realizada con una técnica artesanal que define y realza la forma. Los almohadones son completamente desmontables, con fundas internas, garantizando la máxima practicidad. Es la fusión definitiva entre artesanía, durabilidad y un diseño de vanguardia.",
+    "cta": "Transforma tu living con una pieza de diseño de autor. Consulta por las opciones de tapizados para personalizar tu Sofá Nova."
+  },
+  "precioBase": 18900,
+  "imagenPrincipal": "/img/productos/nova/nova_chaise_negro_3q.jpg",
+  "imagenesGaleria": [
+  ],
+  "medidas": { 
+    "sofa": {
+      "ancho": "180 cm",
+      "profundidad": "90",
+      "profundidadTotalChaise": "140 cm",
+      "alto": "80"
+    }
+  },
+  "posicionImagen":"center 70%"
+},
+{
+  "id": "box_fenix",
+  "modelo": "fenix",
+  "nombre": "Box Fénix",
+  "categoriaClave": "complementos",
+  "descripcionCorta": "La solución ideal para espacios funcionales. Un box de diseño minimalista, súper resistente y versátil para tu comedor, local o sala de espera.",
+  "descripcionLarga": {
+    "sabor": "El Box Fénix es la definición de diseño funcional. Creado para maximizar el espacio sin sacrificar la comodidad, su estructura de líneas puras y sin brazos lo convierte en una solución increíblemente versátil. Es perfecto para armar un comedor diario moderno contra una pared, para equipar un local comercial o una sala de espera con un estilo minimalista. Su tapizado en eco-cuero de alta resistencia garantiza una durabilidad superior y una limpieza súper fácil.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Una solución versátil para tu casa o negocio. Consulta por las medidas y tapizados disponibles para adaptar el Box Fénix a tu proyecto."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/fenix/fenix_box_blanco_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/fenix/fenix_box_blanco_perfil.jpg"
+  ],
+  "medidas": { "ancho": "cm", "profundidad": "cm", "altoTotal": "cm", "altoAsiento": "cm" }
+},
+{
+  "id": "sofa_marbella_3c",
+  "modelo": "marbella",
+  "nombre": "Sofá Marbella 3 Cuerpos",
+  "categoriaClave": "sofas",
+  "esDestacado": true,
+  "descripcionCorta": "Lujo sereno y un diseño que te abraza. La joya de nuestro catálogo, con una base única de madera maciza y un confort excepcional.",
+  "descripcionLarga": {
+    "sabor": "Inspirado en la elegancia relajada de los retiros de lujo, el Sofá Marbella es una invitación a disfrutar del confort sin límites. Su rasgo más distintivo es su elegante base tipo zócalo, construida en madera maciza, que le otorga una presencia sólida y un acabado impecable. Sus brazos, anchos y con una suave curva hacia el exterior, se abren como una bienvenida, mientras que sus tres generosos almohadones de respaldo ofrecen un refugio de suavidad. Es una pieza central, diseñada para ser tan impresionante visualmente como increíblemente cómoda.",
+    "base": "Este modelo de nuestra colección destacada combina un diseño de alta gama con un confort práctico. Su base de madera maciza a la vista es fruto de un trabajo de ebanistería que garantiza una solidez excepcional. Sus almohadones de asiento y respaldo son completamente desmontables, rellenos con espuma de alta densidad y envueltos en guata para una sentada envolvente y duradera. Una pieza de lujo, construida para ser el centro de tu hogar por años.",
+    "cta": "Convierte tu living en un refugio de lujo y serenidad. Elige el Sofá Marbella y personalízalo con nuestras telas más exclusivas."
+  },
+  "precioBase": 13900,
+  "imagenPrincipal": "/img/productos/marbella/marbella_3c_beige_3q.jpg",
+  "imagenesGaleria": [
+    "/img/productos/marbella/marbella_3c_beige_frente.jpg"
+  ],
+  "medidas": { "ancho": "180 cm", "profundidad": "80 cm", "alto": "90 cm" }
+},
+{
+  "id": "sofa_italia_xl",
+  "modelo": "italia",
+  "nombre": "Sofá Italia XL",
+  "categoriaClave": "sofas",
+  "esDestacado": true,
+  "descripcionCorta": "La joya de nuestro taller. Una obra maestra del diseño y la ebanistería, que ofrece un espacio y un confort sin igual. Lujo artesanal.",
+  "descripcionLarga": {
+    "sabor": "El Sofá Italia es la máxima expresión de nuestro amor por el diseño. Concebido como una pieza central, su estructura de madera noble a la vista dialoga con la suavidad del tapizado, creando un equilibrio perfecto. El trabajo de ebanistería de autor fluye con elegancia desde sus patas estilizadas hasta el marco que acuna los asientos. Con sus dimensiones extra generosas, no es simplemente un sofá, es la pieza que define un espacio y refleja un aprecio por el diseño atemporal y la calidad que perdura.",
+    "base": "Reservado para nuestra pieza insignia, este sofá se construye sobre una estructura de madera maciza a la vista, pulida y ensamblada a mano para resaltar la belleza natural de la veta. Este trabajo artesanal se complementa con un confort excepcional: sus almohadones son completamente desmontables, rellenos con espuma de la más alta resiliencia y envueltos en una generosa capa de guata, logrando una sentada sublime. Es la fusión definitiva entre ebanistería, durabilidad y una comodidad superior.",
+    "cta": "Invertí en una pieza que trasciende el tiempo. El Sofá Italia es una herencia de diseño y confort. Contáctanos para explorar las maderas y tapizados disponibles."
+  },
+  "precioBase": 25900,
+  "imagenPrincipal": "/img/productos/italia/italia_xl_verde-seco_3q_contexto.jpg",
+  "imagenesGaleria": [
+  ],
+  "medidas": {
+    "sofa": {
+      "Ancho": "180 cm",
+      "Profundidad": "100 cm",
+      "Alto": "100 cm"
+    }
+  }
+},
+{
+  "id": "respaldo_clasico_capitone",
+  "modelo": "respaldo-clasico",
+  "nombre": "Respaldo Clásico (Capitoné Diamante)",
+  "categoriaClave": "complementos",
+  "descripcionCorta": "El toque de elegancia y distinción para tu dormitorio. Un respaldo de estilo señorial con un profundo trabajo de capitoné artesanal.",
+  "descripcionLarga": {
+    "sabor": "Transformá tu dormitorio en una suite de lujo con nuestro Respaldo Clásico. Su imponente silueta de borde curvo y su detallado capitoné en diamante son un tributo al diseño atemporal. Es la pieza perfecta para enmarcar tu cama, creando un punto focal de elegancia y confort que invita al descanso.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Cada pliegue y cada botón del capitoné son realizados a mano por nuestros artesanos, garantizando una terminación impecable y duradera.",
+    "cta": "Dale a tu dormitorio el toque final que se merece. Consulta por las medidas y tapizados para crear tu respaldo soñado."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/complementos/respaldo-clasico_beige_3q_contexto.jpg",
+  "imagenesGaleria": [
+    "/img/productos/complementos/respaldo-clasico_rojo_3q.jpg",
+    "/img/productos/complementos/respaldo-clasico_beige_3q.jpg"
+  ],
+  "medidas": { "ancho": "cm", "alto": "cm" }
+},
+{
+  "id": "respaldo_recto_capitone",
+  "modelo": "respaldo-recto",
+  "nombre": "Respaldo Recto (Capitoné Cuadrado)",
+  "categoriaClave": "complementos",
+  "descripcionCorta": "Diseño moderno y líneas puras para tu cama. Un respaldo versátil con un elegante capitoné en cuadrícula que se adapta a cualquier estilo.",
+  "descripcionLarga": {
+    "sabor": "El Respaldo Recto es la pieza que define tu cama con un toque de diseño contemporáneo. Su forma rectangular y su prolijo capitoné en cuadrícula crean un look moderno y ordenado, fácil de combinar con cualquier decoración. Es el complemento perfecto para darle más presencia y confort a tu dormitorio, creando un ambiente acogedor y con mucho estilo.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Cada pliegue y cada botón del capitoné son realizados a mano por nuestros artesanos, garantizando una terminación impecable y duradera.",
+    "cta": "Elige el tamaño y el tapizado que más te guste. Consulta por todas las opciones para personalizar tu respaldo."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/complementos/respaldo-recto_beige_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/complementos/respaldo-recto_azul_contexto-evan.jpg",
+    "/img/productos/complementos/respaldo-recto_negro_contexto-berger.jpg",
+    "/img/productos/complementos/respaldo-recto_detalle_capitone.jpg",
+    "/img/productos/complementos/respaldo-recto_negro_frente.jpg",
+    "/img/productos/complementos/respaldo-recto_rojo_frente.jpg",
+    "/img/productos/complementos/respaldo-recto_amarillo_frente.jpg",
+    "/img/productos/complementos/respaldo-recto_azul_frente.jpg"
+  ],
+  "medidas": { "ancho": "cm", "alto": "cm" }
+},
+{
+  "id": "isla_estandar",
+  "modelo": "isla-estandar",
+  "nombre": "Isla Estándar",
+  "categoriaClave": "complementos",
+  "descripcionCorta": "El complemento perfecto para tu living. Usala como reposapiés, asiento extra o mesa de centro. Súper versátil y funcional.",
+  "descripcionLarga": {
+    "sabor": "La Isla Estándar es esa pieza multifacética que le suma confort y funcionalidad a cualquier espacio. Con su clásico capitoné central, es el compañero ideal para tu sofá o butaca, perfecto para estirar las piernas después de un largo día. También funciona como un práctico asiento extra cuando tenés invitados o como una original mesa de centro. Un complemento simple, robusto y para toda la vida.",
+    "base": "Nuestra promesa de calidad reside en lo que no se ve: una estructura interna robusta, construida en madera maciza de eucalipto para asegurar su durabilidad. Rellena con espuma de alta densidad, ofrece un confort que se mantiene firme con el uso diario. Cada costura está reforzada y cada detalle es supervisado para entregar un mueble que te acompañará por años.",
+    "cta": "Encontrá el tapizado perfecto para que combine con tus sillones. Consulta por toda nuestra variedad de telas y colores."
+  },
+  "precioBase": 2500,
+  "imagenPrincipal": "/img/productos/complementos/isla-estandar_gris_frente.jpg",
+  "imagenesGaleria": [
+    "/img/productos/complementos/isla-estandar_detalle_capitone.jpg",
+    "/img/productos/complementos/isla-estandar_amarillo_3q.jpg",
+    "/img/productos/evan/evan_1c-isla_gris_contexto.jpg"
+  ],
+  "medidas": {
+    "isla": {
+      "Ancho": "55 cm",
+      "Profundidad": "55 cm",
+      "Alto": "50 cm"
+    }
+  },
+  "posicionImagen": "center 90%"
+},
+{
+  "id": "isla_premium",
+  "modelo": "isla",
+  "nombre": "Isla Premium",
+  "categoriaClave": "complementos",
+  "descripcionCorta": "Diseño robusto y contemporáneo. La isla ideal para acompañar a la familia de sofás premium como London o para usar como pieza de acento.",
+  "descripcionLarga": {
+    "sabor": "Con las mismas líneas puras y la estética robusta del Sofá London, esta isla premium es el complemento ideal. Su diseño de base sólida y volúmenes generosos lo convierte en una pieza con carácter, perfecta como reposapiés, asiento auxiliar o incluso como una mesa de centro moderna y diferente. La pieza que completa tu living con un toque de diseño.",
+    "base": "Este modelo premium combina un diseño de vanguardia con un confort práctico. Su almohadón de asiento es completamente desmontable, con una plancha de espuma de alta densidad que ofrece un soporte firme y duradero. Es la fusión perfecta entre un diseño imponente y la practicidad.",
+    "cta": "Completá tu juego Premium. Consulta nuestra gama de tapizados premium para personalizarlo."
+  },
+  "precioBase": 0,
+  "imagenPrincipal": "/img/productos/complementos/isla-premium_gris_principal.jpg",
+  "imagenesGaleria": [
+    "/img/productos/complementos/isla-premium_gris_perfil.jpg",
+    "/img/productos/london/london_juego-2c-1-puff_verde_3q_contexto.jpg"
+  ],
+  "medidas": { "ancho": "cm", "profundidad": "cm", "alto": "cm" },
+  "posicionImagen": "center 80%"
+}
+]
