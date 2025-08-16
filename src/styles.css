@@ -1523,7 +1523,7 @@ nav.navbar.scrolled .logo {
     position: absolute; top: calc(100% - 1px); left: 0; right: 0;
     background-color: var(--color-blanco); padding: 15px 20px;
     box-shadow: var(--sombra-estandar); border-top: 1px solid var(--color-borde);
-    z-index: 1000;
+    z-index: 1021;
   }
   nav.navbar .nav-links.active { display: flex; }
   nav.navbar .nav-links li { margin: 8px 0; width: 100%; }
