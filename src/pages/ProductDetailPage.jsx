@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { formatPriceUYU } from '../utils/formatters.js';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import productData from '../data/productos.json';
 import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
@@ -61,6 +60,29 @@ function ProductDetailPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [goToPreviousImage, goToNextImage]);
   
+  // NUEVO useEffect para manejar el título y la meta descripción
+  useEffect(() => {
+    if (product) {
+      // 1. Manejar el Título
+      const newTitle = `Tapicería Ivar - ${product.nombre}`;
+      document.title = newTitle;
+  
+      // 2. Manejar la Meta Descripción
+      const newDescription = product.descripcionCorta;
+      
+      let metaDescription = document.querySelector('meta[name="description"]');
+  
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = 'description';
+        document.head.appendChild(metaDescription);
+      }
+      
+      metaDescription.setAttribute('content', newDescription);
+    }
+    // La dependencia [product] asegura que esto se ejecute cada vez que se carga un nuevo producto
+  }, [product]);
+
   const bind = useDrag(({ swipe: [swipeX] }) => {
     if (swipeX === -1) goToNextImage();
     if (swipeX === 1) goToPreviousImage();
@@ -87,143 +109,137 @@ function ProductDetailPage() {
   const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensajeWhatsApp)}`;
 
   return (
-    <>
-      <Helmet>
-        <title>Tapicería Ivar - {product.nombre}</title>
-        <meta name="description" content={product.descripcionCorta} />
-      </Helmet>
-      <div className="product-detail-container">
-        <div className="product-detail-layout">
-          <div className="product-detail-images">
-            <div className="main-image-wrapper">
-              <div {...bind()} style={{ touchAction: 'pan-y', cursor: 'grab', width: '100%', height: '100%' }}> 
-                <img
-                  src={selectedImage}
-                  alt={product.nombre}
-                  className="product-detail-main-image"
-                />
-              </div>
-              {allImages.length > 1 && (
-                <>
-                  <button onClick={goToPreviousImage} className="gallery-arrow prev-arrow" aria-label="Imagen anterior">&#10094;</button>
-                  <button onClick={goToNextImage} className="gallery-arrow next-arrow" aria-label="Siguiente imagen">&#10095;</button>
-                </>
-              )}
+    <div className="product-detail-container">
+      <div className="product-detail-layout">
+        <div className="product-detail-images">
+          <div className="main-image-wrapper">
+            <div {...bind()} style={{ touchAction: 'pan-y', cursor: 'grab', width: '100%', height: '100%' }}> 
+              <img
+                src={selectedImage}
+                alt={product.nombre}
+                className="product-detail-main-image"
+              />
             </div>
-            {allImages && allImages.length > 1 && (
-              <div className="product-detail-thumbnail-gallery">
-                {allImages.map((imgUrl, index) => (
-                  <img
-                    key={index}
-                    src={imgUrl}
-                    alt={`${product.nombre} - vista ${index + 1}`}
-                    className={`product-detail-thumbnail ${selectedImage === imgUrl ? 'active' : ''}`}
-                    onClick={() => handleThumbnailClick(imgUrl)}
-                    loading="lazy"
-                  />
-                ))}
-              </div>
+            {allImages.length > 1 && (
+              <>
+                <button onClick={goToPreviousImage} className="gallery-arrow prev-arrow" aria-label="Imagen anterior">&#10094;</button>
+                <button onClick={goToNextImage} className="gallery-arrow next-arrow" aria-label="Siguiente imagen">&#10095;</button>
+              </>
             )}
           </div>
+          {allImages && allImages.length > 1 && (
+            <div className="product-detail-thumbnail-gallery">
+              {allImages.map((imgUrl, index) => (
+                <img
+                  key={index}
+                  src={imgUrl}
+                  alt={`${product.nombre} - vista ${index + 1}`}
+                  className={`product-detail-thumbnail ${selectedImage === imgUrl ? 'active' : ''}`}
+                  onClick={() => handleThumbnailClick(imgUrl)}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
-          <div className="product-detail-info">
-            <h1 className="product-detail-name">{product.nombre}</h1>
-            <p className="product-detail-price">{formattedPrice}
-              {product.mostrarUnidad && <span className="price-unit">c/u</span>}
+        <div className="product-detail-info">
+          <h1 className="product-detail-name">{product.nombre}</h1>
+          <p className="product-detail-price">{formattedPrice}
+            {product.mostrarUnidad && <span className="price-unit">c/u</span>}
+          </p>
+
+          {product.promo && (
+            <p className="product-detail-promo-price">
+              ¡Oferta Especial! Llévate {product.promo.cantidad} por {formatPriceUYU(product.promo.precio)}
             </p>
-
-            {product.promo && (
-              <p className="product-detail-promo-price">
-                ¡Oferta Especial! Llévate {product.promo.cantidad} por {formatPriceUYU(product.promo.precio)}
-              </p>
-            )}
-            
-            <div className="product-info-section">
-              <h2>Descripción</h2>
-              <div className="product-detail-description">
-                <p>{product.descripcionLarga.sabor}</p>
-              </div>
+          )}
+          
+          <div className="product-info-section">
+            <h2>Descripción</h2>
+            <div className="product-detail-description">
+              <p>{product.descripcionLarga.sabor}</p>
             </div>
+          </div>
 
-            <div className="product-info-section">
-              <h2>Calidad y fabricación</h2>
-              <div className="product-detail-description">
-                <p>{product.descripcionLarga.base}</p>
-              </div>
+          <div className="product-info-section">
+            <h2>Calidad y fabricación</h2>
+            <div className="product-detail-description">
+              <p>{product.descripcionLarga.base}</p>
             </div>
-            
-            {product.medidas && Object.keys(product.medidas).length > 0 && (
-              <div className="product-info-section product-detail-dimensions">
-                <h2>Medidas</h2>
-                {Object.keys(product.medidas).length === 1 ? (
-                  <div className="dimension-block">
-                    <ul>
-                      {Object.entries(Object.values(product.medidas)[0]).map(([medida, valor]) => (
-                        <li key={medida}>
-                          <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div className="dimensions-grid">
-                    {Object.entries(product.medidas).map(([componenteKey, medidasComponente]) => {
-                      const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
-                      return (
-                        <div key={componenteKey} className="dimension-block">
-                          <h3 className="dimension-component-title">{displayName}</h3>
-                          <ul>
-                            {Object.entries(medidasComponente).map(([medida, valor]) => (
-                              <li key={medida}>
-                                <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
+          </div>
+          
+          {product.medidas && Object.keys(product.medidas).length > 0 && (
+            <div className="product-info-section product-detail-dimensions">
+              <h2>Medidas</h2>
+              {Object.keys(product.medidas).length === 1 ? (
+                <div className="dimension-block">
+                  <ul>
+                    {Object.entries(Object.values(product.medidas)[0]).map(([medida, valor]) => (
+                      <li key={medida}>
+                        <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div className="dimensions-grid">
+                  {Object.entries(product.medidas).map(([componenteKey, medidasComponente]) => {
+                    const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
+                    return (
+                      <div key={componenteKey} className="dimension-block">
+                        <h3 className="dimension-component-title">{displayName}</h3>
+                        <ul>
+                          {Object.entries(medidasComponente).map(([medida, valor]) => (
+                            <li key={medida}>
+                              <strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
-            {product.aclaracionFoto && (
-              <div className="product-info-section">
-                  <p style={{fontSize: '0.9rem', color: '#777', fontStyle: 'italic', lineHeight: 1.5}}>
-                      <strong>Nota:</strong> {product.aclaracionFoto}
-                  </p>
-              </div>
-            )}
+          {product.aclaracionFoto && (
+            <div className="product-info-section">
+                <p style={{fontSize: '0.9rem', color: '#777', fontStyle: 'italic', lineHeight: 1.5}}>
+                    <strong>Nota:</strong> {product.aclaracionFoto}
+                </p>
+            </div>
+          )}
 
-            <div className="customization-cta-section">
-              <h2>Hecho a tu medida</h2>
-              <p>
-                ¿Te gustó este modelo? Lo fabricamos para ti, 100% personalizado. Elige la tela y el color que quieras para que tu sillón sea único.
-              </p>
-              <div className="customization-cta-buttons">
-                <Link to="/telas" className="product-detail-cta-button secondary">
-                  Ver Catálogo de Telas
-                </Link>
-                <a href={linkWhatsApp} target="_blank" rel="noopener noreferrer" className="product-detail-cta-button">
-                  Consultar por WhatsApp
-                </a>
-              </div>
+          <div className="customization-cta-section">
+            <h2>Hecho a tu medida</h2>
+            <p>
+              ¿Te gustó este modelo? Lo fabricamos para ti, 100% personalizado. Elige la tela y el color que quieras para que tu sillón sea único.
+            </p>
+            <div className="customization-cta-buttons">
+              <Link to="/telas" className="product-detail-cta-button secondary">
+                Ver Catálogo de Telas
+              </Link>
+              <a href={linkWhatsApp} target="_blank" rel="noopener noreferrer" className="product-detail-cta-button">
+                Consultar por WhatsApp
+              </a>
             </div>
           </div>
         </div>
-
-        {relatedProducts.length > 0 && (
-          <div className="variants-section">
-            <h2 className="variants-section-title">Completa la Colección</h2>
-            <div className="product-grid variants-grid">
-              {relatedProducts.map(relatedProduct => (
-                <ProductCard key={relatedProduct.id} product={relatedProduct} />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
-    </>
+
+      {relatedProducts.length > 0 && (
+        <div className="variants-section">
+          <h2 className="variants-section-title">Completa la Colección</h2>
+          <div className="product-grid variants-grid">
+            {relatedProducts.map(relatedProduct => (
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

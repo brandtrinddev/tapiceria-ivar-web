@@ -1,7 +1,6 @@
 // src/pages/CatalogoPage.jsx
 import React, { useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard.jsx';
 import productData from '../data/productos.json';
 
@@ -32,13 +31,13 @@ function CatalogoPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // --- NUEVA LÓGICA DIRECTA ---
+  // --- LÓGICA DIRECTA ---
   // 1. Leemos la "única fuente de verdad": la URL
   const categoriaActual = query.get('categoria');
   const paginaActual = parseInt(query.get('pagina'), 10) || 1;
   const ordenActual = query.get('orden') || 'default';
 
-  // 2. Calculamos TODO directamente en cada render. Sin estados intermedios.
+  // 2. Calculamos TODO directamente en cada render.
   
   // Filtrado de productos
   let productosFiltrados = [...productData];
@@ -113,20 +112,33 @@ function CatalogoPage() {
     }
   };
 
-  // 4. Efecto para el título del documento (el único que necesitamos)
+  // 4. Efecto para el título y meta descripción del documento (el único que necesitamos)
   useEffect(() => {
-    document.title = `Catálogo - ${pageTitle} | Tapicería Ivar`;
-  }, [pageTitle]);
+    // 1. Manejar el Título
+    const newTitle = `Catálogo - ${pageTitle} | Tapicería Ivar`;
+    document.title = newTitle;
+  
+    // 2. Manejar la Meta Descripción
+    const newDescription = `Explora nuestra colección de ${pageTitle}. Sillones, sofás y juegos de living fabricados artesanalmente en Uruguay.`;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+  
+    if (!metaDescription) {
+      // Si la etiqueta no existe, la crea y la añade al head
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Actualiza el contenido de la etiqueta existente o recién creada
+    metaDescription.setAttribute('content', newDescription);
+
+  }, [pageTitle]); // La dependencia [pageTitle] asegura que se actualice al cambiar de categoría
 
   return (
-    <>
-      <Helmet>
-        <meta name="description" content={`Explora nuestra colección de ${pageTitle}. Sillones, sofás y juegos de living fabricados artesanalmente en Uruguay.`} />
-      </Helmet>
-
     <section className="product-list-container">
       <div className="catalog-page-header">
-        <div className="section-container"> {/* <<< ESTE ES EL CONTENEDOR AÑADIDO */}
+        <div className="section-container">
           <div className="catalog-breadcrumb">
             <Link to="/">Inicio</Link> <span>/ </span> 
             <Link to="/catalogo">Catálogo</Link>
@@ -154,13 +166,13 @@ function CatalogoPage() {
       </div>
 
       {currentProductsToDisplay.length > 0 ? (
-        <div className="product-grid section-container"> {/* También añadimos section-container aquí para la grilla */}
+        <div className="product-grid section-container">
           {currentProductsToDisplay.map(producto => (
             <ProductCard key={producto.id} product={producto} />
           ))}
         </div>
       ) : (
-        <div className="no-products-message section-container"> {/* Y aquí para el mensaje */}
+        <div className="no-products-message section-container">
           <p>
             No se encontraron productos que coincidan con "{categoryDisplayName}".
           </p>
@@ -169,7 +181,7 @@ function CatalogoPage() {
       )}
 
       {totalPages > 1 && (
-        <div className="pagination-controls section-container"> {/* Y aquí para la paginación */}
+        <div className="pagination-controls section-container">
           <button
             onClick={() => paginate(paginaActual - 1)}
             disabled={paginaActual === 1}
@@ -201,9 +213,9 @@ function CatalogoPage() {
             } else if (
                 (pageNumber === paginaActual - 2 && paginaActual > 3 && totalPages > 5) || 
                 (pageNumber === paginaActual + 2 && paginaActual < totalPages - 2 && totalPages > 5)
-            ) {
+              ) {
                 return <span key={`ellipsis-${pageNumber}`} className="pagination-ellipsis">...</span>;
-            }
+              }
             return null;
           })}
           <button
@@ -217,7 +229,6 @@ function CatalogoPage() {
         </div>
       )}
     </section>
-    </>
   );
 }
 export default CatalogoPage;

@@ -1,7 +1,6 @@
 // src/pages/NosotrosPage.jsx
 import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 import IconArmazon from '../components/iconArmazon.jsx';
 import IconConfort from '../components/iconConfort.jsx';
@@ -10,16 +9,29 @@ import IconAcabados from '../components/iconAcabados.jsx';
 
 function NosotrosPage() {
 
-    useEffect(() => {
-    document.title = 'Sobre Nosotros - Tapicería Ivar';
+  useEffect(() => {
+    // 1. Manejar el Título
+    const newTitle = 'Sobre Nosotros - Tapicería Ivar';
+    document.title = newTitle;
+
+    // 2. Manejar la Meta Descripción
+    const newDescription = 'Conoce la historia y el proceso artesanal de Tapicería Ivar. Combinamos tradición y calidad para crear muebles únicos en Uruguay.';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+
+    if (!metaDescription) {
+      // Si la etiqueta no existe, la crea y la añade al head
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Actualiza el contenido de la etiqueta existente o recién creada
+    metaDescription.setAttribute('content', newDescription);
+
   }, []);
 
   return (
-    <>
-      <Helmet>
-        <meta name="description" content="Conoce la historia y el proceso artesanal de Tapicería Ivar. Combinamos tradición y calidad para crear muebles únicos en Uruguay." />
-      </Helmet>
-
     <div className="nosotros-page"> {/* NO lleva .standard-page-padding, el hero manejará su espacio */}
       <section className="nosotros-hero">
         <div className="nosotros-hero-content section-container"> {/* Añadido section-container para consistencia del título y subtítulo del hero */}
@@ -92,7 +104,6 @@ function NosotrosPage() {
         </div>
       </section>
     </div>
-    </>
   );
 }
 

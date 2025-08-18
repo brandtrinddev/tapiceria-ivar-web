@@ -1,23 +1,34 @@
 // src/pages/TelasPage.jsx
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import telasData from '../data/telas.json';
 
 function TelasPage() {
 
   useEffect(() => {
-    document.title = 'Muestrario de Telas - Tapicería Ivar';
-  }, []);
-
+    // 1. Manejar el Título
+    const newTitle = 'Muestrario de Telas - Tapicería Ivar';
+    document.title = newTitle;
+  
+    // 2. Manejar la Meta Descripción
+    const newDescription = 'Explora nuestra colección de telas para sofás y sillones. Elige entre Chenille, Pané Anti-Manchas, Lino y más en una amplia variedad de colores.';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+  
+    if (!metaDescription) {
+      // Si la etiqueta no existe, la crea y la añade al head
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Actualiza el contenido de la etiqueta existente o recién creada
+    metaDescription.setAttribute('content', newDescription);
+  
+  }, []); // El array de dependencias vacío es correcto, solo se ejecuta una vez.
 
   const [colorSeleccionado, setColorSeleccionado] = useState(null);
 
   return (
-    <>
-      <Helmet>
-        <meta name="description" content="Explora nuestra colección de telas para sofás y sillones. Elige entre Chenille, Pané Anti-Manchas, Lino y más en una amplia variedad de colores." />
-      </Helmet>
-
     <div className="telas-page-container standard-page-padding">
       <header className="telas-page-header section-container">
         <h1 className="telas-main-title">Nuestra colección de telas</h1>
@@ -30,20 +41,12 @@ function TelasPage() {
         {telasData.map(tela => (
           <div key={tela.id} className="tela-block">
             <h2 className="tela-nombre">{tela.nombre}</h2>
-            {/* Opcional: Imagen general del muestrario de esta tela */}
-            {/* {tela.imagenMuestrarioGeneral && (
-              <img 
-                src={tela.imagenMuestrarioGeneral} 
-                alt={`Muestrario de tela ${tela.nombre}`} 
-                className="tela-muestrario-general-img" 
-              />
-            )} */}
             <p className="tela-descripcion">{tela.descripcion}</p>
             
             <div className="colores-muestrario-container">
               <h3 className="colores-muestrario-titulo">Colores Disponibles:</h3>
               {colorSeleccionado && colorSeleccionado.telaId === tela.id && (
-                 <p className="color-nombre-seleccionado">
+                  <p className="color-nombre-seleccionado">
                     {colorSeleccionado.nombre}
                     <span className="cerrar-seleccion" onClick={(e) => { e.stopPropagation(); setColorSeleccionado(null); }}>
                       ×
@@ -65,7 +68,6 @@ function TelasPage() {
                         className="color-swatch texture-swatch"
                       />
                     )}
-                    {/* <span className="color-name">{color.nombre}</span> = Mostrar color de texto debajo */}
                   </button>
                 ))}
               </div>
@@ -84,7 +86,6 @@ function TelasPage() {
         ))}
       </div>
     </div>
-    </>
   );
 }
 

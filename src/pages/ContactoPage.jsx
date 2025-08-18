@@ -1,7 +1,6 @@
 // src/pages/ContactoPage.jsx
-import React, { useState, useEffect }  from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useForm, ValidationError } from '@formspree/react'; // 1. Importa los hooks de Formspree
+import React, { useState, useEffect } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -9,18 +8,32 @@ import { Link } from 'react-router-dom';
 function ContactoPage() {
 
   const [state, handleSubmit] = useForm("mrbqwelb");
-
   const [nombre, setNombre] = useState('');
 
   useEffect(() => {
+    // Lógica condicional para el Título
     if (state.succeeded) {
       document.title = 'Mensaje Enviado - Tapicería Ivar';
     } else {
       document.title = 'Contacto - Tapicería Ivar';
     }
+
+    // Lógica para la Meta Descripción (se ejecuta en ambos casos)
+    const newDescription = 'Contáctanos para consultas, cotizaciones o para visitar nuestro taller. En Tapicería Ivar estamos listos para ayudarte a crear el mueble de tus sueños.';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    metaDescription.setAttribute('content', newDescription);
+
   }, [state.succeeded]);
 
-  // 3. Si el formulario se envió con éxito, muestra un mensaje.
+  // Si el formulario se envió con éxito, muestra este mensaje.
   if (state.succeeded) {
       return (
         <div className="contact-page-v2-container standard-page-padding">
@@ -30,7 +43,6 @@ function ContactoPage() {
               Gracias por tu consulta, {nombre}. Nos pondremos en contacto contigo a la brevedad.
             </p>
           </section>
-          {/* Podrías añadir un botón para volver al inicio o al catálogo si quieres */}
           <div style={{textAlign: 'center', marginTop: '30px'}}>
             <Link to="/" className="cta-button-secondary-v2">Volver al Inicio</Link>
           </div>
@@ -38,13 +50,8 @@ function ContactoPage() {
       );
   }
 
-  // 4. El resto es tu JSX actual, pero el <form> ahora usa el handleSubmit de useForm
-  // y añadí los componentes ValidationError.
+  // Vista principal del formulario de contacto
   return (
-    <>
-      <Helmet>
-        <meta name="description" content="Contáctanos para consultas, presupuestos o para coordinar una visita a nuestro taller en Montevideo. ¡Hablemos sobre tu próximo living!" />
-      </Helmet>
     <div className="contact-page-v2-container standard-page-padding">
       <section className="contact-hero">
         <h1 className="contact-page-title">Hablemos sobre tu próximo living</h1>
@@ -68,7 +75,7 @@ function ContactoPage() {
               <FontAwesomeIcon icon={faEnvelope} className="contact-info-icon" />
               <div>
                 <h3>Correo Electrónico</h3>
-                <p><a href="mailto:ivartapiceria@gmail.com">ivartapiceria@gmail.com</a></p> {/* Corregido de tu ejemplo anterior */}
+                <p><a href="mailto:ivartapiceria@gmail.com">ivartapiceria@gmail.com</a></p>
               </div>
             </div>
 
@@ -83,7 +90,7 @@ function ContactoPage() {
             <div className="contact-map-embed">
               <iframe
                 title="Ubicacion Tapiceria Ivar"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d871.842883771632!2d-56.15232876909167!3d-34.83927796503274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a02b7a58a0a435%3A0xca907635ffbe9c1!2sTapicer%C3%ADa%20IVAR!5e0!3m2!1ses-419!2suy!4v1755351105327!5m2!1ses-419!2suy"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.659972740942!2d-56.128525!3d-34.839886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f8763b0213d29%3A0x6a5f973752e535e6!2sChapicuy%203868%2C%2012300%20Montevideo%2C%20Departamento%20de%20Montevideo!5e0!3m2!1ses-419!2suy!4v1620302300000!5m2!1ses-419!2suy" 
                 width="100%"
                 height="300"
                 style={{ border: 0, borderRadius: '8px' }}
@@ -97,7 +104,6 @@ function ContactoPage() {
           <div className="contact-form-column">
             <h2>Envíanos tu consulta directamente</h2>
             <p>Completa el formulario y te responderemos a la brevedad. Los campos marcados con <span className="required-asterisk">*</span> son obligatorios.</p>
-            {/* El onSubmit ahora usa el handleSubmit de Formspree */}
             <form onSubmit={handleSubmit} className="contact-form-v2">
               <div className="form-group">
                 <label htmlFor="nombre">Nombre y apellido <span className="required-asterisk">*</span></label>
@@ -129,12 +135,10 @@ function ContactoPage() {
                 <ValidationError prefix="Mensaje" field="mensaje" errors={state.errors} className="form-validation-error" />
               </div>
 
-              {/* El botón ahora se deshabilita mientras se envía */}
               <button type="submit" className="contact-submit-button-v2" disabled={state.submitting}>
                 {state.submitting ? 'Enviando...' : 'Enviar Mensaje'}
               </button>
               
-              {/* Mostrar errores generales del formulario si los hay (que no sean de un campo específico) */}
               {state.errors && state.errors.getFormErrors().length > 0 && (
                 <div className="form-validation-error general-form-error">
                   {state.errors.getFormErrors().map(error => (
@@ -144,10 +148,9 @@ function ContactoPage() {
               )}
             </form>
           </div>
-        </div>
+        </div> {/* <--- Este era el </div> que probablemente causaba el error */}
       </section>
     </div>
-    </>
   );
 }
 

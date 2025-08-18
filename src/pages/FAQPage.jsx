@@ -1,7 +1,6 @@
 // src/pages/FAQPage.jsx
 import AccordionItem from '../components/AccordionItem.jsx';
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 const faqData = [
   {
@@ -33,9 +32,28 @@ const faqData = [
 
 function FAQPage() {
 
-  useEffect (() => {
-    document.title = 'Preguntas Frecuentes - Tapicería Ivar';
+  useEffect(() => {
+    // 1. Manejar el Título
+    const newTitle = 'Preguntas Frecuentes - Tapicería Ivar.';
+    document.title = newTitle;
+
+    // 2. Manejar la Meta Descripción
+    const newDescription = 'Encuentra respuestas a las preguntas más comunes sobre nuestros sofás: envíos a todo Uruguay, personalización de telas, tiempos de entrega, garantía y más.';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+
+    if (!metaDescription) {
+      // Si la etiqueta no existe, la crea y la añade al head
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Actualiza el contenido de la etiqueta existente o recién creada
+    metaDescription.setAttribute('content', newDescription);
+
   }, []);
+  
   // Estado para controlar qué ítem del acordeón está abierto.
   // null significa que ninguno está abierto. Un número (índice) significa que ese está abierto.
   // Si quiero permitir múltiples abiertos, este estado debería ser un array de índices.
@@ -50,10 +68,6 @@ function FAQPage() {
   return (
     // Aplicamos la clase para el padding superior
     <section className="faq-section standard-page-padding"> 
-      <Helmet>
-        <meta name="description" content="Encuentra respuestas a las preguntas más comunes sobre nuestros sofás: envíos a todo Uruguay, personalización de telas, tiempos de entrega, garantía y más." />
-      </Helmet>
-
       <h1 className="section-title">Preguntas Frecuentes</h1>
       <div className="faq-container">
         {faqData.map((faqItem, index) => (

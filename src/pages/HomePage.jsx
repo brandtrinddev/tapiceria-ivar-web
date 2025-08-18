@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
 import productData from '../data/productos.json';
@@ -22,18 +21,32 @@ const iconMap = {
 };
 
 function HomePage() {
-    useEffect(() => {
-    document.title = 'Tapicería Ivar - Muebles de diseño y calidad en Uruguay';
+  useEffect(() => {
+    // 1. Manejar el Título
+    const newTitle = 'Tapicería Ivar - Muebles de diseño y calidad en Uruguay';
+    document.title = newTitle;
+
+    // 2. Manejar la Meta Descripción
+    const newDescription = 'Descubre sofás y sillones únicos, fabricados artesanalmente en Uruguay. Calidad insuperable, diseño 100% personalizado y atención directa.';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+
+    if (!metaDescription) {
+      // Si la etiqueta no existe, la crea y la añade al head
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Actualiza el contenido de la etiqueta existente o recién creada
+    metaDescription.setAttribute('content', newDescription);
+
   }, []);
 
   const featuredProducts = productData.filter(producto => producto.esDestacado === true);
 
   return (
     <div className="homepage-container">
-      <Helmet>
-        <meta name="description" content="Descubre sofás y sillones únicos, fabricados artesanalmente en Uruguay. Calidad insuperable, diseño 100% personalizado y atención directa." />
-      </Helmet>
-
       {/* Sección Hero Renovada */}
       <section className="hero-section-v2">
         <div className="hero-overlay"></div>
