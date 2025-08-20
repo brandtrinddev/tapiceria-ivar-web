@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // 1. Importa Link
+import { Link } from 'react-router-dom';
 import { formatPriceUYU } from '../utils/formatters';
 
 function ProductCard({ product }) {
@@ -7,20 +7,23 @@ function ProductCard({ product }) {
     return null;
   }
 
-  const formattedPrice = formatPriceUYU(product.precioBase);
+  // CAMBIO: Usamos 'precio_base' en lugar de 'precioBase'
+  const formattedPrice = formatPriceUYU(product.precio_base);
 
   const imageStyle = {
-    // Si el producto tiene una posición definida en el JSON, la usamos. Si no, se usa el default del CSS.
-    objectPosition: product.posicionImagen || 'center',
+    // CAMBIO: Leemos 'posicion_imagen' desde el objeto 'detalles'
+    // Usamos 'optional chaining' (?.) por si algún producto no tuviera este dato
+    objectPosition: product.detalles?.posicion_imagen || 'center',
   };
 
   return (
-    // 2. Envuelve toda la tarjeta con Link. La prop 'to' usa el 'id' del producto.
+    // INFO: El enlace ya usa product.id (el nuevo UUID), lo cual es perfecto. No lo cambiamos.
     <Link to={`/producto/${product.id}`} className="product-card-link"> 
       <div className="product-card">
         <div className="product-card-image-container">
           <img
-            src={product.imagenPrincipal}
+            // CAMBIO: Usamos 'imagen_url' en lugar de 'imagenPrincipal'
+            src={product.imagen_url}
             alt={product.nombre}
             className="product-card-image"
             style={imageStyle}
@@ -29,19 +32,19 @@ function ProductCard({ product }) {
         </div>
         <div className="product-card-content">
           <h3 className="product-card-name">{product.nombre}</h3>
-          <p className="product-card-description">{product.descripcionCorta}</p>
+          {/* CAMBIO: Usamos 'descripcion' en lugar de 'descripcionCorta' */}
+          <p className="product-card-description">{product.descripcion}</p>
           <p className="product-card-price">{formattedPrice}
-              {product.mostrarUnidad && <span className="price-unit">c/u</span>}
+            {/* CAMBIO: Leemos 'mostrarUnidad' desde 'detalles' */}
+            {product.detalles?.mostrarUnidad && <span className="price-unit">c/u</span>}
           </p>
-
-          {
-            product.promo && (
-              <p className="product-card-promo-price">
-                ✨ Lleva {product.promo.cantidad} por ${product.promo.precio.toLocaleString('es-UY')}
-              </p>
-            )}
-          {/* Podrías añadir un botón visual si prefieres, aunque toda la tarjeta sea clickeable */}
-          {/* <span className="product-card-button">Ver Detalles</span> */}
+          
+          {/* CAMBIO: Leemos 'promo' desde el objeto 'detalles' */}
+          {product.detalles?.promo && (
+            <p className="product-card-promo-price">
+              ✨ Lleva {product.detalles.promo.cantidad} por ${product.detalles.promo.precio.toLocaleString('es-UY')}
+            </p>
+          )}
         </div>
       </div>
     </Link>

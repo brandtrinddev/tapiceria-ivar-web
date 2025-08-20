@@ -1,0 +1,64 @@
+/* src/components/CartWidget.css */
+
+/* Contenedor principal del widget en el Header */
+.cart-widget-container {
+  /* Separación respecto a los otros links de navegación */
+  margin-left: 20px; 
+}
+
+/* El link que envuelve al ícono y la burbuja */
+.cart-widget {
+  position: relative; /* Clave para posicionar la burbuja */
+  display: flex;
+  align-items: center;
+  color: var(--color-primario); /* Color del ícono */
+  text-decoration: none;
+  padding: 8px; /* Pequeño espacio para que sea más fácil hacer clic */
+}
+
+.cart-icon {
+  stroke: var(--color-primario); /* Usamos stroke para íconos de tipo "outline" */
+  transition: stroke 0.2s ease;
+}
+
+.cart-widget:hover .cart-icon {
+  stroke: var(--color-acento); /* Cambia de color al pasar el mouse */
+}
+
+/* La "burbuja" o "badge" con el número */
+.cart-badge {
+  position: absolute;
+  top: -2px;   /* Ajusta la posición vertical */
+  right: -5px;  /* Ajusta la posición horizontal */
+  
+  background-color: var(--color-acento);
+  color: var(--color-blanco);
+  
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Círculo perfecto */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  font-size: 0.7rem;
+  font-weight: bold;
+  font-family: var(--fuente-cuerpo);
+  
+  /* Evita que el usuario seleccione el número */
+  user-select: none; 
+}
+
+/* Adaptación para el menú móvil */
+@media (max-width: 768px) {
+  .cart-widget-container {
+    margin-left: 0;
+    width: 100%; /* Ocupa todo el ancho como los otros links */
+  }
+  .cart-widget {
+    padding: 10px 5px; /* Mismo padding que los otros links del menú */
+    width: 100%;
+    justify-content: center; /* Centra el ícono en el menú móvil */
+  }
+}

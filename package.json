@@ -15,6 +15,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mercadopago/sdk-react": "^1.0.4",
+    "@supabase/supabase-js": "^2.55.0",
     "@use-gesture/react": "^10.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -29,6 +31,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "supabase": "^2.34.3",
     "vite": "^6.3.5",
     "vite-plugin-sitemap": "^0.8.2"
   }
