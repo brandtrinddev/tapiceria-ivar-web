@@ -153,7 +153,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="section-container" style={{ paddingTop: '100px', paddingBottom: '50px' }}>
-      <h1 className="section-title">Finalizar Compra</h1>
+      <h1 className="section-title">Finalizar compra</h1>
       
       {!preferenceId && (
         <form onSubmit={handleSubmit} className="checkout-layout">
@@ -163,11 +163,11 @@ const CheckoutPage = () => {
               <div className="payment-options">
                 <div className={`payment-option ${paymentMethod === 'mercadopago' ? 'selected' : ''}`} onClick={() => setPaymentMethod('mercadopago')}>
                   <input type="radio" id="mercadopago" name="paymentMethod" value="mercadopago" checked={paymentMethod === 'mercadopago'} onChange={() => {}} />
-                  <label htmlFor="mercadopago">Mercado Pago (Tarjetas de crédito/débito, redes de cobranza)</label>
+                  <label htmlFor="mercadopago">Mercado Pago (tarjetas de crédito/débito, redes de cobranza)</label>
                 </div>
                 <div className={`payment-option ${paymentMethod === 'transferencia' ? 'selected' : ''}`} onClick={() => setPaymentMethod('transferencia')}>
                   <input type="radio" id="transferencia" name="paymentMethod" value="transferencia" checked={paymentMethod === 'transferencia'} onChange={() => {}} />
-                  <label htmlFor="transferencia">Transferencia Bancaria Directa</label>
+                  <label htmlFor="transferencia">Transferencia bancaria</label>
                 </div>
               </div>
               {paymentMethod === 'transferencia' && availableBanks.length > 0 && (
@@ -202,11 +202,11 @@ const CheckoutPage = () => {
               <div className="shipping-options">
                 <div className={`shipping-option ${shippingMethod === 'retiro' ? 'selected' : ''}`} onClick={() => setShippingMethod('retiro')}>
                   <input type="radio" id="retiro" name="shippingMethod" value="retiro" checked={shippingMethod === 'retiro'} readOnly />
-                  <label htmlFor="retiro">Retirar en taller (Sin costo)</label>
+                  <label htmlFor="retiro">Retirar en taller (sin costo)</label>
                 </div>
                 <div className={`shipping-option ${shippingMethod === 'envio' ? 'selected' : ''}`} onClick={() => setShippingMethod('envio')}>
                   <input type="radio" id="envio" name="shippingMethod" value="envio" checked={shippingMethod === 'envio'} readOnly />
-                  <label htmlFor="envio">Envío a Domicilio</label>
+                  <label htmlFor="envio">Envío a domicilio</label>
                 </div>
               </div>
             </div>
@@ -248,7 +248,7 @@ const CheckoutPage = () => {
           </div>
 
           <div className="order-summary-container">
-            <h2>Resumen del Pedido</h2>
+            <h2>Resumen del pedido</h2>
             <div className="summary-items-list">
               {cart.map(item => (<div key={item.productId} className="summary-item"><span className="summary-item-name">{item.productName} (x{item.quantity})</span><span className="summary-item-price">{formatPriceUYU(item.totalPrice)}</span></div>))}
             </div>
@@ -258,7 +258,7 @@ const CheckoutPage = () => {
             </div>
             <div className="summary-total"><span>Total</span><span>{formatPriceUYU(finalTotal)}</span></div>
             <button type="submit" className="cta-button checkout-button" disabled={isSubmitting}>
-              {isSubmitting ? 'Procesando...' : 'Realizar Pedido'}
+              {isSubmitting ? 'Procesando...' : 'Realizar pedido'}
             </button>
           </div>
         </form>

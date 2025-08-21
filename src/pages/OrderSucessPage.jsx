@@ -57,7 +57,7 @@ const OrderSuccessPage = () => {
           <h1 className="order-success-title">¡Pedido reservado con éxito!</h1>
           
           <div className="order-success-total">
-            <span>Total a Transferir:</span>
+            <span>Total a transferir:</span>
             <span>{formatPriceUYU(order.total_pedido)}</span>
           </div>
 
@@ -87,7 +87,7 @@ const OrderSuccessPage = () => {
         <p className="order-success-message">Hemos recibido tu pedido y ya estamos trabajando en él.</p>
         <p className="order-id-message">Tu número de pedido es: <strong>#{order.numero_pedido}</strong></p>
         <p className="next-steps-message">Nos pondremos en contacto contigo a la brevedad.</p>
-        <Link to="/catalogo" className="cta-button" style={{ marginTop: '20px' }}>
+        <Link to="/catalogo" className="cta-button">
           Seguir comprando
         </Link>
       </div>

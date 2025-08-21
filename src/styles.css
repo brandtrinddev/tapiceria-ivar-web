@@ -62,6 +62,32 @@ main.page-content-container, .page-content-container {
   animation: fadeIn 0.5s ease-in-out;
 }
 
+.cta-button {
+  display: inline-block; /* Asegura que se comporte como un bloque pero en línea */
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radio-borde-suave);
+  
+  background-color: var(--color-acento); /* Color de acento (dorado/mostaza) */
+  color: var(--color-primario); /* Texto azul oscuro para buen contraste */
+  
+  font-family: var(--fuente-titulos);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  
+  transition: var(--transicion-rapida);
+  box-shadow: var(--sombra-sutil);
+}
+
+.cta-button:hover {
+  background-color: var(--color-acento-hover); /* Un dorado más oscuro al pasar el mouse */
+  transform: translateY(-2px); /* Un sutil efecto de elevación */
+  box-shadow: var(--sombra-estandar);
+}
+
 /* .page-content-container { flex-grow: 1; } */
 
 .section-container {
@@ -1668,6 +1694,12 @@ footer.site-footer {
   border: 1px solid var(--color-borde);
   border-radius: var(--radio-borde-suave);
   box-shadow: var(--sombra-sutil);
+  align-items: flex-start;
+}
+
+.cart-item-info {
+  display: flex;
+  flex: 1;
 }
 
 .cart-item-image {
@@ -1698,7 +1730,11 @@ footer.site-footer {
 }
 
 .cart-item-actions {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea todo a la derecha */
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .cart-item-subtotal {
@@ -1999,6 +2035,11 @@ footer.site-footer {
   max-width: 600px;
   margin: 0 auto;
 }
+
+.order-success-box .cta-button {
+  margin-top: 30px; /* Aumentamos el espaciado superior */
+}
+
 .order-success-title {
   font-family: var(--fuente-titulos);
   font-size: 2rem;
@@ -2012,13 +2053,18 @@ footer.site-footer {
   font-size: 1.1rem;
 }
 .order-id-message strong {
-  color: var(--color-texto-principal);
+  color: var(--color-primario);
   font-family: monospace;
-  font-size: 0.9em;
+  font-size: 1.1em; /* Un poco más grande para que sea más legible */
   background-color: var(--color-secundario);
-  padding: 3px 6px;
-  border-radius: 4px;
+  padding: 2px 5px; /* Más espaciado interno */
+  border-radius: var(--radio-borde-suave); /* Usamos la variable para consistencia */
+  border: 2px solid var(--color-acento); /* Borde de acento para máximo énfasis */
+  
+  /* Un pequeño truco para que el borde no se coma el fondo */
+  background-clip: padding-box; 
 }
+
 .success-icon { width: 80px; height: 80px; display: block; margin: 0 auto; }
 .success-icon-circle { stroke-width: 2; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
 .success-icon-checkmark { stroke-width: 2; stroke-linecap: round; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
@@ -2028,6 +2074,52 @@ footer.site-footer {
 
 .cart-summary .checkout-button {
   color: var(--color-blanco) !important;
+}
+
+/* Estilo para el bloque del total a transferir */
+.order-success-total {
+  margin: 25px 0;
+  padding: 20px 25px; /* Un poco más de padding horizontal */
+  background-color: var(--color-secundario);
+  border-radius: var(--radio-borde-suave);
+  
+  /* Los bordes de acento que le dan el toque visual */
+  border-top: 3px solid var(--color-acento);
+  border-bottom: 3px solid var(--color-acento);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-primario);
+}
+
+.order-success-total span:last-child {
+  font-family: var(--fuente-titulos);
+  font-size: 1.6rem;
+}
+
+/* Estilo para la caja de instrucciones de la transferencia */
+.order-instructions-box {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+
+.order-instructions-box pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  font-family: var(--fuente-cuerpo); /* Usamos la fuente del cuerpo, más legible */
+  font-size: 1rem;
+  line-height: 1.7; /* Mejoramos el espaciado entre líneas */
+  color: var(--color-texto-principal);
 }
 
 /* 15. Media Queries Generales (Consolidadas y V2)
@@ -2161,6 +2253,73 @@ nav.navbar.scrolled .logo {
   .pagination-button { padding: 8px 10px; font-size: 0.85rem; min-width: 35px; }
 /*  .pagination-button.page-number { */ /* Ocultar algunos números de página en móvil si son muchos  } */
   .pagination-ellipsis { font-size: 0.85rem; padding: 8px 3px;}
+
+  /* Carrito MEDIA QUERIES */
+
+  .cart-layout {
+    grid-template-columns: 1fr; /* Apila las columnas en móvil */
+  }
+
+  .cart-item {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .cart-item-image {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+  }
+
+  .cart-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* --- LA CLAVE ESTÁ AQUÍ --- */
+  .cart-item-details {
+    display: flex;         /* 1. Convertimos los detalles en un contenedor flexible */
+    flex-direction: column;  /* 2. Le decimos que apile sus hijos verticalmente */
+  }
+
+  /* 3. Asignamos un orden explícito a cada elemento hijo */
+  .cart-item-name { order: 1; font-size: 1.1rem; }
+  .cart-item-fabric { order: 2; }
+  .cart-item-price { order: 3; } /* <-- El precio unitario va en 3er lugar */
+  .cart-item-quantity-selector { order: 4; margin-top: 10px; } /* <-- El selector va en 4to lugar */
+  /* --- FIN DE LA CLAVE --- */
+
+
+  .cart-item-actions {
+    display: flex;
+    flex-direction: row; /* En móvil, los ponemos en fila */
+    flex-wrap: wrap; /* Permitimos que pasen a la siguiente línea si no caben */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .cart-item-actions .cart-item-quantity-selector {
+    order: 3; /* Lo mandamos al final */
+    flex-basis: 100%; /* Hacemos que ocupe su propia línea */
+    justify-content: flex-start;
+    margin-top: 15px;
+  }
+
+  .cart-item-subtotal {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cart-item-remove-button {
+    padding: 5px 0 5px 10px;
+  }
 }
 
 @media (max-width: 480px) {
