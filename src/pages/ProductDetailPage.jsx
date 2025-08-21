@@ -30,7 +30,7 @@ function ProductDetailPage() {
     const fetchProduct = async () => {
       setLoading(true);
       setProduct(null);
-      setActiveTab('personalizacion'); // Resetea la pestaña al cambiar de producto
+      setActiveTab('personalizacion');
       const { data, error } = await supabase.from('productos').select('*').eq('id', productId).single();
       if (error) { console.error("Error buscando el producto:", error); } else {
         setProduct(data);
@@ -122,10 +122,23 @@ function ProductDetailPage() {
   const formattedPrice = formatPriceUYU(precioFinalCalculado);
   const handleThumbnailClick = (imageUrl) => setSelectedImage(imageUrl);
 
+  // Lógica para el Acordeón en móvil
+  const handleTabClick = (tabName) => {
+    // En móvil, si se presiona la pestaña activa, se cierra (comportamiento de acordeón)
+    if (window.innerWidth <= 768) {
+      setActiveTab(activeTab === tabName ? null : tabName);
+    } else {
+      // En escritorio, siempre se mantiene una activa
+      setActiveTab(tabName);
+    }
+  };
+
+
   return (
     <div className="product-detail-container">
       <div className="product-detail-layout">
         <div className="product-detail-images">
+          {/* ...código de galería de imágenes sin cambios... */}
           <div className="main-image-wrapper">
             <div {...bind()} style={{ touchAction: 'pan-y', cursor: 'grab', width: '100%', height: '100%' }}> 
               <img src={selectedImage} alt={product.nombre} className="product-detail-main-image" />
@@ -156,24 +169,42 @@ function ProductDetailPage() {
             </p>
           )}
 
-          <div className="tabs-container">
+          {/* --- INICIA ESTRUCTURA JSX DEFINITIVA DE PESTAÑAS/ACORDEÓN --- */}
+          <div className="product-tabs-container">
+            
+            {/* 1. La lista de botones siempre visible */}
             <div className="tab-list">
-              <button type="button" className={`tab-button ${activeTab === 'personalizacion' ? 'active' : ''}`} onClick={() => setActiveTab('personalizacion')}>
+              <button 
+                type="button" 
+                className={`tab-button ${activeTab === 'personalizacion' ? 'active' : ''}`} 
+                onClick={() => handleTabClick('personalizacion')}
+              >
                 Personalización
               </button>
-              <button type="button" className={`tab-button ${activeTab === 'detalles' ? 'active' : ''}`} onClick={() => setActiveTab('detalles')}>
+              <button 
+                type="button" 
+                className={`tab-button ${activeTab === 'detalles' ? 'active' : ''}`} 
+                onClick={() => handleTabClick('detalles')}
+              >
                 Detalles
               </button>
-              <button type="button" className={`tab-button ${activeTab === 'envio' ? 'active' : ''}`} onClick={() => setActiveTab('envio')}>
+              <button 
+                type="button" 
+                className={`tab-button ${activeTab === 'envio' ? 'active' : ''}`} 
+                onClick={() => handleTabClick('envio')}
+              >
                 Envío y Garantía
               </button>
             </div>
 
-            <div className="tab-content">
-              {activeTab === 'personalizacion' && (
-                <div className="tab-panel">
+            {/* 2. El contenido de cada panel */}
+            <div className="tab-content-wrapper">
+
+              {/* Panel de Personalización */}
+              <div className={`tab-panel ${activeTab === 'personalizacion' ? 'open' : ''}`}>
+                <div className="tab-panel-content">
                   <div className="product-info-section">
-                    <h2>Elige la Tela</h2>
+                    <h2>Selecciona la tela y el color</h2>
                     <div className="fabric-selector">
                       {tiposDeTela.map(tipo => (
                         <div key={tipo} className="fabric-accordion-item">
@@ -203,56 +234,48 @@ function ProductDetailPage() {
                       </p>
                     </div>
                   )}
-                  <div className="product-detail-actions">
-                    <div className="quantity-selector">
-                      <button type="button" onClick={() => handleQuantityChange(-1)} className="quantity-btn">-</button>
-                      <input type="number" value={quantity} readOnly className="quantity-input" />
-                      <button type="button" onClick={() => handleQuantityChange(1)} className="quantity-btn">+</button>
-                    </div>
-                    <button type="button" onClick={handleAddToCart} className="add-to-cart-button">
-                      Añadir al Carrito
-                    </button>
-                  </div>
                 </div>
-              )}
+              </div>
 
-              {activeTab === 'detalles' && (
-                <div className="tab-panel">
+              {/* Panel de Detalles */}
+              <div className={`tab-panel ${activeTab === 'detalles' ? 'open' : ''}`}>
+                <div className="tab-panel-content">
                   {product.detalles?.medidas && Object.keys(product.detalles.medidas).length > 0 && (
-                    <div className="product-info-section product-detail-dimensions">
-                      <h2>Medidas</h2>
-                      {Object.keys(product.detalles.medidas).length === 1 ? (
-                        <div className="dimension-block">
-                          <ul>{Object.entries(Object.values(product.detalles.medidas)[0]).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
-                        </div>
-                      ) : (
-                        <div className="dimensions-grid">
-                          {Object.entries(product.detalles.medidas).map(([componenteKey, medidasComponente]) => {
-                            const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
-                            return (
-                              <div key={componenteKey} className="dimension-block">
-                                <h3 className="dimension-component-title">{displayName}</h3>
-                                <ul>{Object.entries(medidasComponente).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
+                      <div className="product-info-section product-detail-dimensions">
+                          <h2>Medidas</h2>
+                          {Object.keys(product.detalles.medidas).length === 1 ? (
+                              <div className="dimension-block">
+                                  <ul>{Object.entries(Object.values(product.detalles.medidas)[0]).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
                               </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
+                          ) : (
+                              <div className="dimensions-grid">
+                                  {Object.entries(product.detalles.medidas).map(([componenteKey, medidasComponente]) => {
+                                      const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
+                                      return (
+                                          <div key={componenteKey} className="dimension-block">
+                                              <h3 className="dimension-component-title">{displayName}</h3>
+                                              <ul>{Object.entries(medidasComponente).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
+                                          </div>
+                                      );
+                                  })}
+                              </div>
+                          )}
+                      </div>
                   )}
-                   <div className="product-info-section">
+                  <div className="product-info-section">
                     <h2>Descripción</h2>
                     <p>{product.detalles?.descripcion_larga?.sabor}</p>
                   </div>
-                   <div className="product-info-section">
+                  <div className="product-info-section">
                     <h2>Calidad y Fabricación</h2>
                     <p>{product.detalles?.descripcion_larga?.base}</p>
                   </div>
                 </div>
-              )}
-
-              {activeTab === 'envio' && (
-                <div className="tab-panel">
+              </div>
+              
+              {/* Panel de Envío y Garantía */}
+              <div className={`tab-panel ${activeTab === 'envio' ? 'open' : ''}`}>
+                <div className="tab-panel-content">
                   <div className="product-info-section">
                     <h2>Envíos y Retiros</h2>
                     <p>Texto de marcador de posición sobre envíos y retiros. Aquí explicaremos las políticas, costos para Montevideo, coordinación para el interior, y la opción de retiro en el taller.</p>
@@ -262,9 +285,24 @@ function ProductDetailPage() {
                     <p>Texto de marcador de posición para la garantía. Detallaremos la cobertura, duración y el proceso para hacerla efectiva.</p>
                   </div>
                 </div>
-              )}
+              </div>
+
             </div>
           </div>
+          {/* --- FIN DE ESTRUCTURA JSX --- */}
+
+          {/* Bloque de Acciones (siempre visible) */}
+          <div className="product-detail-actions">
+            <div className="quantity-selector">
+              <button type="button" onClick={() => handleQuantityChange(-1)} className="quantity-btn">-</button>
+              <input type="number" value={quantity} readOnly className="quantity-input" />
+              <button type="button" onClick={() => handleQuantityChange(1)} className="quantity-btn">+</button>
+            </div>
+            <button type="button" onClick={handleAddToCart} className="add-to-cart-button">
+              Añadir al Carrito
+            </button>
+          </div>
+          
         </div>
       </div>
       
