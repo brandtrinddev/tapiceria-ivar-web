@@ -672,10 +672,39 @@ footer.site-footer {
 .fabric-accordion-content.open { max-height: 500px; padding: 15px 20px; }
 .fabric-colors p { margin-top: 0; margin-bottom: 1rem; font-weight: 500; color: var(--color-texto-principal); }
 .color-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 1rem; }
-.color-swatch { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--color-borde); padding: 0; background-color: transparent; cursor: pointer; transition: all 0.2s ease-in-out; overflow: hidden; }
-.color-swatch:hover { border-color: var(--color-acento); transform: scale(1.05); }
-.color-swatch.active { border-color: var(--color-primario); transform: scale(1.1); box-shadow: 0 0 8px rgba(3, 47, 85, 0.3); }
-.color-swatch img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.color-swatch {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid var(--color-borde);
+  padding: 0; /* Sin padding para eliminar el anillo blanco */
+  background-color: transparent;
+  cursor: pointer;
+  transition: var(--transicion-rapida);
+  overflow: hidden;
+  display: inline-block; /* Asegura un comportamiento consistente */
+}
+.color-swatch:hover {
+  border-color: var(--color-acento);
+  transform: scale(1.1);
+}
+.color-swatch.active {
+  border-color: var(--color-primario);
+  border-width: 2px;
+  transform: scale(1.1);
+  box-shadow: var(--sombra-estandar);
+}
+.color-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+
+  /* La clave para la nitidez que faltaba en este bloque */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
 
 /* Bloque de Medidas */
 .product-detail-dimensions .dimensions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
@@ -1543,40 +1572,6 @@ footer.site-footer {
   cursor: help; /* Para indicar que el title tiene info */
 }
 
-.color-swatch {
-  width: 50px; /* Aumentamos el tamaño */
-  height: 50px; /* Aumentamos el tamaño */
-  border-radius: 50%;
-  border: 2px solid var(--color-borde);
-  padding: 2px; /* Añadimos un pequeño padding para que el borde no corte la imagen */
-  background-color: var(--color-blanco); /* Fondo blanco para el padding */
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  overflow: hidden;
-}
-
-.color-swatch:hover {
-  border-color: var(--color-acento);
-  transform: scale(1.05);
-}
-
-.color-swatch.active {
-  border-color: var(--color-primario);
-  transform: scale(1.1);
-  box-shadow: 0 0 8px rgba(3, 47, 85, 0.3);
-}
-
-.color-swatch img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  /* Instrucción para priorizar la nitidez en el escalado */
-  image-rendering: -webkit-optimize-contrast; /* Para navegadores antiguos */
-  image-rendering: crisp-edges;
-}
-
 .texture-swatch { /* Si la muestra es una imagen de textura */
   object-fit: cover; /* Para que la textura llene el círculo */
 }
@@ -1619,10 +1614,7 @@ footer.site-footer {
   .tela-nombre {
     font-size: 1.5rem;
   }
-  .color-swatch {
-    width: 30px;
-    height: 30px;
-  }
+  /* La regla para .color-swatch ya la eliminaste, lo cual es correcto */
 }
 
 /* --- Estilos para el color seleccionado (Añadir al final del CSS) --- */
@@ -2253,6 +2245,17 @@ nav.navbar.scrolled .logo {
   .pagination-button { padding: 8px 10px; font-size: 0.85rem; min-width: 35px; }
 /*  .pagination-button.page-number { */ /* Ocultar algunos números de página en móvil si son muchos  } */
   .pagination-ellipsis { font-size: 0.85rem; padding: 8px 3px;}
+
+  /* Estilos unificados para los swatches de tela en móvil */
+.color-swatch-grid {
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+    gap: 0.8rem;
+}
+
+.color-swatch {
+  width: 40px;
+  height: 40px;
+}
 
   /* Carrito MEDIA QUERIES */
 
