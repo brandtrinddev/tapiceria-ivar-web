@@ -644,7 +644,7 @@ footer.site-footer {
 /* Selector de Telas Acordeón */
 .fabric-selector { margin-top: 1rem; }
 .fabric-accordion-item { border-top: 1px solid var(--color-borde); }
-.fabric-accordion-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 15px 10px; background-color: transparent; border: none; cursor: pointer; text-align: left; font-family: var(--fuente-titulos); font-size: 1.1rem; font-weight: 600; color: var(--color-primario); transition: background-color 0.2s ease; }
+.fabric-accordion-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 15px 10px; background-color: transparent; border: none; cursor: pointer; text-align: left; font-family: var(--fuente-titulos); font-size: 1rem; font-weight: 600; color: var(--color-primario); transition: background-color 0.2s ease; text-transform: uppercase; letter-spacing: 1px; }
 .fabric-accordion-header:hover { background-color: var(--color-secundario); }
 .fabric-accordion-header::after { content: '+'; font-size: 1.5rem; font-weight: 300; color: var(--color-primario); transition: transform 0.3s ease; }
 .fabric-accordion-header.active::after { content: '−'; transform: rotate(180deg); }
