@@ -137,6 +137,7 @@ function ProductDetailPage() {
   if (!product) { return ( <div style={{ textAlign: 'center', padding: '50px' }}> <h1>Producto no encontrado</h1> <Link to="/catalogo" style={{ color: '#032f55', textDecoration: 'underline' }}>Volver al Catálogo</Link> </div> ); }
   
   const formattedPrice = formatPriceUYU(precioFinalCalculado);
+  const formattedBasePrice = formatPriceUYU(product.precio_base);
   const handleThumbnailClick = (imageUrl) => setSelectedImage(imageUrl);
 
   // Lógica para el Acordeón en móvil
@@ -176,7 +177,7 @@ function ProductDetailPage() {
         
         <div className="product-detail-info">
           <h1 className="product-detail-name">{product.nombre}</h1>
-          <p className="product-detail-price">{formattedPrice}</p>
+          <p className="product-detail-price">Desde {formattedBasePrice}</p>
           
           {product.detalles?.promo && (
             <p className="product-detail-promo-price">
@@ -308,18 +309,21 @@ function ProductDetailPage() {
 
           {/* Bloque de Acciones (siempre visible) */}
           <div className="product-detail-actions">
-            <div className="quantity-selector">
-              <button type="button" onClick={() => handleQuantityChange(-1)} className="quantity-btn">-</button>
-              <input type="number" value={quantity} readOnly className="quantity-input" />
-              <button type="button" onClick={() => handleQuantityChange(1)} className="quantity-btn">+</button>
+            <div className="actions-price">
+              <span className="actions-price-label">Total: </span>
+              <span className="actions-price-amount">{formattedPrice}</span>
             </div>
-            <button type="button" onClick={handleAddToCart} className="add-to-cart-button">
-              Añadir al Carrito
-            </button>
+              <div className="quantity-selector">
+                <button type="button" onClick={() => handleQuantityChange(-1)} className="quantity-btn">-</button>
+                <input type="number" value={quantity} readOnly className="quantity-input" />
+                <button type="button" onClick={() => handleQuantityChange(1)} className="quantity-btn">+</button>
+              </div>
+              <button type="button" onClick={handleAddToCart} className="add-to-cart-button">
+                Añadir al Carrito
+              </button>
+            </div>
           </div>
-          
         </div>
-      </div>
       
       {relatedProducts.length > 0 && (
         <div className="variants-section">

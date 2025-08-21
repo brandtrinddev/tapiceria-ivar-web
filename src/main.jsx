@@ -26,6 +26,7 @@ createRoot(document.getElementById('root')).render(
           draggable
           pauseOnHover
           theme="light"
+          zIndex={99999}
         />
 
       </CartProvider>

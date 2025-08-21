@@ -620,7 +620,7 @@ footer.site-footer {
 
 /* --- Elementos dentro de la Columna Derecha --- */
 .product-detail-name { font-family: 'Georgia', serif; font-size: 2.15rem; color: var(--color-primario); margin-bottom: 0; font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: 1.2px; }
-.product-detail-price { font-family: var(--fuente-titulos); font-size: 2rem; color: var(--color-texto-principal); font-weight: 600; margin-bottom: 10px; }
+.product-detail-price { font-family: var(--fuente-titulos); font-size: 1.6rem; color: var(--color-texto-secundario); font-weight: 600; margin-bottom: 10px; }
 .product-detail-promo-price { font-family: var(--fuente-titulos); background-color: var(--color-secundario); border: 1px dashed var(--color-acento); color: var(--color-primario); padding: 12px 18px; border-radius: var(--radio-borde-suave); font-size: 1.1rem; font-weight: 600; text-align: center; margin-top: -10px; margin-bottom: 25px; letter-spacing: 0.8px; text-transform: uppercase; }
 
 .product-detail-info .product-info-section {
@@ -772,6 +772,42 @@ footer.site-footer {
     background-color: var(--color-primario);
     color: var(--color-blanco);
   }
+
+  /* --- Estilo para el precio dentro del bloque de acciones --- */
+  .actions-price {
+    display: flex;
+    justify-content: space-between; /* Etiqueta a la izq, monto a la der */
+    align-items: baseline; /* Alinea por la base del texto */
+
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+  }
+
+  .actions-price-label {
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-texto-secundario);
+  }
+
+  .actions-price-amount {
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primario);
+  }
+
+  @media (min-width: 769px) {
+  .actions-price-label {
+    font-size: 1.3rem; /* Aumentamos el tamaño de la etiqueta */
+    font-weight: 600;  /* La hacemos un poco más gruesa */
+  }
+
+  .actions-price-amount {
+    font-size: 1.7rem; /* Reducimos sutilmente el monto */
+  }
+}
 
 /* Bloque de Medidas */
 .product-detail-dimensions .dimensions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
@@ -2206,6 +2242,16 @@ nav.navbar.scrolled .logo {
   .add-to-cart-button { padding: 16px 25px; font-size: 1rem; }
   .product-full-width-details, .variants-section { padding: 25px; }
   .variants-section-title { font-size: 1.8rem; }
+
+  /* Ajuste para que el precio no sea tan grande en móvil */
+
+  .actions-price {
+    font-size: 1.5rem;
+  }
+
+  .actions-price-amount {
+    font-size: 1.5rem;
+  }
 
   /* --- 2. TRANSFORMACIÓN A ACORDEÓN (MÓVIL) --- */
 
