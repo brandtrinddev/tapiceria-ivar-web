@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../supabaseClient.js'; 
 import { formatPriceUYU } from '../utils/formatters.js';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom'; // Se añade useNavigate
 import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
 import { useCart } from '../context/CartContext.jsx';
 import { calculateSubtotal } from '../utils/pricing.js';
+import { toast } from 'react-toastify'; // Se añade import para toast
 
 const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
 const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Altura', profundidadTotalChaise: 'Profundidad Total Chaise', profundidadChaise: 'Profundidad Chaise', profundidadTotal: 'Profundidad Total' };
@@ -15,6 +16,7 @@ const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Alt
 function ProductDetailPage() {
   const { addToCart } = useCart();
   const { productId } = useParams();
+  const navigate = useNavigate(); // Se añade el hook useNavigate
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!selectedTela) {
-      alert("Por favor, selecciona un tipo y color de tela.");
+      toast.error("Por favor, selecciona un tipo y color de tela.");
       return;
     }
     const itemToAdd = {
@@ -112,8 +114,23 @@ function ProductDetailPage() {
       imageUrl: product.imagen_url,
       detalles: product.detalles
     };
+    
     addToCart(itemToAdd);
-    alert('¡Producto añadido al carrito!');
+
+    const ToastMessage = () => (
+      <div>
+        <p style={{ margin: 0, padding: 0 }}>¡Producto añadido al carrito!</p>
+        <button 
+          type="button"
+          onClick={() => navigate('/carrito')}
+          className="toast-go-to-cart-btn"
+        >
+          Ir al carrito
+        </button>
+      </div>
+    );
+    
+    toast.success(<ToastMessage />);
   };
 
   if (loading) { return <div className="lazy-fallback">Cargando producto...</div>; }
@@ -124,11 +141,9 @@ function ProductDetailPage() {
 
   // Lógica para el Acordeón en móvil
   const handleTabClick = (tabName) => {
-    // En móvil, si se presiona la pestaña activa, se cierra (comportamiento de acordeón)
     if (window.innerWidth <= 768) {
       setActiveTab(activeTab === tabName ? null : tabName);
     } else {
-      // En escritorio, siempre se mantiene una activa
       setActiveTab(tabName);
     }
   };
@@ -204,7 +219,7 @@ function ProductDetailPage() {
               <div className={`tab-panel ${activeTab === 'personalizacion' ? 'open' : ''}`}>
                 <div className="tab-panel-content">
                   <div className="product-info-section">
-                    <h2>Selecciona la tela y el color</h2>
+                    <h2>Selecciona la tela</h2>
                     <div className="fabric-selector">
                       {tiposDeTela.map(tipo => (
                         <div key={tipo} className="fabric-accordion-item">

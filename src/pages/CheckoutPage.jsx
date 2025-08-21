@@ -6,6 +6,7 @@ import { formatPriceUYU } from '../utils/formatters';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import { toast } from 'react-toastify'; // <-- AÑADIDO: Importamos toast
 
 initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
   locale: 'es-UY'
@@ -37,7 +38,7 @@ const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('mercadopago');
   const [bankAccounts, setBankAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState('');
-  const [selectedBank, setSelectedBank] = useState(''); // <-- ESTA ES LA LÍNEA QUE FALTABA
+  const [selectedBank, setSelectedBank] = useState('');
   
   const [shippingMethod, setShippingMethod] = useState('retiro');
   const [shippingCost, setShippingCost] = useState(0);
@@ -99,13 +100,17 @@ const CheckoutPage = () => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
+  // --- FUNCIÓN handleSubmit TOTALMENTE MEJORADA CON TOAST ---
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (paymentMethod === 'transferencia' && !selectedAccount) {
-      alert("Por favor, selecciona una cuenta bancaria para la transferencia.");
+      toast.error("Por favor, selecciona una cuenta bancaria para la transferencia.");
       return;
     }
+    
     setIsSubmitting(true);
+    const toastId = toast.loading("Procesando tu pedido..."); // Mostramos toast de carga
 
     try {
       const fullFormData = {
@@ -125,28 +130,49 @@ const CheckoutPage = () => {
         total_pedido: finalTotal,
         cuenta_bancaria_id: paymentMethod === 'transferencia' ? selectedAccount : null
       };
+      
       const { data: newOrderId, error: orderError } = await supabase.rpc('crear_pedido', params);
+      
       if (orderError) throw orderError;
       
       if (paymentMethod === 'transferencia') {
-        alert('¡Pedido reservado! Redirigiendo a instrucciones de pago.');
+        toast.update(toastId, { 
+          render: "¡Pedido reservado! Redirigiendo...", 
+          type: "success", 
+          isLoading: false, 
+          autoClose: 3000 
+        });
         clearCart();
         navigate(`/orden-confirmada/${newOrderId}`);
       } else {
+        toast.update(toastId, { 
+          render: "Creando preferencia de pago...", 
+          type: "info", 
+          isLoading: true 
+        });
+
         const { data: preferenceData, error: functionError } = await supabase.functions.invoke('crear-preferencia-pago', {
             body: { 
-                orderId: newOrderId,
-                items: cart,
-                total: finalTotal,
-                datosCliente: formData
+              orderId: newOrderId,
+              items: cart,
+              total: finalTotal,
+              datosCliente: formData
             }
         });
+
         if (functionError) throw functionError;
+        
+        toast.dismiss(toastId); // Cerramos el toast de carga
         setPreferenceId(preferenceData.preferenceId);
       }
     } catch (error) {
       console.error('Error al procesar el pedido:', error);
-      alert(`Hubo un error al procesar tu pedido: ${error.message}`);
+      toast.update(toastId, { 
+        render: `Error al procesar el pedido: ${error.message}`, 
+        type: "error", 
+        isLoading: false, 
+        autoClose: 5000 
+      });
       setIsSubmitting(false);
     }
   };
@@ -158,6 +184,7 @@ const CheckoutPage = () => {
       {!preferenceId && (
         <form onSubmit={handleSubmit} className="checkout-layout">
           <div className="checkout-form-container">
+            {/* ...resto del formulario sin cambios... */}
             <div className="payment-method-container">
               <h2>Método de Pago</h2>
               <div className="payment-options">

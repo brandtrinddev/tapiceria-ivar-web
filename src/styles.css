@@ -68,8 +68,8 @@ main.page-content-container, .page-content-container {
   border: none;
   border-radius: var(--radio-borde-suave);
   
-  background-color: var(--color-acento); /* Color de acento (dorado/mostaza) */
-  color: var(--color-primario); /* Texto azul oscuro para buen contraste */
+  background-color: var(--color-acento-suave);
+  color: var(--color-blanco); /* Texto azul oscuro para buen contraste */
   
   font-family: var(--fuente-titulos);
   font-size: 1rem;
@@ -83,7 +83,8 @@ main.page-content-container, .page-content-container {
 }
 
 .cta-button:hover {
-  background-color: var(--color-acento-hover); /* Un dorado más oscuro al pasar el mouse */
+  background-color: var(--color-primario-hover); /* Un dorado más oscuro al pasar el mouse */
+  color: var(--color-blanco);
   transform: translateY(-2px); /* Un sutil efecto de elevación */
   box-shadow: var(--sombra-estandar);
 }
@@ -754,6 +755,23 @@ footer.site-footer {
   margin-top: 30px;
 }
 
+/* Estilos para el botón dentro de la notificación toast */
+  .toast-go-to-cart-btn {
+    background-color: transparent;
+    border: 1px solid var(--color-primario);
+    color: var(--color-primario);
+    padding: 6px 12px;
+    margin-top: 10px;
+    border-radius: var(--radio-borde-suave);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicion-rapida);
+  }
+
+  .toast-go-to-cart-btn:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+  }
 
 /* Bloque de Medidas */
 .product-detail-dimensions .dimensions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
@@ -1754,10 +1772,8 @@ footer.site-footer {
 }
 
 .checkout-button {
-  width: 100%;
   padding: 15px;
   font-size: 1.1rem;
-  background-color: var(--color-acento-suave);
 }
 
 /* --- Estilos para el Selector de Cantidad en el Carrito --- */
