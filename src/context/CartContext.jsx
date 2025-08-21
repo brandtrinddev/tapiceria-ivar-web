@@ -1,7 +1,7 @@
 // src/context/CartContext.jsx
 
 import React, { createContext, useState, useContext, useMemo } from 'react';
-import { calculateSubtotal } from '../utils/pricing.js'; // <-- IMPORTAMOS NUESTRO AYUDANTE
+import { calculateSubtotal } from '../utils/pricing.js';
 
 const CartContext = createContext();
 
@@ -9,23 +9,41 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
-    // Lógica futura: Si el item ya existe (mismo producto y tela), sumar cantidad.
-    // Por ahora, permitimos añadir el mismo producto varias veces como líneas separadas.
-    setCart(prevCart => [...prevCart, item]);
+    // CAMBIO: Creamos un ID único combinando el ID del producto y el ID de la tela.
+    const cartItemId = `${item.productId}-${item.tela.id}`;
+
+    setCart(prevCart => {
+      // Buscamos si ya existe un item con este ID único en el carrito.
+      const existingItem = prevCart.find(i => i.cartItemId === cartItemId);
+
+      if (existingItem) {
+        // Si existe, actualizamos su cantidad.
+        return prevCart.map(i => 
+          i.cartItemId === cartItemId 
+            ? { ...i, quantity: i.quantity + item.quantity } 
+            : i
+        );
+      } else {
+        // Si no existe, añadimos el nuevo item junto con su ID único.
+        return [...prevCart, { ...item, cartItemId }];
+      }
+    });
   };
 
-  const removeFromCart = (productId) => {
-    setCart(prevCart => prevCart.filter(item => item.productId !== productId));
+  // CAMBIO: La función ahora usa el cartItemId único.
+  const removeFromCart = (cartItemId) => {
+    setCart(prevCart => prevCart.filter(item => item.cartItemId !== cartItemId));
   };
 
-  const updateItemQuantity = (productId, newQuantity) => {
+  // CAMBIO: La función ahora usa el cartItemId único.
+  const updateItemQuantity = (cartItemId, newQuantity) => {
     if (newQuantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(cartItemId);
       return;
     }
     setCart(prevCart => 
       prevCart.map(item => 
-        item.productId === productId ? { ...item, quantity: newQuantity } : item
+        item.cartItemId === cartItemId ? { ...item, quantity: newQuantity } : item
       )
     );
   };
@@ -34,25 +52,20 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
-  // --- LÓGICA DE PRECIOS CENTRALIZADA ---
-
-  // 1. Creamos un "carrito procesado" que calcula los subtotales correctos usando el ayudante
   const processedCart = useMemo(() => {
     return cart.map(item => ({
       ...item,
-      totalPrice: calculateSubtotal(item) // <-- USAMOS EL AYUDANTE
+      totalPrice: calculateSubtotal(item)
     }));
   }, [cart]);
 
-  // 2. El total general ahora se calcula sobre el carrito procesado
   const cartTotal = useMemo(() => 
     processedCart.reduce((sum, item) => sum + item.totalPrice, 0),
     [processedCart]
   );
 
-  // 3. Exponemos el CARRITO PROCESADO al resto de la aplicación
   const value = {
-    cart: processedCart, // <-- El cambio más importante
+    cart: processedCart,
     cartTotal,
     addToCart,
     removeFromCart,

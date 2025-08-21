@@ -27,7 +27,7 @@ const CartPage = () => {
         <div className="cart-layout">
           <div className="cart-items-list">
             {cart.map(item => (
-              <div key={item.productId} className="cart-item">
+              <div key={item.cartItemId} className="cart-item">
                 <img src={item.imageUrl} alt={item.productName} className="cart-item-image" />
                 <div className="cart-item-info">
                   
@@ -42,7 +42,7 @@ const CartPage = () => {
 
                   <div className="cart-item-actions">
                     <p className="cart-item-subtotal">{formatPriceUYU(item.totalPrice)}</p>
-                    <button type="button" onClick={() => removeFromCart(item.productId)} className="cart-item-remove-button">
+                    <button type="button" onClick={() => removeFromCart(item.cartItemId)} className="cart-item-remove-button">
                       Eliminar
                     </button>
 
@@ -51,13 +51,13 @@ const CartPage = () => {
                       <button 
                         type="button"
                         className="cart-item-quantity-btn" 
-                        onClick={() => updateItemQuantity(item.productId, item.quantity - 1)}
+                        onClick={() => updateItemQuantity(item.cartItemId, item.quantity - 1)}
                       >-</button>
                       <span className="cart-item-quantity-value">{item.quantity}</span>
                       <button 
                         type="button"
                         className="cart-item-quantity-btn" 
-                        onClick={() => updateItemQuantity(item.productId, item.quantity + 1)}
+                        onClick={() => updateItemQuantity(item.cartItemId, item.quantity + 1)}
                       >+</button>
                     </div>
                     

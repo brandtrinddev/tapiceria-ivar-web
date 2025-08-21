@@ -1311,13 +1311,15 @@ footer.site-footer {
 }
 
 .category-filter-block h3 {
-  font-family: var(--fuente-titulos);
-  font-size: 1.2rem;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--color-primario);
-  margin-top: 0;
   margin-bottom: 20px;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--color-borde);
+  font-variant: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .category-filter-list {
@@ -1329,14 +1331,19 @@ footer.site-footer {
   gap: 10px;
 }
 
-.category-filter-list a {
+.category-filter-list li a {
   display: block;
   padding: 10px 15px;
-  text-decoration: none;
-  color: var(--color-texto-secundario);
-  font-weight: 500;
   border-radius: var(--radio-borde-suave);
+  color: var(--color-texto-secundario);
   transition: var(--transicion-rapida);
+
+  /* CAMBIO: Replicamos el estilo "elegante" del ProductCard */
+  font-family: 'Lora', serif;
+  font-weight: 500; /* Un peso medio, no tan grueso */
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Espaciado clave para la elegancia */
 }
 
 .category-filter-list a:hover {
@@ -1345,9 +1352,9 @@ footer.site-footer {
 }
 
 .category-filter-list a.active {
-  background-color: var(--color-primario);
+  background-color: var(--color-primario-hover);
   color: var(--color-blanco);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .catalogo-main-content {

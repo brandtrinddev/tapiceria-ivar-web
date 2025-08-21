@@ -4,7 +4,7 @@
     "nombre": "Tela Alpha (Estándar)",
     "descripcion": "Nuestra opción base, ideal para quienes buscan una solución económica y funcional. Variedad de colores lisos con una textura suave y resistente para el uso diario.",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorCuerpo": 0,
+    "costoAdicionalPorMetro": 0,
     "colores": [
       { "nombre": "Alpha 02", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/alpha/alpha 02.jpg" },
       { "nombre": "Alpha 82", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/alpha/alpha 82.jpg" },
@@ -23,7 +23,7 @@
     "nombre": "Tela Carla",
     "descripcion": "Textura lujosa, muy suave al tacto. Aporta calidez y elegancia a cualquier ambiente, con una excelente resistencia al desgaste.",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorCuerpo": 0,
+    "costoAdicionalPorMetro": 0,
     "colores": [
       { "nombre": "Carla Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Beige.jpg" },
       { "nombre": "Carla Vison", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Vison.jpg" },
@@ -44,7 +44,7 @@
     "nombre": "Tela Tach (Anti-Mancha / Impermeable)",
     "descripcion": "Tela con propiedades impermeables, repele líquidos",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorCuerpo": 600,
+    "costoAdicionalPorMetro": 350,
     "colores": [
       { "nombre": "Tach Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/tach/Tach Beige.jpg" },
       { "nombre": "Tach Cemento", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/tach/Tach Cemento.jpg" },
@@ -64,7 +64,7 @@
     "nombre": "Tela Pané (Anti-Mancha / Impermeable)",
     "descripcion": "Tejido de alta durabilidad con doble proceso anti-mancha y propiedades impermeables que repelen líquidos. Perfecta para hogares con niños o mascotas. Limpia cualquier tipo de mancha o líquido fácilmente con un trapo húmedo, sin complicaciones.",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorCuerpo": 780,
+    "costoAdicionalPorMetro": 480,
     "colores": [
       { "nombre": "Pane Natural", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/pane/Pane Natural.jpg" },
       { "nombre": "Pane Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/pane/Pane Beige.jpg" },
