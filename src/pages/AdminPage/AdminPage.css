@@ -1,0 +1,238 @@
+/* --- Estilos para el Login del Panel de Administración --- */
+.admin-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.admin-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  box-shadow: var(--sombra-estandar);
+  text-align: center;
+}
+
+.admin-form h1 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.8rem;
+  color: var(--color-primario);
+  margin-bottom: 10px;
+}
+
+.admin-form p {
+  color: var(--color-texto-secundario);
+  margin-bottom: 25px;
+}
+
+.admin-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: var(--radio-borde-suave);
+  border: 1px solid var(--color-borde-input);
+  margin-bottom: 20px;
+}
+
+/* --- Estilos para el Dashboard de Administración --- */
+
+.admin-dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orders-table-container {
+  overflow-x: auto; /* Permite scroll horizontal en pantallas muy pequeñas */
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  background-color: var(--color-blanco);
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse; /* Une los bordes de las celdas */
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.orders-table th {
+  background-color: var(--color-secundario);
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.orders-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.orders-table tbody tr:hover {
+  background-color: var(--color-secundario);
+}
+
+/* --- INICIA REEMPLAZO DE ESTILOS DE ESTADO --- */
+
+/* Estilos para el selector de estado en la tabla */
+.status-select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid transparent; /* Borde transparente por defecto */
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none; /* Quita la flecha por defecto en algunos navegadores */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.6-3.6%205.4-7.8%205.4-12.8%200-5-1.9-9.4-5.4-13z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: .65em auto;
+}
+
+/* Colores dinámicos basados en el estado */
+
+.status-select.status-pendiente-de-transferencia {
+  background-color: #FFF3E0; /* Naranja muy suave (Atención requerida) */
+  color: #E65100;
+}
+.status-select.status-pago-realizado {
+  background-color: #E8F5E9; /* Verde claro (Éxito inicial) */
+  color: #1B5E20;
+}
+.status-select.status-en-fabricación {
+  background-color: #E3F2FD; /* Azul claro (En proceso) */
+  color: #0D47A1;
+}
+.status-select.status-pedido-finalizado, /* Unificamos "Finalizado" y "Pronto" */
+.status-select.status-pronto-para-retirar {
+  background-color: #E0F2F1; /* Turquesa/Teal suave (Listo para el siguiente paso) */
+  color: #004D40;
+}
+.status-select.status-enviado {
+  background-color: #E8EAF6; /* Índigo/Violeta suave (Logística) */
+  color: #1A237E;
+}
+.status-select.status-completado {
+  background-color: #F1F8E9; /* Verde lima (Éxito final) */
+  color: #33691E;
+}
+.status-select.status-cancelado {
+  background-color: #FFEBEE; /* Rojo muy suave (Cancelado) */
+  color: #B71C1C;
+}
+
+/* --- FIN DEL REEMPLAZO --- */
+
+/* --- Estilos para la Fila de la Tabla y el Modal de Detalle --- */
+
+/* Hacemos que la fila de la tabla indique que se puede hacer clic */
+.order-row {
+  cursor: pointer;
+}
+
+/* El fondo oscuro que cubre la página cuando el modal está abierto */
+.order-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 47, 81, 0.75);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* El contenedor principal del modal (la ventana blanca) */
+.order-detail-modal {
+  background: var(--color-blanco);
+  width: 90vw;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radio-borde-medio);
+  box-shadow: var(--sombra-elevada);
+  padding: 25px;
+  outline: none;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-borde);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: 1.5rem;
+  color: var(--color-primario);
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-texto-secundario);
+  cursor: pointer;
+}
+
+.order-detail-section {
+  margin-bottom: 20px;
+}
+.order-detail-section:last-child {
+  margin-bottom: 0;
+}
+.order-detail-section h3 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.1rem;
+  color: var(--color-primario);
+  border-bottom: 1px solid var(--color-borde);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.order-detail-section p, .modal-product-list li {
+  margin: 5px 0;
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+}
+.order-detail-section p strong, .modal-product-list li strong {
+  color: var(--color-texto-principal);
+  font-weight: 600;
+}
+
+.modal-product-list {
+  list-style: none;
+  padding: 0;
+}
+.modal-product-fabric {
+  font-size: 0.9rem;
+  padding-left: 10px;
+  color: #555;
+}
+
+/* Pequeño ajuste en la tabla para la columna de Pago/Entrega */
+.delivery-method {
+  font-size: 0.8rem;
+  color: var(--color-texto-secundario);
+  margin-top: 4px;
+}

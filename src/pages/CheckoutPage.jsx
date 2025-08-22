@@ -6,7 +6,7 @@ import { formatPriceUYU } from '../utils/formatters';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import { toast } from 'react-toastify'; // <-- AÑADIDO: Importamos toast
+import { toast } from 'react-toastify';
 
 initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, {
   locale: 'es-UY'
@@ -100,7 +100,6 @@ const CheckoutPage = () => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  // --- FUNCIÓN handleSubmit TOTALMENTE MEJORADA CON TOAST ---
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -110,7 +109,7 @@ const CheckoutPage = () => {
     }
     
     setIsSubmitting(true);
-    const toastId = toast.loading("Procesando tu pedido..."); // Mostramos toast de carga
+    const toastId = toast.loading("Procesando tu pedido...");
 
     try {
       const fullFormData = {
@@ -131,10 +130,29 @@ const CheckoutPage = () => {
         cuenta_bancaria_id: paymentMethod === 'transferencia' ? selectedAccount : null
       };
       
-      const { data: newOrderId, error: orderError } = await supabase.rpc('crear_pedido', params);
+      const { data: newOrderData, error: orderError } = await supabase.rpc('crear_pedido', params);
       
       if (orderError) throw orderError;
       
+      // CAMBIO 1: Añadimos una comprobación para asegurarnos de que la respuesta no está vacía
+      if (!newOrderData) throw new Error("La función de crear pedido no devolvió datos.");
+
+      // CAMBIO 2 (EL MÁS IMPORTANTE): Quitamos el `[0]` porque la respuesta es un objeto, no un array
+      const { pedido_id, numero_pedido } = newOrderData;
+
+      // CAMBIO 3: Añadimos la llamada a nuestra función de envío de email
+      try {
+        await supabase.functions.invoke('enviar-notificacion-pedido', {
+          body: {
+            numero_pedido: numero_pedido,
+            total_pedido: finalTotal,
+            datos_cliente: fullFormData,
+          }
+        });
+      } catch (emailError) {
+        console.error("La notificación por email falló, pero el pedido fue creado con éxito:", emailError);
+      }
+
       if (paymentMethod === 'transferencia') {
         toast.update(toastId, { 
           render: "¡Pedido reservado! Redirigiendo...", 
@@ -143,7 +161,7 @@ const CheckoutPage = () => {
           autoClose: 3000 
         });
         clearCart();
-        navigate(`/orden-confirmada/${newOrderId}`);
+        navigate(`/orden-confirmada/${pedido_id}`);
       } else {
         toast.update(toastId, { 
           render: "Creando preferencia de pago...", 
@@ -153,7 +171,7 @@ const CheckoutPage = () => {
 
         const { data: preferenceData, error: functionError } = await supabase.functions.invoke('crear-preferencia-pago', {
             body: { 
-              orderId: newOrderId,
+              orderId: pedido_id,
               items: cart,
               total: finalTotal,
               datosCliente: formData
@@ -162,7 +180,7 @@ const CheckoutPage = () => {
 
         if (functionError) throw functionError;
         
-        toast.dismiss(toastId); // Cerramos el toast de carga
+        toast.dismiss(toastId);
         setPreferenceId(preferenceData.preferenceId);
       }
     } catch (error) {
@@ -184,7 +202,6 @@ const CheckoutPage = () => {
       {!preferenceId && (
         <form onSubmit={handleSubmit} className="checkout-layout">
           <div className="checkout-form-container">
-            {/* ...resto del formulario sin cambios... */}
             <div className="payment-method-container">
               <h2>Método de Pago</h2>
               <div className="payment-options">
@@ -277,7 +294,8 @@ const CheckoutPage = () => {
           <div className="order-summary-container">
             <h2>Resumen del pedido</h2>
             <div className="summary-items-list">
-              {cart.map(item => (<div key={item.productId} className="summary-item"><span className="summary-item-name">{item.productName} (x{item.quantity})</span><span className="summary-item-price">{formatPriceUYU(item.totalPrice)}</span></div>))}
+              {/* CAMBIO 4: Corregimos la 'key' para usar el ID único del carrito */}
+              {cart.map(item => (<div key={item.cartItemId} className="summary-item"><span className="summary-item-name">{item.productName} (x{item.quantity})</span><span className="summary-item-price">{formatPriceUYU(item.totalPrice)}</span></div>))}
             </div>
             <div className="summary-shipping">
               <span>Costo de envío</span>

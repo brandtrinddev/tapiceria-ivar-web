@@ -15,6 +15,7 @@ const TelasPage = lazy(() => import('./pages/TelasPage'));
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const ContactoPage = lazy(() => import('./pages/ContactoPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage')); // <-- AÑADIDO: La nueva página de admin
 
 // ... (resto de importaciones sin cambios)
 import Header from './components/Header.jsx';
@@ -43,6 +44,7 @@ function App() {
             <Route path="/telas" element={<TelasPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contacto" element={<ContactoPage />} />
+            <Route path="/gestion-pedidos-ivar" element={<AdminPage />} /> {/* <-- AÑADIDO: La nueva ruta secreta */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

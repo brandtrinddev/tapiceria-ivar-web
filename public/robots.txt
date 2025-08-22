@@ -1,0 +1,6 @@
+# Permitir a todos los bots acceder a todo el sitio
+User-agent: *
+Allow: /
+
+# Ruta al sitemap
+Sitemap: https://www.tapiceriaivar.com.uy/sitemap.xml
