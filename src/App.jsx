@@ -15,11 +15,12 @@ const TelasPage = lazy(() => import('./pages/TelasPage'));
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const ContactoPage = lazy(() => import('./pages/ContactoPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
-const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage')); // <-- AÑADIDO: La nueva página de admin
+const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage'));
+const PoliticasPage = lazy(() => import('./pages/PoliticasPage/PoliticasPage'));
 
 // ... (resto de importaciones sin cambios)
 import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
+import Footer from './components/Footer/Footer.jsx';
 import FloatingButtons from './components/FloatingButtons.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import './App.css';
@@ -45,6 +46,7 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contacto" element={<ContactoPage />} />
             <Route path="/gestion-pedidos-ivar" element={<AdminPage />} /> {/* <-- AÑADIDO: La nueva ruta secreta */}
+            <Route path="/politicas-devolucion-garantia" element={<PoliticasPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
