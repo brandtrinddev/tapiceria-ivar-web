@@ -272,17 +272,6 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
 .navbar-toggler.active .bar2 { opacity: 0; }
 .navbar-toggler.active .bar3 { transform: translateY(-6px) rotate(-45deg); margin-top:0; }
 
-/* 3. Footer */
-footer.site-footer {
-  flex-shrink: 0;
-}
-
-.site-footer {
-  background-color: var(--color-primario); color: var(--color-texto-claro);
-  text-align: center; padding: 30px 20px; margin-top: auto; font-size: 0.9rem;
-}
-.site-footer p { margin: 0; opacity: 0.8; }
-
 /* 4. HomePage V2 */
 .hero-section-v2 {
   position: relative; display: flex; align-items: center; min-height: 80vh;
