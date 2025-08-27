@@ -23,7 +23,7 @@
     "nombre": "Tela Carla",
     "descripcion": "Textura lujosa, muy suave al tacto. Aporta calidez y elegancia a cualquier ambiente, con una excelente resistencia al desgaste.",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorMetro": 0,
+    "costoAdicionalPorMetro": 250,
     "colores": [
       { "nombre": "Carla Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Beige.jpg" },
       { "nombre": "Carla Vison", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/carla/Carla Vison.jpg" },
@@ -44,7 +44,7 @@
     "nombre": "Tela Tach (Anti-Mancha / Impermeable)",
     "descripcion": "Tela con propiedades impermeables, repele líquidos",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorMetro": 350,
+    "costoAdicionalPorMetro": 250,
     "colores": [
       { "nombre": "Tach Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/tach/Tach Beige.jpg" },
       { "nombre": "Tach Cemento", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/tach/Tach Cemento.jpg" },
@@ -64,7 +64,7 @@
     "nombre": "Tela Pané (Anti-Mancha / Impermeable)",
     "descripcion": "Tejido de alta durabilidad con doble proceso anti-mancha y propiedades impermeables que repelen líquidos. Perfecta para hogares con niños o mascotas. Limpia cualquier tipo de mancha o líquido fácilmente con un trapo húmedo, sin complicaciones.",
     "imagenMuestrarioGeneral": "",
-    "costoAdicionalPorMetro": 480,
+    "costoAdicionalPorMetro": 400,
     "colores": [
       { "nombre": "Pane Natural", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/pane/Pane Natural.jpg" },
       { "nombre": "Pane Beige", "tipoMuestra": "imagen", "valorMuestra": "/img/telas/pane/Pane Beige.jpg" },

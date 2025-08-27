@@ -650,6 +650,22 @@ footer.site-footer {
 .fabric-accordion-header.active::after { content: '−'; transform: rotate(180deg); }
 .fabric-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background-color: var(--color-secundario); }
 .fabric-accordion-content.open { max-height: 500px; padding: 15px 20px; }
+
+.fabric-cost {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-texto-secundario);
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.fabric-cost.included {
+  background-color: #e0f2f1;
+  color: #004d40;
+}
+
 .fabric-colors p { margin-top: 0; margin-bottom: 1rem; font-weight: 500; color: var(--color-texto-principal); }
 .color-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 1rem; }
 .color-swatch {

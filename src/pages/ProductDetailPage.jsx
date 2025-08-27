@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'; // Se añade import para toast
 
 const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
 const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Altura', profundidadTotalChaise: 'Profundidad Total Chaise', profundidadChaise: 'Profundidad Chaise', profundidadTotal: 'Profundidad Total' };
+const ORDEN_TELAS = [ 'Alpha', 'Carla', 'Tach', 'Pané' ];
 
 function ProductDetailPage() {
   const { addToCart } = useCart();
@@ -86,7 +87,10 @@ function ProductDetailPage() {
   useEffect(() => { const handleKeyDown = (event) => { if (event.key === 'ArrowLeft') goToPreviousImage(); if (event.key === 'ArrowRight') goToNextImage(); }; window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown); }, [goToPreviousImage, goToNextImage]);
   useEffect(() => { if (product) { document.title = `Tapicería Ivar - ${product.nombre}`; } }, [product]);
   const bind = useDrag(({ swipe: [swipeX] }) => { if (swipeX === -1) goToNextImage(); if (swipeX === 1) goToPreviousImage(); }, { axis: 'x' });
-  const tiposDeTela = useMemo(() => [...new Set(telas.map(t => t.nombre_tipo))], [telas]);
+  const tiposDeTela = useMemo(() => {
+  const tiposDisponibles = new Set(telas.map(t => t.nombre_tipo));
+  return ORDEN_TELAS.filter(tipo => tiposDisponibles.has(tipo));
+}, [telas]);
 
   const handleAccordionToggle = (tipo) => {
     setOpenAccordion(openAccordion === tipo ? null : tipo);
@@ -222,25 +226,41 @@ function ProductDetailPage() {
                   <div className="product-info-section">
                     <h2>Selecciona la tela</h2>
                     <div className="fabric-selector">
-                      {tiposDeTela.map(tipo => (
-                        <div key={tipo} className="fabric-accordion-item">
-                          <button type="button" className={`fabric-accordion-header ${openAccordion === tipo ? 'active' : ''}`} onClick={() => handleAccordionToggle(tipo)}>
-                            {tipo}
-                          </button>
-                          <div className={`fabric-accordion-content ${openAccordion === tipo ? 'open' : ''}`}>
-                            <div className="fabric-colors">
-                              <p>Selecciona un color para la tela <strong>{tipo}</strong>:</p>
-                              <div className="color-swatch-grid">
-                                {telas.filter(t => t.nombre_tipo === tipo).map(tela => (
-                                  <button type="button" key={tela.id} className={`color-swatch ${selectedTela?.id === tela.id ? 'active' : ''}`} onClick={() => handleTelaSelect(tela)} title={tela.nombre_color}>
-                                    <img src={tela.imagen_url} alt={tela.nombre_color} />
-                                  </button>
-                                ))}
+                      {tiposDeTela.map(tipo => {
+                        // Buscamos la primera tela de este tipo para obtener su costo
+                        const costoAdicional = telas.find(t => t.nombre_tipo === tipo)?.costo_adicional_por_metro;
+
+                        return (
+                          <div key={tipo} className="fabric-accordion-item">
+                            <button type="button" className={`fabric-accordion-header ${openAccordion === tipo ? 'active' : ''}`} onClick={() => handleAccordionToggle(tipo)}>
+
+                              {/* El nombre del tipo de tela */}
+                              <span>{tipo}</span>
+
+                              {/* El precio o etiqueta que se muestra a la derecha */}
+                              {costoAdicional > 0 ? (
+                                <span className="fabric-cost">+ {formatPriceUYU(costoAdicional)}/m</span>
+                              ) : (
+                                <span className="fabric-cost included">Incluida</span>
+                              )}
+
+                            </button>
+                            <div className={`fabric-accordion-content ${openAccordion === tipo ? 'open' : ''}`}>
+                              {/* ... el resto del contenido del acordeón no cambia ... */}
+                              <div className="fabric-colors">
+                                <p>Selecciona un color para la tela <strong>{tipo}</strong>:</p>
+                                <div className="color-swatch-grid">
+                                  {telas.filter(t => t.nombre_tipo === tipo).map(tela => (
+                                    <button type="button" key={tela.id} className={`color-swatch ${selectedTela?.id === tela.id ? 'active' : ''}`} onClick={() => handleTelaSelect(tela)} title={tela.nombre_color}>
+                                      <img src={tela.imagen_url} alt={tela.nombre_color} />
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                   {product.detalles?.aclaracion_foto && (

@@ -236,3 +236,20 @@
   color: var(--color-texto-secundario);
   margin-top: 4px;
 }
+
+@media (max-width: 768px) {
+  /* Hacemos el texto de la tabla un poco más pequeño en móvil */
+  .orders-table {
+    font-size: 0.9rem;
+  }
+  
+  /* Ocultamos las columnas de Fecha, Total y Pago/Entrega */
+  .orders-table th:nth-child(2), /* Oculta la 2ª cabecera (Fecha) */
+  .orders-table td:nth-child(2), /* Oculta la 2ª celda (Fecha) */
+  .orders-table th:nth-child(4), /* Oculta la 4ª cabecera (Total) */
+  .orders-table td:nth-child(4), /* Oculta la 4ª celda (Total) */
+  .orders-table th:nth-child(5), /* Oculta la 5ª cabecera (Pago/Entrega) */
+  .orders-table td:nth-child(5) { /* Oculta la 5ª celda (Pago/Entrega) */
+    display: none;
+  }
+}
