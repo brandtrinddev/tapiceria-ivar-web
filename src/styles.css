@@ -10,12 +10,15 @@
   --color-acento: #EAAA00; /* Dorado/mostaza vibrante */
   --color-acento-rgb: 234, 170, 0;
   --color-acento-hover: #d69a00;
+  --color-acento-suave: #4A90E2;
+  --color-acento-suave-transparente: rgba(74, 144, 226, 0.1);
   --color-texto-principal: #212529;
   --color-texto-secundario: #495057;
   --color-texto-claro: #F8F9FA;
   --color-blanco: #ffffff;
   --color-borde: #dee2e6;
   --color-borde-input: #ced4da;
+  --color-fondo-suave: #f8f9fa; /* Un gris muy sutil y limpio */
 
   --fuente-titulos: 'Montserrat', sans-serif;
   --fuente-cuerpo: 'Open Sans', sans-serif;
@@ -32,6 +35,8 @@
   --transicion-media: all 0.4s ease-in-out;
 
   --ancho-max-container: 1140px;
+  --ancho-max-detail: 1440px;
+  --ancho-max-catalogo: 1520px;
   --padding-seccion-desktop: 80px;
   --padding-seccion-mobile: 50px;
 }
@@ -40,7 +45,7 @@
 
 body {
   font-family: var(--fuente-cuerpo);
-  background-color: var(--color-blanco);
+  background-color: var(--color-fondo-suave);
   color: var(--color-texto-principal);
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
@@ -55,6 +60,33 @@ body {
 main.page-content-container, .page-content-container {
   flex: 1 0 auto;
   animation: fadeIn 0.5s ease-in-out;
+}
+
+.cta-button {
+  display: inline-block; /* Asegura que se comporte como un bloque pero en línea */
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radio-borde-suave);
+  
+  background-color: var(--color-acento-suave);
+  color: var(--color-blanco); /* Texto azul oscuro para buen contraste */
+  
+  font-family: var(--fuente-titulos);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  
+  transition: var(--transicion-rapida);
+  box-shadow: var(--sombra-sutil);
+}
+
+.cta-button:hover {
+  background-color: var(--color-primario-hover); /* Un dorado más oscuro al pasar el mouse */
+  color: var(--color-blanco);
+  transform: translateY(-2px); /* Un sutil efecto de elevación */
+  box-shadow: var(--sombra-estandar);
 }
 
 /* .page-content-container { flex-grow: 1; } */
@@ -523,7 +555,7 @@ footer.site-footer {
 
 .product-grid { /* Regla genérica para todas las grillas de productos */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));  /* Prueb con 280px, 300px o 320px para el min */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Prueb con 280px, 300px o 320px para el min */
   gap: 30px;
   /* section-container se aplica en el JSX para el product-grid en CatalogoPage */
 }
@@ -536,289 +568,423 @@ footer.site-footer {
   text-transform: uppercase;
 }
 
-/* 6. Product Detail Page - (Estilos existentes, adaptados a variables V2)
+/* 6. Product Detail Page - VERSIÓN FINAL CORREGIDA Y RESTAURADA
 -------------------------------------------------- */
+
+/* --- Layout y Contenedores --- */
 .product-detail-container {
-  padding-top: 50px;
-  padding-right: 20px;
-  padding-bottom: var(--padding-seccion-desktop);
-  padding-left: 20px;
-  max-width: var(--ancho-max-container);
+  padding: 50px 20px var(--padding-seccion-desktop) 20px;
+  max-width: var(--ancho-max-detail);
   margin: 0 auto;
-  background-color: var(--color-blanco);
 }
 
-.product-detail-promo-price {
+.product-detail-layout {
+  display: grid; 
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  background-color: var(--color-blanco);
+  padding: 40px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+}
+
+/* --- Columna Izquierda: Galería de Imágenes --- */
+.product-detail-images {
+  align-self: flex-start;
+}
+
+.main-image-wrapper { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: var(--radio-borde-medio); background-color: var(--color-secundario); border: 1px solid var(--color-borde); position: relative; }
+.product-detail-main-image { width: 100%; height: 100%; object-fit: cover; }
+.product-detail-thumbnail-gallery { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-start; margin-top: 15px; }
+.product-detail-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radio-borde-suave); border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s ease, opacity 0.2s ease; }
+.product-detail-thumbnail:hover { opacity: 0.75; }
+.product-detail-thumbnail.active { border-color: var(--color-primario); opacity: 1; }
+.gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(10, 47, 81, 0.5); color: var(--color-blanco); border: none; font-size: 24px; font-weight: bold; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: var(--transicion-rapida); opacity: 0; }
+.main-image-wrapper:hover .gallery-arrow { opacity: 1; }
+.gallery-arrow:hover { background-color: var(--color-primario); }
+.prev-arrow { left: 15px; }
+.next-arrow { right: 15px; }
+
+/* --- Columna Derecha: Información y Acciones --- */
+.product-detail-info { 
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-self: flex-start;
+  padding-bottom: 60px;
+}
+.product-detail-info::-webkit-scrollbar { width: 8px; }
+.product-detail-info::-webkit-scrollbar-track { background: transparent; }
+.product-detail-info::-webkit-scrollbar-thumb { background-color: var(--color-borde); border-radius: 20px; border: 2px solid var(--color-blanco); }
+
+/* --- Elementos dentro de la Columna Derecha --- */
+.product-detail-name { font-family: 'Georgia', serif; font-size: 2.15rem; color: var(--color-primario); margin-bottom: 0; font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: 1.2px; }
+.product-detail-price { font-family: var(--fuente-titulos); font-size: 1.6rem; color: var(--color-texto-secundario); font-weight: 600; margin-bottom: 10px; }
+.product-detail-promo-price { font-family: var(--fuente-titulos); background-color: var(--color-secundario); border: 1px dashed var(--color-acento); color: var(--color-primario); padding: 12px 18px; border-radius: var(--radio-borde-suave); font-size: 1.1rem; font-weight: 600; text-align: center; margin-top: -10px; margin-bottom: 25px; letter-spacing: 0.8px; text-transform: uppercase; }
+
+.product-detail-info .product-info-section {
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--color-borde);
+}
+.product-detail-info .product-info-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.product-detail-info .product-info-section h2 {
   font-family: var(--fuente-titulos);
-  background-color: var(--color-secundario);
-  border: 1px dashed var(--color-acento);
+  font-size: 1.2rem;
   color: var(--color-primario);
-  padding: 12px 18px;
-  border-radius: var(--radio-borde-suave);
-  font-size: 1.1rem;
   font-weight: 600;
-  text-align: center;
-  margin-top: -10px;
-  margin-bottom: 25px;
-  letter-spacing: 0.5px;
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
-.product-detail-layout {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 50px;
-}
-.product-detail-images {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  position: sticky;
-  top: 85px;
-  align-self: flex-start;
-  max-height: calc(100vh - 110px);
-  overflow-y: auto;
-}
-.main-image-wrapper {
-  width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
-  border-radius: var(--radio-borde-medio); background-color: var(--color-secundario);
-  border: 1px solid var(--color-borde);
-}
-.product-detail-main-image { width: 100%; height: 100%; object-fit: cover; }
-.product-detail-thumbnail-gallery {
-  display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-start;
-}
-.product-detail-thumbnail {
-  width: 80px; height: 80px; object-fit: cover;
-  border-radius: var(--radio-borde-suave); border: 2px solid transparent;
-  cursor: pointer; transition: border-color 0.2s ease, opacity 0.2s ease;
-}
-.product-detail-thumbnail:hover { opacity: 0.75; }
-.product-detail-thumbnail.active { border-color: var(--color-primario); opacity: 1; }
-.product-detail-info { display: flex; flex-direction: column; gap: 25px; }
-.product-detail-name {
-  font-family: 'Georgia', serif;
-  font-size: 2.15rem;
-  color: var(--color-primario);
-  margin-bottom: 5px;
-  font-weight: 700;
-  line-height: 1.2;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  font-variant-numeric: lining-nums;
-}
-.product-detail-price {
-  font-family: var(--fuente-titulos); font-size: 2rem;
-  color: var(--color-texto-principal); font-weight: 600; margin-bottom: 15px;
-}
-.product-info-section { padding-top: 20px; border-top: 1px solid var(--color-borde); }
-.product-info-section:first-of-type { border-top: none; padding-top: 0; }
-.product-info-section h2 {
-  font-family: var(--fuente-titulos); font-size: 1.25rem;
-  color: var(--color-primario); margin-bottom: 15px; font-weight: 600;
-}
-.product-detail-description p {
-  font-size: 1rem; line-height: 1.75; color: var(--color-texto-secundario);
-  white-space: pre-line;
-}
+/* Selector de Telas Acordeón */
+.fabric-selector { margin-top: 1rem; }
+.fabric-accordion-item { border-top: 1px solid var(--color-borde); }
+.fabric-accordion-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 15px 10px; background-color: transparent; border: none; cursor: pointer; text-align: left; font-family: var(--fuente-titulos); font-size: 1rem; font-weight: 600; color: var(--color-primario); transition: background-color 0.2s ease; text-transform: uppercase; letter-spacing: 1px; }
+.fabric-accordion-header:hover { background-color: var(--color-secundario); }
+.fabric-accordion-header::after { content: '+'; font-size: 1.5rem; font-weight: 300; color: var(--color-primario); transition: transform 0.3s ease; }
+.fabric-accordion-header.active::after { content: '−'; transform: rotate(180deg); }
+.fabric-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; background-color: var(--color-secundario); }
+.fabric-accordion-content.open { max-height: 500px; padding: 15px 20px; }
 
-/* --- Estilos definitivos para la sección de medidas --- */
-
-/* Contenedor general de la sección (product-info-section)
-.product-detail-dimensions {
-   Esta clase ya recibe padding-top de .product-info-section
-} */
-
-/* Grilla para los bloques (SOLO para productos compuestos) */
-.product-detail-dimensions .dimensions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-/* El bloque de estilo individual (se usa en AMBOS casos, simple y compuesto) */
-.product-detail-dimensions .dimension-block {
-  background-color: var(--color-secundario);
-  padding: 20px;
-  border-radius: var(--radio-borde-suave);
-  border-left: 4px solid var(--color-acento);
-}
-
-/* El subtítulo dentro de cada bloque (ej: "Butaca") */
-.product-detail-dimensions .dimension-component-title {
-  font-family: var(--fuente-titulos);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-primario);
-  text-transform: capitalize;
-  margin-bottom: 15px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-borde);
-}
-
-/* La lista <ul> DENTRO de cada bloque (se aplica a AMBOS casos) */
-.product-detail-dimensions ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column; /* La orden para que sea una lista VERTICAL */
-  gap: 8px;
-  font-size: 0.95rem;
+.fabric-cost {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--color-texto-secundario);
-  line-height: 1.6;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 12px;
 }
 
-/* Estilo para el texto en negrita <strong> */
-.product-detail-dimensions li strong {
-  color: var(--color-texto-principal);
-  font-weight: 600;
+.fabric-cost.included {
+  background-color: #e0f2f1;
+  color: #004d40;
 }
 
-/* Regla "mágica" para evitar el bloque huérfano en el caso de 3 elementos */
-.dimensions-grid .dimension-block:first-child:nth-last-child(3) {
-  grid-column: 1 / -1; /* Le ordena al primer elemento que ocupe todo el ancho */
-}
-
-.product-detail-cta-button {
-  display: inline-block; background-color: var(--color-primario); color: var(--color-blanco);
-  padding: 15px 35px; font-family: var(--fuente-titulos); font-size: 1.05rem;
-  font-weight: 600; text-decoration: none; border-radius: var(--radio-borde-suave);
-  transition: var(--transicion-rapida), transform 0.2s ease;
-  text-transform: uppercase; letter-spacing: 0.8px;
-  border: 2px solid transparent; cursor: pointer; margin-top: 20px;
-  align-self: flex-start; box-shadow: var(--sombra-sutil);
-}
-.product-detail-cta-button:hover {
-  background-color: var(--color-primario-hover);
-  color: var(--color-blanco);
-  transform: translateY(-2px); box-shadow: var(--sombra-estandar);
-  box-shadow: var(--sombra-estandar);
-}
-
-.product-detail-price .price-unit {
-    font-size: 0.5em; 
-}
-
-/* Estilos para las flechas de la galería */
-.main-image-wrapper {
-  position: relative; /* Necesario para posicionar las flechas */
-}
-
-.gallery-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(10, 47, 81, 0.5); /* Fondo semitransparente */
-  color: var(--color-blanco);
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
+.fabric-colors p { margin-top: 0; margin-bottom: 1rem; font-weight: 500; color: var(--color-texto-principal); }
+.color-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 1rem; }
+.color-swatch {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: var(--transicion-rapida);
-  opacity: 0; /* Ocultas por defecto */
-}
-
-/* Las flechas aparecen cuando pasas el mouse sobre la imagen */
-.main-image-wrapper:hover .gallery-arrow {
-  opacity: 1;
-}
-
-.gallery-arrow:hover {
-  background-color: var(--color-primario);
-}
-
-.prev-arrow {
-  left: 15px;
-}
-
-.next-arrow {
-  right: 15px;
-}
-
-/* 5.5 / 6.5. Estilos para Nuevos Bloques en Product Detail Page
--------------------------------------------------- */
-
-/* --- Sección de Llamado a la Acción (CTA) de Personalización --- */
-.customization-cta-section {
-  background-color: var(--color-secundario);
   border: 1px solid var(--color-borde);
-  border-radius: var(--radio-borde-medio);
-  padding: 30px;
+  padding: 0; /* Sin padding para eliminar el anillo blanco */
+  background-color: transparent;
+  cursor: pointer;
+  transition: var(--transicion-rapida);
+  overflow: hidden;
+  display: inline-block; /* Asegura un comportamiento consistente */
+}
+.color-swatch:hover {
+  border-color: var(--color-acento);
+  transform: scale(1.1);
+}
+.color-swatch.active {
+  border-color: var(--color-primario);
+  border-width: 2px;
+  transform: scale(1.1);
+  box-shadow: var(--sombra-estandar);
+}
+.color-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+
+  /* La clave para la nitidez que faltaba en este bloque */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* --- INICIA NUEVO SISTEMA DE PESTAÑAS / ACORDEÓN --- */
+
+/* --- 1. ESTILOS BASE (ESCRITORIO) --- */
+
+  .product-tabs-container {
+    margin-top: 20px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde-suave);
+  }
+
+  .tab-list {
+    display: flex;
+    background-color: var(--color-secundario);
+    border-bottom: 1px solid var(--color-borde);
+    border-top-left-radius: var(--radio-borde-suave);
+    border-top-right-radius: var(--radio-borde-suave);
+    overflow: hidden; /* Importante para que el radio se aplique a los botones internos */
+  }
+
+  .tab-button {
+    flex-grow: 1;
+    padding: 15px 20px;
+    font-family: var(--fuente-titulos);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-texto-secundario);
+    background-color: var(--color-secundario);
+    border: none;
+    border-right: 1px solid var(--color-borde);
+    cursor: pointer;
+    transition: var(--transicion-rapida);
+    border-bottom: 3px solid transparent; /* Indicador inactivo */
+    text-align: center;
+  }
+
+  .tab-list button:last-child {
+    border-right: none;
+  }
+
+  .tab-button:hover {
+    color: var(--color-primario);
+  }
+
+  .tab-button.active {
+    color: var(--color-primario);
+    background-color: var(--color-blanco);
+    border-bottom-color: var(--color-acento); /* Indicador activo */
+  }
+
+  .tab-panel {
+    display: none; /* Ocultamos todos los paneles por defecto */
+  }
+
+  .tab-panel.open {
+    display: block; /* Mostramos solo el panel activo */
+  }
+
+  .tab-panel-content {
+    padding: 25px;
+  }
+
+  .tab-button::after {
+    display: none; /* Ocultamos el '+'/'−' en escritorio */
+  }
+
+  .tab-panel-content .product-info-section + .product-info-section {
   margin-top: 30px;
-  text-align: center;
 }
 
-.customization-cta-section h2 {
-  font-family: var(--fuente-titulos);
-  font-size: 1.5rem;
-  color: var(--color-primario);
-  margin-top: 0;
-  margin-bottom: 15px;
+/* Estilos para el botón dentro de la notificación toast */
+  .toast-go-to-cart-btn {
+    background-color: transparent;
+    border: 1px solid var(--color-primario);
+    color: var(--color-primario);
+    padding: 6px 12px;
+    margin-top: 10px;
+    border-radius: var(--radio-borde-suave);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicion-rapida);
+  }
+
+  .toast-go-to-cart-btn:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+  }
+
+  /* --- Estilo para el precio dentro del bloque de acciones --- */
+  .actions-price {
+    display: flex;
+    justify-content: space-between; /* Etiqueta a la izq, monto a la der */
+    align-items: baseline; /* Alinea por la base del texto */
+
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+  }
+
+  .actions-price-label {
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-texto-secundario);
+  }
+
+  .actions-price-amount {
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primario);
+  }
+
+  @media (min-width: 769px) {
+  .actions-price-label {
+    font-size: 1.3rem; /* Aumentamos el tamaño de la etiqueta */
+    font-weight: 600;  /* La hacemos un poco más gruesa */
+  }
+
+  .actions-price-amount {
+    font-size: 1.7rem; /* Reducimos sutilmente el monto */
+  }
 }
 
-.customization-cta-section p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-texto-secundario);
-  max-width: 600px;
-  margin: 0 auto 25px auto;
-}
+/* Bloque de Medidas */
+.product-detail-dimensions .dimensions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.product-detail-dimensions .dimension-block { background-color: var(--color-secundario); padding: 20px; border-radius: var(--radio-borde-suave); border-left: 4px solid var(--color-acento); }
+.product-detail-dimensions .dimension-component-title { font-family: var(--fuente-titulos); font-size: 1.1rem; font-weight: 600; color: var(--color-primario); text-transform: capitalize; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid var(--color-borde); }
+.product-detail-dimensions ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; color: var(--color-texto-secundario); line-height: 1.6; }
+.product-detail-dimensions li strong { color: var(--color-texto-principal); font-weight: 600; }
 
-.customization-cta-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap; /* Para que se adapte en móviles */
-}
+/* Bloque Final de Acciones */
+.product-detail-actions { display: flex; flex-direction: column; gap: 20px; margin-top: 15px; padding: 25px; background-color: var(--color-secundario); border-radius: var(--radio-borde-medio); border: 1px solid var(--color-borde); }
+.quantity-selector { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.quantity-btn { background-color: var(--color-blanco); border: 1px solid var(--color-borde); color: var(--color-primario); width: 40px; height: 40px; font-size: 1.5rem; font-weight: 600; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; line-height: 1; transition: var(--transicion-rapida); }
+.quantity-btn:hover { background-color: var(--color-primario); color: var(--color-blanco); border-color: var(--color-primario); }
+.quantity-input { width: 60px; height: 40px; text-align: center; font-family: var(--fuente-titulos); font-size: 1.5rem; font-weight: 600; color: var(--color-texto-principal); border: 1px solid var(--color-borde); border-radius: var(--radio-borde-suave); background-color: var(--color-blanco); -moz-appearance: textfield; appearance: textfield; }
+.quantity-input::-webkit-outer-spin-button, .quantity-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.add-to-cart-button { display: block; width: 100%; background-color: var(--color-primario); color: var(--color-blanco); padding: 18px 35px; font-family: var(--fuente-titulos); font-size: 1.1rem; font-weight: 600; text-decoration: none; border-radius: var(--radio-borde-suave); transition: var(--transicion-rapida), transform 0.2s ease; text-transform: uppercase; letter-spacing: 1px; border: 2px solid transparent; cursor: pointer; box-shadow: var(--sombra-sutil); text-align: center; }
+.add-to-cart-button:hover { background-color: var(--color-primario-hover); color: var(--color-blanco); transform: translateY(-2px); box-shadow: var(--sombra-estandar); }
 
-/* Hacemos que el botón original de WhatsApp ahora viva aquí */
-.customization-cta-buttons .product-detail-cta-button {
-  margin-top: 0; 
-}
-
-/* Creamos un estilo 'secundario' para el botón de telas */
-.product-detail-cta-button.secondary {
+/* --- CORRECCIÓN: Secciones Inferiores con su propio contenedor y espaciado --- */
+.product-full-width-details {
+  margin-top: 30px;
   background-color: var(--color-blanco);
+  padding: 40px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+}
+.product-full-width-details .product-info-section {
+  margin-bottom: 30px;
+}
+.product-full-width-details .product-info-section:last-child {
+  margin-bottom: 0;
+}
+.product-full-width-details h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.5rem; /* Título consistente */
   color: var(--color-primario);
-  border: 2px solid var(--color-primario);
+  margin-bottom: 20px;
 }
+.product-detail-description p { font-size: 1rem; line-height: 1.75; color: var(--color-texto-secundario); white-space: pre-line; }
 
-.product-detail-cta-button.secondary:hover {
-  background-color: var(--color-secundario);
-  color: var(--color-primario-hover);
-  border-color: var(--color-primario-hover);
-}
-
-
-/* --- Sección de Variantes del Producto --- */
+/* --- CORRECCIÓN: Sección de Colección con su espaciado y título restaurado --- */
 .variants-section {
-  padding-top: var(--padding-seccion-desktop);
-  margin-top: 20px;
-  /* La siguiente línea es opcional, por si quieres un separador visual */
-  /* border-top: 1px solid var(--color-borde); */
+  margin-top: 30px;
+  background-color: var(--color-blanco);
+  padding: 40px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
 }
-
 .variants-section-title {
   text-align: center;
   font-family: var(--fuente-titulos);
   font-size: 2rem;
   color: var(--color-primario);
-  margin-bottom: 40px;
+  margin-bottom: 40px; /* Margen inferior restaurado */
+}
+.variants-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-/* Usamos la grilla existente pero podemos limitarla si queremos */
-.variants-grid {
-  /* Opcional: Si no quieres que muestre demasiadas variantes en una fila */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  max-width: 1000px; /* Limita el ancho máximo para que no se estire tanto */
-  margin: 0 auto; /* Centra la grilla */
+/* PAYMENT ---------------------------------- */
+
+.payment-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  text-align: center;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  box-shadow: var(--sombra-sutil);
+}
+
+.payment-container h2 {
+  font-family: var(--fuente-titulos);
+  color: var(--color-primario);
+}
+
+#wallet_container {
+  margin-top: 25px;
+}
+
+/* --- Estilos para el Selector de Método de Pago --- */
+
+.payment-method-container {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.payment-method-container h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.3rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-option.selected {
+  border-color: var(--color-primario);
+  background-color: var(--color-secundario);
+  box-shadow: 0 0 0 2px var(--color-primario-transparente);
+}
+
+.payment-option input[type="radio"] {
+  margin-right: 15px;
+}
+
+.bank-account-selector {
+  margin-top: 15px;
+  padding-left: 30px; /* Indentación para anidar visualmente */
+}
+
+.bank-account-selector label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.bank-account-selector select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  font-size: 1rem;
+}
+
+.order-instructions-box {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.order-instructions-box pre {
+  white-space: pre-wrap; /* Mantiene los saltos de línea y espacios */
+  word-wrap: break-word; /* Evita que el texto se desborde */
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
 }
 
 /* 7. Contact Page V2 - (Estilos existentes, adaptados a variables V2)
@@ -1127,48 +1293,125 @@ footer.site-footer {
 /* 11. Catálogo Page V2 - NUEVOS ESTILOS (Header, Controles, Paginación)
 -------------------------------------------------------------------- */
 
-.catalog-page-header {
-  background-color: var(--color-primario); /* CAMBIO: Fondo azul oscuro */
-  color: var(--color-texto-claro);       /* AÑADIDO: Texto claro por defecto */
-  margin-bottom: 40px;
-  border-bottom: 4px solid var(--color-acento); /* CAMBIO: Borde de acento más grueso */
-  /* Se elimina la sombra y el borde sutil */
+/* Nuevo Layout para la Página de Catálogo (V2) */
+.catalogo-page-container {
+  max-width: var(--ancho-max-catalogo);
+  margin: 0 auto;
+  padding: 50px 20px var(--padding-seccion-desktop) 20px;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-.catalog-page-header .section-container {
-  padding-top: 30px;
-  padding-bottom: 20px;
-  /* Sin cambios aquí */
+.catalogo-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr; /* Columna fija para filtros, el resto flexible */
+  gap: 30px;
+  width: 100%;
+}
+
+/* --- Barra Lateral de Filtros (Izquierda) --- */
+.catalogo-sidebar {
+  /* Hacemos que la barra sea "pegajosa" al hacer scroll */
+  position: sticky;
+  top: 100px; 
+  align-self: start; 
+}
+
+.category-filter-block {
+  background-color: var(--color-blanco);
+  padding: 25px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+}
+
+.category-filter-block h3 {
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-borde);
+  font-variant: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.category-filter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-filter-list li a {
+  display: block;
+  padding: 10px 15px;
+  border-radius: var(--radio-borde-suave);
+  color: var(--color-texto-secundario);
+  transition: var(--transicion-rapida);
+
+  /* CAMBIO: Replicamos el estilo "elegante" del ProductCard */
+  font-family: 'Lora', serif;
+  font-weight: 500; /* Un peso medio, no tan grueso */
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Espaciado clave para la elegancia */
+}
+
+.category-filter-list a:hover {
+  background-color: var(--color-secundario);
+  color: var(--color-primario);
+}
+
+.category-filter-list a.active {
+  background-color: var(--color-primario-hover);
+  color: var(--color-blanco);
+  font-weight: 700;
+}
+
+.catalogo-main-content {
+  background-color: var(--color-blanco);
+  padding: 30px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+}
+
+.catalog-page-header {
+  background-color: transparent;
+  margin: 0 0 30px 0;
+  padding: 0;
+  margin-bottom: 1px solid var(--color-borde);
+  padding-bottom: 25px;
 }
 
 .catalog-breadcrumb,
 .catalog-breadcrumb a {
-  color: rgba(255, 255, 255, 0.7); /* CAMBIO: Blanco semitransparente */
-  margin-bottom: 25px;
+  color: var(--color-texto-secundario);
+  margin-bottom: 15px;
+  font-size: 0.9rem;
 }
 
 .catalog-breadcrumb a:hover {
-  color: var(--color-blanco); /* CAMBIO: Blanco sólido al pasar el mouse */
+  color: var(--color-primario); /* CAMBIO: Color primario al pasar el mouse */
 }
 
 .catalog-breadcrumb span {
-  color: rgba(255, 255, 255, 0.4); /* CAMBIO: Separador más sutil */
+  color: var(--color-borde); /* CAMBIO: Separador más sutil */
 }
 
 .catalog-main-title {
   font-family: 'Georgia', serif;
-  font-size: 2.7rem; /* CAMBIO: Título más grande */
-  color: var(--color-blanco); /* CAMBIO: Título blanco */
+  font-size: 2.5rem;
+  color: var(--color-primario); /* CAMBIO: Título con color primario */
   margin: 0 0 25px 0;
-  text-align: center;
   line-height: 1.2;
-  padding-bottom: 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-}
-
-.catalog-main-title::after {
-  display: none;
 }
 
 .catalog-controls {
@@ -1176,12 +1419,12 @@ footer.site-footer {
   justify-content: space-between;
   align-items: center;
   padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2); /* CAMBIO: Línea divisoria más sutil */
+  border-top: 1px solid var(--color-borde); /* CAMBIO: Línea divisoria normal */
 }
 
 .product-count,
 .sort-control label {
-  color: rgba(255, 255, 255, 0.8); /* CAMBIO: Texto de controles más claro */
+  color: var(--color-texto-secundario); /* CAMBIO: Texto de controles oscuro */
   font-family: var(--fuente-cuerpo);
   font-size: 0.9rem;
   font-weight: 500;
@@ -1197,10 +1440,10 @@ footer.site-footer {
   font-family: var(--fuente-cuerpo);
   font-size: 0.9rem;
   padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* CAMBIO */
+  border: 1px solid var(--color-borde); /* CAMBIO */
   border-radius: var(--radio-borde-suave);
-  background-color: rgba(255, 255, 255, 0.1); /* CAMBIO */
-  color: var(--color-blanco); /* CAMBIO */
+  background-color: var(--color-secundario); /* CAMBIO */
+  color: var(--color-texto-principal); /* CAMBIO */
   cursor: pointer;
   min-width: 180px;
   transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
@@ -1208,9 +1451,9 @@ footer.site-footer {
 
 .sort-select:focus {
   outline: none;
-  background-color: rgba(0,0,0,0.2); /* CAMBIO */
-  border-color: var(--color-acento); /* CAMBIO */
-  box-shadow: 0 0 0 3px rgba(234, 170, 0, 0.2); /* CAMBIO */
+  background-color: var(--color-blanco); /* CAMBIO */
+  border-color: var(--color-primario); /* CAMBIO */
+  box-shadow: 0 0 0 3px rgba(3, 47, 85, 0.1); /* CAMBIO */
 }
 
 /* AÑADIDO: Estilo para las opciones del desplegable */
@@ -1384,19 +1627,6 @@ footer.site-footer {
   cursor: help; /* Para indicar que el title tiene info */
 }
 
-.color-swatch {
-  width: 35px; /* Tamaño del círculo de color */
-  height: 35px;
-  border-radius: 50%; /* Para hacerlo circular */
-  border: 2px solid var(--color-borde); /* Un borde sutil */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
-}
-.color-swatch:hover {
-  transform: scale(1.1);
-  border-color: var(--color-primario);
-}
-
 .texture-swatch { /* Si la muestra es una imagen de textura */
   object-fit: cover; /* Para que la textura llene el círculo */
 }
@@ -1439,10 +1669,7 @@ footer.site-footer {
   .tela-nombre {
     font-size: 1.5rem;
   }
-  .color-swatch {
-    width: 30px;
-    height: 30px;
-  }
+  /* La regla para .color-swatch ya la eliminaste, lo cual es correcto */
 }
 
 /* --- Estilos para el color seleccionado (Añadir al final del CSS) --- */
@@ -1476,7 +1703,471 @@ footer.site-footer {
   color: var(--color-primario);
 }
 
-/* 12. Media Queries Generales (Consolidadas y V2)
+/* 12. --- Estilos para la Página del Carrito (CartPage.jsx) --- */
+
+.empty-cart-message {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--color-secundario);
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+}
+
+.empty-cart-message p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+/* Layout principal de la página del carrito */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2 tercios para la lista, 1 tercio para el resumen */
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Lista de items */
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  box-shadow: var(--sombra-sutil);
+  align-items: flex-start;
+}
+
+.cart-item-info {
+  display: flex;
+  flex: 1;
+}
+
+.cart-item-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radio-borde-suave);
+}
+
+.cart-item-details {
+  flex-grow: 1; /* Ocupa el espacio disponible */
+}
+
+.cart-item-name {
+  font-family: var(--fuente-titulos);
+  font-size: 1.2rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.cart-item-fabric,
+.cart-item-price,
+.cart-item-quantity {
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  margin: 4px 0;
+}
+
+.cart-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea todo a la derecha */
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.cart-item-subtotal {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  margin-bottom: 15px;
+}
+
+.cart-item-remove-button {
+  background: none;
+  border: none;
+  color: var(--color-error);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 5px;
+}
+
+/* Resumen de compra */
+.cart-summary {
+  position: sticky;
+  top: 100px;
+  padding: 25px;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  box-shadow: var(--sombra-sutil);
+}
+
+.summary-title {
+  font-family: var(--fuente-titulos);
+  font-size: 1.3rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.checkout-button {
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+/* --- Estilos para el Selector de Cantidad en el Carrito --- */
+
+.cart-item-quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cart-item-quantity-btn {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+  color: var(--color-primario);
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: var(--transicion-rapida);
+}
+
+.cart-item-quantity-btn:hover {
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+}
+
+.cart-item-quantity-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-width: 25px;
+  text-align: center;
+}
+
+/* Media Query para móvil */
+@media (max-width: 768px) {
+  .cart-layout {
+    grid-template-columns: 1fr; /* Apila las columnas en móvil */
+  }
+}
+
+/* 13. --- Estilos para la Página de Checkout (CheckoutPage.jsx) --- */
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Columna de formulario más ancha que la del resumen */
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.checkout-form-container,
+.order-summary-container {
+  background-color: var(--color-blanco);
+  padding: 30px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+}
+
+.checkout-form-container h2,
+.order-summary-container h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.3rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* --- Estilos Adicionales para CheckoutPage --- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-texto-principal);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-borde);
+  border-left: 4px solid var(--color-acento-suave-transparente); 
+  border-radius: var(--radio-borde-suave);
+  font-size: 1rem;
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-blanco);
+  color: var(--color-texto-principal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-acento-suave);
+  box-shadow: 0 0 0 3px var(--color-acento-suave-transparente);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.summary-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.summary-item-name {
+  color: var(--color-texto-secundario);
+}
+
+.summary-item-price {
+  font-weight: 600;
+  color: var(--color-texto-principal);
+}
+
+@media (max-width: 768px) {
+  .checkout-layout {
+    grid-template-columns: 1fr; /* Apila las columnas en móvil */
+  }
+}
+
+.go-back-button {
+  background: none;
+  border: none;
+  padding: 10px;
+  margin-top: 15px;
+  color: var(--color-texto-secundario);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.go-back-button:hover {
+  color: var(--color-primario);
+}
+
+/* --- Estilos para el Selector de Método de Envío --- */
+
+.shipping-method-container {
+  margin-bottom: 30px;
+}
+
+.shipping-method-container h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.3rem;
+  color: var(--color-primario);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.shipping-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.shipping-option {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shipping-option.selected {
+  border-color: var(--color-primario);
+  background-color: var(--color-secundario);
+  box-shadow: 0 0 0 2px var(--color-primario-transparente);
+}
+
+.shipping-option input[type="radio"] {
+  margin-right: 15px;
+}
+
+/* --- Estilos para el Resumen de Compra --- */
+
+.summary-shipping {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-texto-secundario);
+  font-size: 1rem;
+  padding: 15px 0;
+  border-top: 1px solid var(--color-borde);
+  margin-top: 15px;
+}
+
+/* 14. Estilos para página de OrderSucess
+-------------------------------------------- */
+
+.order-success-box {
+  background-color: var(--color-blanco);
+  padding: 40px;
+  border-radius: var(--radio-borde-medio);
+  border: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.order-success-box .cta-button {
+  margin-top: 30px; /* Aumentamos el espaciado superior */
+}
+
+.order-success-title {
+  font-family: var(--fuente-titulos);
+  font-size: 2rem;
+  color: var(--color-primario);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.order-success-message, .order-id-message, .next-steps-message {
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+.order-id-message strong {
+  color: var(--color-primario);
+  font-family: monospace;
+  font-size: 1.1em; /* Un poco más grande para que sea más legible */
+  background-color: var(--color-secundario);
+  padding: 2px 5px; /* Más espaciado interno */
+  border-radius: var(--radio-borde-suave); /* Usamos la variable para consistencia */
+  border: 2px solid var(--color-acento); /* Borde de acento para máximo énfasis */
+  
+  /* Un pequeño truco para que el borde no se coma el fondo */
+  background-clip: padding-box; 
+}
+
+.success-icon { width: 80px; height: 80px; display: block; margin: 0 auto; }
+.success-icon-circle { stroke-width: 2; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+.success-icon-checkmark { stroke-width: 2; stroke-linecap: round; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+@keyframes stroke { 100% { stroke-dashoffset: 0; } }
+
+/* Corrección del botón de "Continuar con la compra" en el CartPage en móvil */
+
+.cart-summary .checkout-button {
+  color: var(--color-blanco) !important;
+}
+
+/* Estilo para el bloque del total a transferir */
+.order-success-total {
+  margin: 25px 0;
+  padding: 20px 25px; /* Un poco más de padding horizontal */
+  background-color: var(--color-secundario);
+  border-radius: var(--radio-borde-suave);
+  
+  /* Los bordes de acento que le dan el toque visual */
+  border-top: 3px solid var(--color-acento);
+  border-bottom: 3px solid var(--color-acento);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-primario);
+}
+
+.order-success-total span:last-child {
+  font-family: var(--fuente-titulos);
+  font-size: 1.6rem;
+}
+
+/* Estilo para la caja de instrucciones de la transferencia */
+.order-instructions-box {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+
+.order-instructions-box pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  font-family: var(--fuente-cuerpo); /* Usamos la fuente del cuerpo, más legible */
+  font-size: 1rem;
+  line-height: 1.7; /* Mejoramos el espaciado entre líneas */
+  color: var(--color-texto-principal);
+}
+
+/* 15. Media Queries Generales (Consolidadas y V2)
 -------------------------------------------------- */
 @media (max-width: 992px) {
   .section-title { font-size: 2.2rem; }
@@ -1493,6 +2184,8 @@ footer.site-footer {
   .contact-main-grid { grid-template-columns: 1fr; gap: 40px; }
   .contact-info-column { margin-bottom: 30px; }
   .catalog-main-title { font-size: 2rem; }
+  .product-detail-layout { gap: 30px; padding: 30px; }
+  .catalogo-layout { grid-template-columns: 200px 1fr; gap: 20px; }
 }
 
 @media (max-width: 768px) {
@@ -1558,15 +2251,114 @@ nav.navbar.scrolled .logo {
   .process-steps-grid-v2 { grid-template-columns: 1fr; gap: 30px; }
   .process-step-icon-v2 { font-size: 2.4rem; }
   .process-step-title-v2 { font-size: 1.15rem; }
-  .product-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .product-grid { gap: 20px; }
   .product-card-name { font-size: 1.1rem; }
   .product-card-price { font-size: 1.15rem; }
-  .product-detail-layout { grid-template-columns: 1fr; gap: 30px; }
-  .product-detail-images { position: static; max-height: none; overflow-y: visible; }
+
+  /* --- RESPONSIVE: Product Detail Page --- */
+  .product-detail-layout { grid-template-columns: 1fr; padding: 20px; }
+  .product-detail-images, .product-detail-info { position: static; max-height: none; overflow-y: visible; }
   .main-image-wrapper { aspect-ratio: 4 / 3; }
-  .product-detail-name { font-size: 2rem; }
-  .product-detail-price { font-size: 1.7rem; }
-  .product-info-section h2 { font-size: 1.15rem; }
+  .product-detail-name { font-size: 1.8rem; }
+  .product-detail-price { font-size: 1.6rem; }
+  .product-detail-info product-info-section h2 { font-size: 1.1rem; }
+  .add-to-cart-button { padding: 16px 25px; font-size: 1rem; }
+  .product-full-width-details, .variants-section { padding: 25px; }
+  .variants-section-title { font-size: 1.8rem; }
+
+  /* Ajuste para que el precio no sea tan grande en móvil */
+
+  .actions-price {
+    font-size: 1.5rem;
+  }
+
+  .actions-price-amount {
+    font-size: 1.5rem;
+  }
+
+  /* --- 2. TRANSFORMACIÓN A ACORDEÓN (MÓVIL) --- */
+
+  .product-tabs-container {
+    border: none;
+    background: none;
+    margin-top: 30px; /* Un poco más de espacio en móvil */
+  }
+
+  .tab-list {
+    display: block; /* Apilamos los botones verticalmente */
+    border-radius: var(--radio-borde-suave);
+    border: 1px solid var(--color-borde);
+    overflow: hidden;
+    box-shadow: var(--sombra-sutil);
+  }
+
+  .tab-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    background-color: var(--color-blanco);
+    border-right: none;
+    border-bottom: 1px solid var(--color-borde);
+    transition: background-color 0.2s ease;
+  }
+
+  .tab-list button:last-child {
+    border-bottom: none;
+  }
+  
+  .tab-button.active {
+    background-color: var(--color-secundario);
+    border-left: 4px solid var(--color-acento);
+    padding-left: 16px;
+  }
+
+  .tab-content-wrapper {
+    box-shadow: var(--sombra-estandar);
+    border-left: 1px solid var(--color-borde);
+    border-right: 1px solid var(--color-borde);
+    border-bottom: 1px solid var(--color-borde);
+    border-bottom-left-radius: var(--radio-borde-suave);
+    border-bottom-right-radius: var(--radio-borde-suave);
+    margin-top: 10px; /* Pequeño ajuste para unirlo al botón activo */
+  }
+  
+  .tab-panel {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+  }
+  
+  .tab-panel.open {
+    max-height: 2000px; /* Un valor alto para asegurar que quepa todo */
+    padding-top: 1px;
+  }
+  
+  .tab-panel-content h2 {
+    font-size: 1.2rem; /* Más pequeño que los títulos del acordeón */
+    text-transform: none; /* Le quitamos las mayúsculas */
+    color: var(--color-texto-principal);
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tab-button::after {
+    display: inline-block;
+    content: '+';
+    font-size: 1.8rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+    margin-right: 5px;
+  }
+  
+  .tab-button.active::after {
+    transform: rotate(45deg);
+  }
+
   .contact-hero .contact-page-title { font-size: 2.2rem; }
   .contact-form-column h2 { font-size: 1.6rem; }
   .contact-map-embed { height: 300px; aspect-ratio: unset; }
@@ -1580,7 +2372,12 @@ nav.navbar.scrolled .logo {
   .recognition-text-v2 { padding-right: 0; margin-bottom: 30px; }
   .recognition-links-v2 { justify-content: center; }
   .mercado-libre-screenshot-v2 { max-height: 300px; }
+
   /* Catálogo Responsive */
+  .catalogo-page-container { padding-left: 15px; padding-right: 15px; }
+  .catalogo-layout { grid-template-columns: 1fr; }
+  .catalogo-sidebar { position: static; margin-bottom: 30px; }
+  .catalogo-main-content { padding: 20px; }
   .catalog-page-header { padding: 20px 0; margin-bottom: 20px; }
   .catalog-page-header .section-container { padding-top: 15px; padding-bottom: 15px; }
   .catalog-main-title { text-align: center; font-size: 1.8rem; margin-bottom: 20px; }
@@ -1594,6 +2391,84 @@ nav.navbar.scrolled .logo {
   .pagination-button { padding: 8px 10px; font-size: 0.85rem; min-width: 35px; }
 /*  .pagination-button.page-number { */ /* Ocultar algunos números de página en móvil si son muchos  } */
   .pagination-ellipsis { font-size: 0.85rem; padding: 8px 3px;}
+
+  /* Estilos unificados para los swatches de tela en móvil */
+.color-swatch-grid {
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+    gap: 0.8rem;
+}
+
+.color-swatch {
+  width: 40px;
+  height: 40px;
+}
+
+  /* Carrito MEDIA QUERIES */
+
+  .cart-layout {
+    grid-template-columns: 1fr; /* Apila las columnas en móvil */
+  }
+
+  .cart-item {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .cart-item-image {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+  }
+
+  .cart-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* --- LA CLAVE ESTÁ AQUÍ --- */
+  .cart-item-details {
+    display: flex;         /* 1. Convertimos los detalles en un contenedor flexible */
+    flex-direction: column;  /* 2. Le decimos que apile sus hijos verticalmente */
+  }
+
+  /* 3. Asignamos un orden explícito a cada elemento hijo */
+  .cart-item-name { order: 1; font-size: 1.1rem; }
+  .cart-item-fabric { order: 2; }
+  .cart-item-price { order: 3; } /* <-- El precio unitario va en 3er lugar */
+  .cart-item-quantity-selector { order: 4; margin-top: 10px; } /* <-- El selector va en 4to lugar */
+  /* --- FIN DE LA CLAVE --- */
+
+
+  .cart-item-actions {
+    display: flex;
+    flex-direction: row; /* En móvil, los ponemos en fila */
+    flex-wrap: wrap; /* Permitimos que pasen a la siguiente línea si no caben */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .cart-item-actions .cart-item-quantity-selector {
+    order: 3; /* Lo mandamos al final */
+    flex-basis: 100%; /* Hacemos que ocupe su propia línea */
+    justify-content: flex-start;
+    margin-top: 15px;
+  }
+
+  .cart-item-subtotal {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cart-item-remove-button {
+    padding: 5px 0 5px 10px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1611,4 +2486,7 @@ nav.navbar.scrolled .logo {
   .nosotros-page-subtitle { font-size: 0.95rem; }
   .calidad-item h3 { font-size: 1.15rem; }
   .catalog-main-title { font-size: 1.6rem; }
+  .product-detail-layout, .product-full-width-details, .variants-section { padding: 15px; }
+  .product-detail-name { font-size: 1.6rem; }
+  .catalogo-main-content { padding: 15px; }
 }

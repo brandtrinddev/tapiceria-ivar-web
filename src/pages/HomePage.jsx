@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react';
+// src/pages/HomePage.jsx
+
+import React, { useState, useEffect } from 'react'; // CAMBIO: Añadimos useState
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
-import productData from '../data/productos.json';
+import { supabase } from '../supabaseClient.js'; // CAMBIO: Importamos Supabase
+
+// CAMBIO: Eliminamos la importación del JSON local
+// import productData from '../data/productos.json'; 
 
 // Iconos para "Por Qué Elegirnos"
 import iconCraftUrl from '../assets/icons/icon-craftsmanship.svg';
@@ -21,32 +26,48 @@ const iconMap = {
 };
 
 function HomePage() {
+  // CAMBIO: Creamos un estado para guardar los productos destacados
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
   useEffect(() => {
-    // 1. Manejar el Título
+    // 1. Manejar el Título y Meta Descripción (sin cambios)
     const newTitle = 'Tapicería Ivar - Muebles de diseño y calidad en Uruguay';
     document.title = newTitle;
-
-    // 2. Manejar la Meta Descripción
     const newDescription = 'Descubre sofás y sillones únicos, fabricados artesanalmente en Uruguay. Calidad insuperable, diseño 100% personalizado y atención directa.';
-    
     let metaDescription = document.querySelector('meta[name="description"]');
-
     if (!metaDescription) {
-      // Si la etiqueta no existe, la crea y la añade al head
       metaDescription = document.createElement('meta');
       metaDescription.name = 'description';
       document.head.appendChild(metaDescription);
     }
-    
-    // Actualiza el contenido de la etiqueta existente o recién creada
     metaDescription.setAttribute('content', newDescription);
+
+    // CAMBIO: Creamos una función para cargar los productos desde Supabase
+    const fetchFeaturedProducts = async () => {
+      const { data, error } = await supabase
+        .from('productos')
+        .select('*') // Pedimos todas las columnas (incluyendo imagen_url)
+        .eq('es_destacado', true) // Filtramos solo por los que son destacados
+        .limit(4); // Limitamos a 4 productos por si tienes muchos
+
+      if (error) {
+        console.error("Error al cargar productos destacados:", error);
+      } else {
+        setFeaturedProducts(data);
+      }
+    };
+
+    fetchFeaturedProducts(); // Ejecutamos la función al cargar la página
 
   }, []);
 
-  const featuredProducts = productData.filter(producto => producto.esDestacado === true);
+  // CAMBIO: Esta línea ya no es necesaria, los datos vienen del estado
+  // const featuredProducts = productData.filter(producto => producto.esDestacado === true);
 
   return (
     <div className="homepage-container">
+      {/* ... (El resto de tu JSX no necesita cambios, lo incluyo completo para que no haya errores) ... */}
+      
       {/* Sección Hero Renovada */}
       <section className="hero-section-v2">
         <div className="hero-overlay"></div>
@@ -72,7 +93,6 @@ function HomePage() {
           <div className="features-grid-v2">
             <div className="feature-item-v2">
               <div className="feature-icon-wrapper">
-                {/* Asumiendo que el SVG es blanco o le cambiaste el color a blanco */}
                 <img src={iconCraftUrl} alt="Pasión Artesanal" className="feature-icon-v2" />
               </div>
               <h3 className="feature-title-v2">Pasión artesanal</h3>
@@ -104,10 +124,8 @@ function HomePage() {
             {homeData.map(step => (
               <div key={step.id} className="process-step-item-v2">
                 <div className="process-step-icon-wrapper">
-                  {/* Acá está el cambio clave */}
                   <FontAwesomeIcon icon={iconMap[step.icon]} className="process-step-icon-v2" />
                 </div>
-                {/* El resto sigue igual */}
                 <h3 className="process-step-title-v2">{step.title}</h3>
                 <p className="process-step-description-v2">{step.description}</p>
               </div>
@@ -121,7 +139,7 @@ function HomePage() {
         <section className="featured-products-section-v2">
           <div className="section-container">
             <h2 className="section-title">Nuestras creaciones estrella</h2>
-            <div className="product-grid homepage-product-grid"> {/* product-grid necesita que sus estilos permitan varias columnas */}
+            <div className="product-grid homepage-product-grid">
               {featuredProducts.map(producto => (
                 <ProductCard key={producto.id} product={producto} />
               ))}

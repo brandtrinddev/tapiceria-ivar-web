@@ -73,9 +73,9 @@ function TelasPage() {
               </div>
             </div>
 
-            {tela.costoAdicionalPorCuerpo > 0 ? (
+            {tela.costoAdicionalPorMetro > 0 ? (
               <p className="tela-precio-adicional">
-                Costo adicional: <strong>+${tela.costoAdicionalPorCuerpo.toLocaleString('es-UY')} por cuerpo</strong>
+                Costo adicional: <strong>+${tela.costoAdicionalPorMetro.toLocaleString('es-UY')} por metro</strong>
               </p>
             ) : (
               <p className="tela-precio-adicional">
