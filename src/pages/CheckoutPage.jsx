@@ -42,7 +42,7 @@ const CheckoutPage = () => {
   
   const [shippingMethod, setShippingMethod] = useState('retiro');
   const [shippingCost, setShippingCost] = useState(0);
-  const MONTEVIDEO_SHIPPING_COST = 1200;
+  const MONTEVIDEO_SHIPPING_COST = 900;
 
   useEffect(() => {
     if (shippingMethod === 'envio' && formData.departamento.trim().toLowerCase() === 'montevideo') {
