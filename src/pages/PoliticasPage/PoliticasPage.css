@@ -1,0 +1,52 @@
+/* src/pages/PoliticasPage/PoliticasPage.css */
+
+.policy-content {
+  max-width: 800px;
+  margin: 40px auto 0 auto; /* Espacio superior después del título */
+  font-family: var(--fuente-cuerpo);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-texto-secundario);
+}
+
+.policy-content h2 {
+  font-family: var(--fuente-titulos);
+  font-size: 1.5rem;
+  color: var(--color-primario);
+  margin-top: 30px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.policy-content h2:first-of-type {
+  margin-top: 0;
+}
+
+.policy-content p, .policy-content ol {
+  margin-bottom: 1.5em;
+}
+
+.policy-content ol {
+  padding-left: 25px; /* Espaciado para la lista numerada */
+}
+
+.policy-content li {
+  margin-bottom: 0.8em;
+}
+
+.policy-content strong {
+  font-weight: 600;
+  color: var(--color-texto-principal);
+}
+
+.policy-content a {
+  color: var(--color-primario);
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.policy-content a:hover {
+  color: var(--color-acento);
+}
