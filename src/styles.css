@@ -1644,6 +1644,41 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   font-weight: 700;
 }
 
+/* --- Estilos para la nueva estructura de TelasPage --- */
+
+.tela-caracteristicas-titulo {
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.tela-caracteristicas-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.tela-caracteristicas-list li {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+/* El "check" verde para cada característica */
+.tela-caracteristicas-list li::before {
+  content: '✓';
+  color: #1b5e20; /* Un verde oscuro y elegante */
+  position: absolute;
+  left: 0;
+  top: 1px;
+}
+
 /* Responsive para TelasPage */
 @media (max-width: 576px) {
   .telas-main-title {
