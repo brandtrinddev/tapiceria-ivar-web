@@ -19,7 +19,14 @@ const OrderSuccessPage = () => {
       setLoading(true);
       const { data: orderData, error: orderError } = await supabase
         .from('pedidos')
-        .select('*, cuentas_bancarias(instrucciones)')
+        .select(`
+          *,
+          datos_cliente,
+          cuentas_bancarias(instrucciones),
+          pedidos_items(
+            productos(sku)
+          )
+        `)
         .eq('id', orderId)
         .single();
 
@@ -33,6 +40,52 @@ const OrderSuccessPage = () => {
     };
     fetchOrderDetails();
   }, [orderId]);
+
+  useEffect(() => {
+    if (!order || !order.datos_cliente) {
+      return;
+    }
+
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    const enviarConversionAMeta = async () => {
+      try {
+        const userData = {
+          email: order.datos_cliente.email,
+          phone: order.datos_cliente.telefono,
+          firstName: order.datos_cliente.nombre,
+          lastName: order.datos_cliente.apellido,
+          fbc: getCookie('_fbc') || null,
+          fbp: getCookie('_fbp') || null,
+        };
+
+        const eventData = {
+          value: order.total_pedido,
+          currency: 'UYU',
+          content_ids: order.pedidos_items.map(item => item.productos.sku),
+          event_id: `pedido_${order.numero_pedido}`,
+        };
+        
+        await fetch('/api/send-conversion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userData, eventData }),
+        });
+        
+        console.log('✅ Evento de conversión "Purchase" enviado exitosamente a Meta.');
+
+      } catch (error) {
+        console.error('❌ Error al enviar el evento de conversión a Meta:', error);
+      }
+    };
+
+    enviarConversionAMeta();
+
+  }, [order]);
 
   if (loading) {
     return <div className="lazy-fallback">Cargando confirmación...</div>;
@@ -55,12 +108,10 @@ const OrderSuccessPage = () => {
       <div className="section-container" style={{ paddingTop: '100px', paddingBottom: '50px' }}>
         <div className="order-success-box">
           <h1 className="order-success-title">¡Pedido reservado con éxito!</h1>
-          
           <div className="order-success-total">
             <span>Total a transferir:</span>
             <span>{formatPriceUYU(order.total_pedido)}</span>
           </div>
-
           <p className="order-success-message">Para confirmar tu compra, realiza la transferencia con los siguientes datos:</p>
           <div className="order-instructions-box">
             <pre>{order.cuentas_bancarias.instrucciones}</pre>
@@ -94,4 +145,5 @@ const OrderSuccessPage = () => {
     </div>
   );
 };
+
 export default OrderSuccessPage;
