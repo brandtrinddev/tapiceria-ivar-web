@@ -1,4 +1,4 @@
-// src/pages/OrderSuccessPage.jsx
+// src/pages/OrderSuccessPage.jsx - VERSIÓN FINAL CORREGIDA
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -22,14 +22,17 @@ const OrderSuccessPage = () => {
       let lastError = null;
 
       for (let attempt = 1; attempt <= 5; attempt++) {
+        // ¡SINTAXIS DE CONSULTA CORREGIDA!
+        // La clave es especificar la tabla foránea 'pedido_items' y luego, desde ella,
+        // hacer la referencia a la tabla 'productos'.
         const { data, error } = await supabase
           .from('pedidos')
           .select(`
-            *, 
-            datos_cliente, 
-            cuentas_bancarias(instrucciones), 
-            pedido_items( // <-- ¡AQUÍ ESTABA EL ERROR! CORREGIDO A SINGULAR
-              productos(sku)
+            *,
+            datos_cliente,
+            cuentas_bancarias(instrucciones),
+            pedido_items (
+              productos (sku)
             )
           `)
           .eq('id', orderId)
@@ -37,13 +40,13 @@ const OrderSuccessPage = () => {
 
         if (data) {
           orderData = data;
-          break; 
+          break;
         }
 
         lastError = error;
 
         if (attempt < 5) {
-          console.log(`Intento ${attempt}: Pedido no encontrado. Reintentando en 1 segundo...`);
+          console.log(`Intento ${attempt}: Pedido no encontrado. Reintentando...`);
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
       }
@@ -51,7 +54,7 @@ const OrderSuccessPage = () => {
       if (orderData) {
         setOrder(orderData);
       } else {
-        console.error("Error final al buscar el pedido después de varios intentos:", lastError);
+        console.error("Error final al buscar el pedido:", lastError);
         setOrder(null);
       }
       setLoading(false);
@@ -62,7 +65,7 @@ const OrderSuccessPage = () => {
 
 
   useEffect(() => {
-    if (!order || !order.datos_cliente) {
+    if (!order || !order.datos_cliente || !order.pedido_items) {
       return;
     }
     const getCookie = (name) => {
@@ -83,7 +86,7 @@ const OrderSuccessPage = () => {
         const eventData = {
           value: order.total_pedido,
           currency: 'UYU',
-          content_ids: order.pedido_items.map(item => item.productos.sku), // <-- TAMBIÉN CORREGIDO AQUÍ
+          content_ids: order.pedido_items.map(item => item.productos.sku).filter(sku => sku),
           event_id: `pedido_${order.numero_pedido}`,
         };
         await fetch('/api/send-conversion', {
@@ -115,7 +118,6 @@ const OrderSuccessPage = () => {
     );
   }
 
-  // El resto del componente se mantiene igual...
   if (order.cuenta_bancaria_id && order.cuentas_bancarias) {
     return (
       <div className="section-container" style={{ paddingTop: '100px', paddingBottom: '50px' }}>
@@ -129,12 +131,8 @@ const OrderSuccessPage = () => {
           <div className="order-instructions-box">
             <pre>{order.cuentas_bancarias.instrucciones}</pre>
           </div>
-          <p className="order-id-message">
-            Es muy importante que incluyas tu número de pedido en la referencia: <strong>#{order.numero_pedido}</strong>
-          </p>
-          <Link to="/catalogo" className="cta-button" style={{ marginTop: '20px' }}>
-            Seguir comprando
-          </Link>
+          <p className="order-id-message">Es muy importante que incluyas tu número de pedido en la referencia: <strong>#{order.numero_pedido}</strong></p>
+          <Link to="/catalogo" className="cta-button" style={{ marginTop: '20px' }}>Seguir comprando</Link>
         </div>
       </div>
     );
@@ -151,9 +149,7 @@ const OrderSuccessPage = () => {
         <p className="order-success-message">Hemos recibido tu pedido y ya estamos trabajando en él.</p>
         <p className="order-id-message">Tu número de pedido es: <strong>#{order.numero_pedido}</strong></p>
         <p className="next-steps-message">Nos pondremos en contacto contigo a la brevedad.</p>
-        <Link to="/catalogo" className="cta-button">
-          Seguir comprando
-        </Link>
+        <Link to="/catalogo" className="cta-button">Seguir comprando</Link>
       </div>
     </div>
   );
