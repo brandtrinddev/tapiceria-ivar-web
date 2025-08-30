@@ -52,6 +52,7 @@ const OrderSuccessPage = () => {
       }
 
       if (orderData) {
+        console.log("Datos del pedido recibidos para depuración:", orderData);
         setOrder(orderData);
       } else {
         console.error("Error final al buscar el pedido:", lastError);
