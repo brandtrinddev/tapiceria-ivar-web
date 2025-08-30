@@ -15,43 +15,58 @@ const OrderSuccessPage = () => {
       setLoading(false);
       return;
     }
-    const fetchOrderDetails = async () => {
-      setLoading(true);
-      const { data: orderData, error: orderError } = await supabase
-        .from('pedidos')
-        .select(`
-          *,
-          datos_cliente,
-          cuentas_bancarias(instrucciones),
-          pedidos_items(
-            productos(sku)
-          )
-        `)
-        .eq('id', orderId)
-        .single();
 
-      if (orderError) {
-        console.error("Error al buscar el pedido:", orderError);
-        setOrder(null);
-      } else {
+    // ¡NUEVA LÓGICA CON REINTENTOS!
+    const fetchOrderDetailsWithRetries = async () => {
+      setLoading(true);
+      let orderData = null;
+      let lastError = null;
+
+      // Intentaremos hasta 5 veces con una pausa de 1 segundo entre cada intento.
+      for (let attempt = 1; attempt <= 5; attempt++) {
+        const { data, error } = await supabase
+          .from('pedidos')
+          .select(`*, datos_cliente, cuentas_bancarias(instrucciones), pedidos_items(productos(sku))`)
+          .eq('id', orderId)
+          .single();
+
+        if (data) {
+          orderData = data;
+          break; // ¡Pedido encontrado! Salimos del bucle.
+        }
+
+        lastError = error; // Guardamos el error para depuración.
+
+        // Si no es el último intento, esperamos antes de volver a probar.
+        if (attempt < 5) {
+          console.log(`Intento ${attempt}: Pedido no encontrado. Reintentando en 1 segundo...`);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+
+      if (orderData) {
         setOrder(orderData);
+      } else {
+        console.error("Error final al buscar el pedido después de varios intentos:", lastError);
+        setOrder(null);
       }
       setLoading(false);
     };
-    fetchOrderDetails();
+
+    fetchOrderDetailsWithRetries();
   }, [orderId]);
 
+
+  // El resto del código para mostrar la página es el mismo
   useEffect(() => {
     if (!order || !order.datos_cliente) {
       return;
     }
-
     const getCookie = (name) => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     };
-
     const enviarConversionAMeta = async () => {
       try {
         const userData = {
@@ -62,29 +77,23 @@ const OrderSuccessPage = () => {
           fbc: getCookie('_fbc') || null,
           fbp: getCookie('_fbp') || null,
         };
-
         const eventData = {
           value: order.total_pedido,
           currency: 'UYU',
           content_ids: order.pedidos_items.map(item => item.productos.sku),
           event_id: `pedido_${order.numero_pedido}`,
         };
-        
         await fetch('/api/send-conversion', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userData, eventData }),
         });
-        
         console.log('✅ Evento de conversión "Purchase" enviado exitosamente a Meta.');
-
       } catch (error) {
         console.error('❌ Error al enviar el evento de conversión a Meta:', error);
       }
     };
-
     enviarConversionAMeta();
-
   }, [order]);
 
   if (loading) {
