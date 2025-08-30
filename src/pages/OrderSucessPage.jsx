@@ -16,28 +16,32 @@ const OrderSuccessPage = () => {
       return;
     }
 
-    // ¡NUEVA LÓGICA CON REINTENTOS!
     const fetchOrderDetailsWithRetries = async () => {
       setLoading(true);
       let orderData = null;
       let lastError = null;
 
-      // Intentaremos hasta 5 veces con una pausa de 1 segundo entre cada intento.
       for (let attempt = 1; attempt <= 5; attempt++) {
         const { data, error } = await supabase
           .from('pedidos')
-          .select(`*, datos_cliente, cuentas_bancarias(instrucciones), pedidos_items(productos(sku))`)
+          .select(`
+            *, 
+            datos_cliente, 
+            cuentas_bancarias(instrucciones), 
+            pedido_items( // <-- ¡AQUÍ ESTABA EL ERROR! CORREGIDO A SINGULAR
+              productos(sku)
+            )
+          `)
           .eq('id', orderId)
           .single();
 
         if (data) {
           orderData = data;
-          break; // ¡Pedido encontrado! Salimos del bucle.
+          break; 
         }
 
-        lastError = error; // Guardamos el error para depuración.
+        lastError = error;
 
-        // Si no es el último intento, esperamos antes de volver a probar.
         if (attempt < 5) {
           console.log(`Intento ${attempt}: Pedido no encontrado. Reintentando en 1 segundo...`);
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -57,7 +61,6 @@ const OrderSuccessPage = () => {
   }, [orderId]);
 
 
-  // El resto del código para mostrar la página es el mismo
   useEffect(() => {
     if (!order || !order.datos_cliente) {
       return;
@@ -80,7 +83,7 @@ const OrderSuccessPage = () => {
         const eventData = {
           value: order.total_pedido,
           currency: 'UYU',
-          content_ids: order.pedidos_items.map(item => item.productos.sku),
+          content_ids: order.pedido_items.map(item => item.productos.sku), // <-- TAMBIÉN CORREGIDO AQUÍ
           event_id: `pedido_${order.numero_pedido}`,
         };
         await fetch('/api/send-conversion', {
@@ -112,6 +115,7 @@ const OrderSuccessPage = () => {
     );
   }
 
+  // El resto del componente se mantiene igual...
   if (order.cuenta_bancaria_id && order.cuentas_bancarias) {
     return (
       <div className="section-container" style={{ paddingTop: '100px', paddingBottom: '50px' }}>
