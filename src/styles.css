@@ -760,6 +760,26 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   margin-top: 30px;
 }
 
+/* --- Estilos para mejorar la legibilidad del contenido en las pestañas --- */
+
+.tab-panel-content .product-info-section p,
+.tab-panel-content .product-info-section ul {
+  margin-bottom: 1.5em; 
+  line-height: 1.7;   
+}
+
+.tab-panel-content .product-info-section ul {
+  padding-left: 20px; 
+}
+
+.tab-panel-content .product-info-section li {
+  margin-bottom: 0.8em; 
+}
+
+.tab-panel-content .product-info-section > *:last-child {
+  margin-bottom: 0;
+}
+
 /* Estilos para el botón dentro de la notificación toast */
   .toast-go-to-cart-btn {
     background-color: transparent;
