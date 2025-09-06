@@ -114,7 +114,8 @@ function ProductDetailPage() {
       productName: product.nombre,
       quantity: quantity,
       tela: selectedTela,
-      unitPrice: precioUnitario,
+      unitPrice: product.precio_base,
+      metros_tela_base: product.metros_tela_base,
       imageUrl: product.imagen_url,
       detalles: product.detalles
     };
