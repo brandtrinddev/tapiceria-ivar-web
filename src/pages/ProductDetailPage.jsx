@@ -76,9 +76,15 @@ function ProductDetailPage() {
 
   const precioFinalCalculado = useMemo(() => {
     if (!product) return 0;
-    const currentItem = { unitPrice: precioUnitario, quantity: quantity, detalles: product.detalles };
+    const currentItem = {
+      unitPrice: product.precio_base,
+      quantity: quantity,
+      detalles: product.detalles,
+      tela: selectedTela,
+      metros_tela_base: product.metros_tela_base
+    };
     return calculateSubtotal(currentItem);
-  }, [precioUnitario, quantity, product]);
+  }, [product, selectedTela, quantity]);
   
   const allImages = useMemo(() => [product?.imagen_url, ...(product?.detalles?.galeria || [])].filter(Boolean), [product]);
   const currentIndex = useMemo(() => allImages.indexOf(selectedImage), [allImages, selectedImage]);
@@ -114,7 +120,8 @@ function ProductDetailPage() {
       productName: product.nombre,
       quantity: quantity,
       tela: selectedTela,
-      unitPrice: precioUnitario,
+      unitPrice: product.precio_base,
+      metros_tela_base: product.metros_tela_base,
       imageUrl: product.imagen_url,
       detalles: product.detalles
     };
