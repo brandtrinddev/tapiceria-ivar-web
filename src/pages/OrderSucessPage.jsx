@@ -100,7 +100,12 @@ const OrderSuccessPage = () => {
         console.error('❌ Error al enviar el evento de conversión a Meta:', error);
       }
     };
-    enviarConversionAMeta();
+    if (window.location.hostname === 'www.tapiceriaivar.com.uy') {
+      enviarConversionAMeta();
+    } else {
+      console.log ('MODO DE PRUEBA: El evento de conversión a Meta NO fue envíado');
+    }
+    
   }, [order]);
 
   if (loading) {
