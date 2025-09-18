@@ -7,7 +7,7 @@ import ReactPixel from 'react-facebook-pixel';
 // --- INICIO DE LA LÓGICA DEL PÍXEL CORREGIDA ---
 const PIXEL_ID = '1111607510484951';
 const options = {
-  autoConfig: false, // <-- 1. CAMBIAMOS ESTO A 'false' PARA TENER CONTROL MANUAL
+  autoConfig: true, // <-- 1. CAMBIAMOS ESTO A 'false' PARA TENER CONTROL MANUAL
   debug: false,
 };
 ReactPixel.init(PIXEL_ID, null, options);
