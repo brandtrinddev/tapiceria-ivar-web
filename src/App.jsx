@@ -3,6 +3,18 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+// --- AÑADIDO: Importación e Inicialización del Píxel ---
+import ReactPixel from 'react-facebook-pixel';
+
+const PIXEL_ID = '1111607510484951';
+const options = {
+  autoConfig: true,
+  debug: false, // Dejamos el debug en false ahora que sabemos el problema
+};
+ReactPixel.init(PIXEL_ID, null, options);
+// --------------------------------------------------------
+
+
 // Importaciones "lazy" de las páginas
 const HomePage = lazy(() => import('./pages/HomePage'));
 const CatalogoPage = lazy(() => import('./pages/CatalogoPage'));
