@@ -129,6 +129,19 @@ function ProductDetailPage() {
       toast.error("Por favor, selecciona un tipo y color de tela.");
       return;
     }
+
+        if (window.fbq) {
+      const itemData = {
+        content_name: product.nombre,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: precioFinalCalculado, // Usamos el precio ya calculado que incluye la tela
+        currency: 'UYU',
+        num_items: quantity
+      };
+      window.fbq('track', 'AddToCart', itemData);
+    }
+
     const itemToAdd = {
       productId: product.id,
       productName: product.nombre,
