@@ -55,8 +55,8 @@ const AdminPage = () => {
     toast.promise(updatePromise, { pending: 'Actualizando estado...', success: '¡Estado actualizado!', error: 'Error al actualizar.' });
   };
 
-  const getStatusClass = (status) => { if (!status) return ''; return `status-${status.toLowerCase().replace(/ /g, '-')}`; };
-
+  const getStatusClass = (status) => { if (!status) return ''; return `status-${status.trim().toLowerCase().replace(/ /g, '-')}`; };
+  
   if (!isAuthenticated) {
     return (
       <div className="admin-login-container">
