@@ -9,6 +9,7 @@ import { useDrag } from '@use-gesture/react';
 import { useCart } from '../context/CartContext.jsx';
 import { calculateSubtotal } from '../utils/pricing.js';
 import { toast } from 'react-toastify'; // Se añade import para toast
+import ReactPixel from 'react-facebook-pixel';
 
 const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
 const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Altura', profundidadTotalChaise: 'Profundidad Total Chaise', profundidadChaise: 'Profundidad Chaise', profundidadTotal: 'Profundidad Total' };
@@ -44,6 +45,19 @@ function ProductDetailPage() {
     };
     if (productId) fetchProduct();
   }, [productId]);
+
+  useEffect(() => {
+    if(product && window.fbq) {
+      const productData = {
+        content_name: product.nombre,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.precio_base,
+        currency: 'UYU'
+      };
+      window.fbq('track', 'ViewContent', productData);
+    }
+  }, [product]);
 
   useEffect(() => {
     const fetchTelas = async () => {
