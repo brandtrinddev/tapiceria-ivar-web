@@ -9,7 +9,7 @@ import './AdminPage.css';
 Modal.setAppElement('#root');
 
 const ADMIN_SECRET_CODE = import.meta.env.VITE_ADMIN_SECRET_CODE;
-const ORDER_STATUSES = [ 'Pendiente de transferencia', 'Pago realizado', 'En fabricación', 'Pedido finalizado', 'Enviado', 'Completado', 'Cancelado' ];
+const ORDER_STATUSES = [ 'Pendiente de transferencia', 'Pendiente de pago', 'Pago realizado', 'En fabricación', 'Pedido finalizado', 'Enviado', 'Completado', 'Cancelado' ];
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

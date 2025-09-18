@@ -104,7 +104,8 @@
 
 /* Colores dinámicos basados en el estado */
 
-.status-select.status-pendiente-de-transferencia {
+.status-select.status-pendiente-de-transferencia,
+.status-select.status-pendiente-de-pago {
   background-color: #FFF3E0; /* Naranja muy suave (Atención requerida) */
   color: #E65100;
 }
