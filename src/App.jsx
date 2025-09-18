@@ -1,18 +1,8 @@
 // src/App.jsx
 
-import React, { lazy, Suspense, useEffect } from 'react'; // Asegúrate de que useEffect esté importado
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import ReactPixel from 'react-facebook-pixel';
-
-// --- INICIO DE LA LÓGICA DEL PÍXEL CORREGIDA ---
-const PIXEL_ID = '1111607510484951';
-const options = {
-  autoConfig: true, // <-- 1. CAMBIAMOS ESTO A 'false' PARA TENER CONTROL MANUAL
-  debug: false,
-};
-ReactPixel.init(PIXEL_ID, null, options);
-// --- FIN DE LA LÓGICA DEL PÍXEL CORREGIDA ---
-
 
 // Importaciones "lazy" de las páginas
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -29,7 +19,6 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage'));
 const PoliticasPage = lazy(() => import('./pages/PoliticasPage/PoliticasPage'));
 
-// ... (resto de importaciones sin cambios)
 import Header from './components/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import FloatingButtons from './components/FloatingButtons.jsx';
@@ -39,12 +28,20 @@ import './App.css';
 function App() {
   const location = useLocation();
 
-  // --- AÑADIDO: VIGILANTE DE NAVEGACIÓN PARA EL PÍXEL ---
+  // --- EFECTO #1: INICIALIZACIÓN (SOLO SE EJECUTA UNA VEZ) ---
   useEffect(() => {
-    // Esta línea se ejecutará en la carga inicial Y CADA VEZ que la URL cambie.
+    const PIXEL_ID = '1111607510484951';
+    const options = {
+      autoConfig: false, // Control manual total
+      debug: false,
+    };
+    ReactPixel.init(PIXEL_ID, null, options);
+  }, []); // El array vacío [] asegura que esto se ejecute UNA SOLA VEZ.
+
+  // --- EFECTO #2: TRACKING DE PAGEVIEW (SE EJECUTA EN CADA NAVEGACIÓN) ---
+  useEffect(() => {
     ReactPixel.pageView();
-  }, [location]); // La dependencia [location] es la clave.
-  // --------------------------------------------------------
+  }, [location]); // Se ejecuta cada vez que la URL cambia.
 
   return (
     <div className="app-container"> 
@@ -63,7 +60,7 @@ function App() {
             <Route path="/telas" element={<TelasPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contacto" element={<ContactoPage />} />
-            <Route path="/gestion-pedidos-ivar" element={<AdminPage />} /> {/* <-- AÑADIDO: La nueva ruta secreta */}
+            <Route path="/gestion-pedidos-ivar" element={<AdminPage />} />
             <Route path="/politicas-devolucion-garantia" element={<PoliticasPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
