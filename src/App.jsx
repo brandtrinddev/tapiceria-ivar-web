@@ -1,18 +1,17 @@
 // src/App.jsx
 
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react'; // Asegúrate de que useEffect esté importado
 import { Routes, Route, useLocation } from 'react-router-dom';
-
-// --- AÑADIDO: Importación e Inicialización del Píxel ---
 import ReactPixel from 'react-facebook-pixel';
 
+// --- INICIO DE LA LÓGICA DEL PÍXEL CORREGIDA ---
 const PIXEL_ID = '1111607510484951';
 const options = {
-  autoConfig: true,
-  debug: false, // Dejamos el debug en false ahora que sabemos el problema
+  autoConfig: false, // <-- 1. CAMBIAMOS ESTO A 'false' PARA TENER CONTROL MANUAL
+  debug: false,
 };
 ReactPixel.init(PIXEL_ID, null, options);
-// --------------------------------------------------------
+// --- FIN DE LA LÓGICA DEL PÍXEL CORREGIDA ---
 
 
 // Importaciones "lazy" de las páginas
@@ -39,6 +38,13 @@ import './App.css';
 
 function App() {
   const location = useLocation();
+
+  // --- AÑADIDO: VIGILANTE DE NAVEGACIÓN PARA EL PÍXEL ---
+  useEffect(() => {
+    // Esta línea se ejecutará en la carga inicial Y CADA VEZ que la URL cambie.
+    ReactPixel.pageView();
+  }, [location]); // La dependencia [location] es la clave.
+  // --------------------------------------------------------
 
   return (
     <div className="app-container"> 
