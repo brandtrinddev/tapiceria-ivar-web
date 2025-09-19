@@ -50,9 +50,28 @@ const AdminPage = () => {
   const handleLogin = (e) => { e.preventDefault(); if (inputCode === ADMIN_SECRET_CODE) { toast.success("Acceso concedido"); setIsAuthenticated(true); } else { toast.error("Código de acceso incorrecto"); } };
 
   const handleStatusChange = async (orderId, newStatus) => {
-    setOrders(currentOrders => currentOrders.map(order => order.id === orderId ? { ...order, estado: newStatus } : order ));
-    const updatePromise = supabase.from('pedidos').update({ estado: newStatus }).eq('id', orderId);
-    toast.promise(updatePromise, { pending: 'Actualizando estado...', success: '¡Estado actualizado!', error: 'Error al actualizar.' });
+    setOrders(currentOrders =>
+      currentOrders.map(order =>
+        orderId === orderId ? { ...order, estado: newStatus } : order
+      )
+    );
+
+    const updatePromise = fetch('/api/update-order-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, newStatus }),
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Falló la comunicación con el servidor');
+      }
+      return response.json();
+    });
+
+    toast.promise(updatePromise, {
+      pending: 'Actualizando estado...',
+      success: '¡Estado actualizado con éxito!',
+      error: 'Error al actualizar el estado.'
+    });
   };
 
   const getStatusClass = (status) => { if (!status) return ''; return `status-${status.trim().toLowerCase().replace(/ /g, '-')}`; };
