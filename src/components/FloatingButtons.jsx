@@ -6,9 +6,15 @@ function FloatingButtons() {
   const numeroWhatsApp = '59897531335';
   const linkWhatsApp = `https://wa.me/${numeroWhatsApp}`;
 
+  const handleWhatsAppClick = () => {
+    if (window.fbq) {
+      window.fbq('track', 'Contact');
+    }
+  };
+
   return (
     <div className="botones-flotantes">
-      <a href={linkWhatsApp} className="btn-float whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+      <a href={linkWhatsApp} className="btn-float whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" onClick={handleWhatsAppClick}>
         <FontAwesomeIcon icon={faWhatsapp} />
       </a>
       {/* Aquí podrías añadir Instagram o Facebook en el futuro */}
