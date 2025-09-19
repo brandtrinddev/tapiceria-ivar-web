@@ -14,9 +14,15 @@ function ContactoPage() {
     // Lógica condicional para el Título
     if (state.succeeded) {
       document.title = 'Mensaje Enviado - Tapicería Ivar';
+
+      if (window.fbq) {
+        window.fbq('track', 'Contact');
+      }
+      
     } else {
       document.title = 'Contacto - Tapicería Ivar';
     }
+
 
     // Lógica para la Meta Descripción (se ejecuta en ambos casos)
     const newDescription = 'Contáctanos para consultas, cotizaciones o para visitar nuestro taller. En Tapicería Ivar estamos listos para ayudarte a crear el mueble de tus sueños.';
