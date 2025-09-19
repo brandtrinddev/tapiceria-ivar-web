@@ -50,11 +50,38 @@ const AdminPage = () => {
   const handleLogin = (e) => { e.preventDefault(); if (inputCode === ADMIN_SECRET_CODE) { toast.success("Acceso concedido"); setIsAuthenticated(true); } else { toast.error("Código de acceso incorrecto"); } };
 
   const handleStatusChange = async (orderId, newStatus) => {
-    setOrders(currentOrders =>
-      currentOrders.map(order =>
-        orderId === orderId ? { ...order, estado: newStatus } : order
+    // --- MICRÓFONO 1: ¿Qué datos estamos recibiendo? ---
+    console.log(`Intentando cambiar estado del pedido ID: ${orderId} a: ${newStatus}`);
+
+    setOrders(currentOrders => 
+      currentOrders.map(order => 
+        order.id === orderId ? { ...order, estado: newStatus } : order 
       )
     );
+
+    try {
+      const response = await fetch('/api/update-order-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, newStatus }),
+      });
+
+      const result = await response.json();
+
+      // --- MICRÓFONO 2: ¿Qué nos respondió el servidor? ---
+      console.log('Respuesta del servidor:', result);
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Falló la comunicación con el servidor.');
+      }
+      
+      toast.success('¡Estado actualizado con éxito!');
+
+    } catch (error) {
+      console.error("Error en handleStatusChange:", error);
+      toast.error('Error al actualizar el estado.');
+    }
+  };
 
     const updatePromise = fetch('/api/update-order-status', {
       method: 'POST',
@@ -185,6 +212,5 @@ const AdminPage = () => {
       )}
     </div>
   );
-};
 
 export default AdminPage;

@@ -14,17 +14,22 @@ const hash = (data) => {
 };
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+  if (req.method !== 'POST') { /* ... */ }
 
   try {
     const { orderId, newStatus } = req.body;
 
-    const { error: updateError } = await supabase
+    // --- MICRÓFONO 1: ¿Qué datos llegaron al backend? ---
+    console.log(`Backend recibió la orden de actualizar pedido ID: ${orderId} a: ${newStatus}`);
+
+    const { data, error: updateError } = await supabase
       .from('pedidos')
       .update({ estado: newStatus })
-      .eq('id', orderId);
+      .eq('id', orderId)
+      .select(); // <-- AÑADIMOS .select() para que nos devuelva el resultado
+
+    // --- MICRÓFONO 2: ¿Qué respondió Supabase al intento de UPDATE? ---
+    console.log('Respuesta de Supabase al UPDATE:', { data, updateError });
 
     if (updateError) throw updateError;
 
