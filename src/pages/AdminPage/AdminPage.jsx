@@ -83,24 +83,6 @@ const AdminPage = () => {
     }
   };
 
-    const updatePromise = fetch('/api/update-order-status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId, newStatus }),
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Falló la comunicación con el servidor');
-      }
-      return response.json();
-    });
-
-    toast.promise(updatePromise, {
-      pending: 'Actualizando estado...',
-      success: '¡Estado actualizado con éxito!',
-      error: 'Error al actualizar el estado.'
-    });
-  };
-
   const getStatusClass = (status) => { if (!status) return ''; return `status-${status.trim().toLowerCase().replace(/ /g, '-')}`; };
   
   if (!isAuthenticated) {
@@ -212,5 +194,6 @@ const AdminPage = () => {
       )}
     </div>
   );
+};
 
 export default AdminPage;
