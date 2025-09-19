@@ -1,9 +1,9 @@
-// Ruta: /api/update-order-status.js -- VERSIÓN FINAL Y CORRECTA
+// Ruta: /api/update-order-status.js -- Versión Limpia para Producción
 
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 
-// Usamos los nombres de variables CORRECTOS que vimos en los logs
+// Usamos los nombres de variables correctos
 const supabase = createClient(
   process.env.SUPABASE_URL, 
   process.env.SUPABASE_SERVICE_KEY
@@ -14,24 +14,26 @@ const hash = (data) => {
 };
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') { /* ... */ }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
   try {
     const { orderId, newStatus } = req.body;
 
-    // --- MICRÓFONO 1: ¿Qué datos llegaron al backend? ---
-    console.log(`Backend recibió la orden de actualizar pedido ID: ${orderId} a: ${newStatus}`);
+    if (!orderId || !newStatus) {
+      return res.status(400).json({ error: 'orderId y newStatus son requeridos.' });
+    }
 
-    const { data, error: updateError } = await supabase
+    const { error: updateError } = await supabase
       .from('pedidos')
       .update({ estado: newStatus })
-      .eq('id', orderId)
-      .select(); // <-- AÑADIMOS .select() para que nos devuelva el resultado
+      .eq('id', orderId);
 
-    // --- MICRÓFONO 2: ¿Qué respondió Supabase al intento de UPDATE? ---
-    console.log('Respuesta de Supabase al UPDATE:', { data, updateError });
-
-    if (updateError) throw updateError;
+    if (updateError) {
+      console.error('Supabase update error:', updateError);
+      throw new Error('Error al actualizar el estado en la base de datos.');
+    }
 
     if (newStatus === 'Pago realizado') {
       const { data: orderData, error: orderError } = await supabase
@@ -40,10 +42,21 @@ export default async function handler(req, res) {
         .eq('id', orderId)
         .single();
 
-      if (orderError) throw orderError;
+      if (orderError) {
+        console.error('Supabase select error:', orderError);
+        throw new Error('No se pudo encontrar el pedido para enviar el evento de compra.');
+      }
       
       const accessToken = process.env.META_ACCESS_TOKEN;
       const pixelId = process.env.META_PIXEL_ID;
+      
+      // Si faltan las credenciales de Meta, no continuamos.
+      if (!accessToken || !pixelId) {
+        console.error("Faltan las credenciales de la API de Meta.");
+        // Devolvemos éxito de todas formas, porque el estado SÍ se actualizó.
+        return res.status(200).json({ status: 'success', message: 'Estado actualizado, pero no se pudo enviar el evento a Meta (faltan credenciales).' });
+      }
+
       const url = `https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`;
 
       const payload = {
@@ -72,12 +85,9 @@ export default async function handler(req, res) {
           body: JSON.stringify(payload),
         });
         if (!metaResponse.ok) {
-          console.error("Error sending event to Meta:", await metaResponse.json());
-        } else {
-          console.log(`Evento Purchase para pedido ${orderData.numero_pedido} enviado a Meta.`);
+          const errorBody = await metaResponse.json();
+          console.error("Error al enviar el evento a Meta:", errorBody);
         }
-      } else {
-        console.log(`Evento Purchase NO enviado a Meta (entorno de prueba). Pedido: ${orderData.numero_pedido}`);
       }
     }
 
