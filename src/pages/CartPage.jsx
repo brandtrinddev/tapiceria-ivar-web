@@ -9,6 +9,19 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
+        // --- INICIO: CÓDIGO AÑADIDO PARA EL PÍXEL DE META ---
+    if (window.fbq) {
+      const checkoutData = {
+        value: cartTotal, // El valor total del carrito, que ya tienes calculado.
+        currency: 'UYU',
+        num_items: cart.reduce((total, item) => total + item.quantity, 0), // Sumamos las cantidades de todos los items
+        content_ids: cart.map(item => item.productId), // Creamos un array con los IDs de los productos
+        content_type: 'product' // Buena práctica para especificar el tipo de contenido
+      };
+      window.fbq('track', 'InitiateCheckout', checkoutData);
+    }
+    // --- FIN: CÓDIGO AÑADIDO PARA EL PÍXEL DE META ---
+    
     navigate('/checkout');
   };
 
