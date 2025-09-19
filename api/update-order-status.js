@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 // Inicializamos el cliente de Supabase para el backend.
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
+  process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
 );
 
