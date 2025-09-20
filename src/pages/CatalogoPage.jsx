@@ -32,7 +32,7 @@ function CatalogoPage() {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const { data, error } = await supabase.from('productos').select('*');
+      const { data, error } = await supabase.from('productos').select('*').eq('activo', true);
       if (error) {
         console.error("Error al obtener productos:", error);
       } else {

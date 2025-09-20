@@ -48,6 +48,7 @@ function HomePage() {
         .from('productos')
         .select('*') // Pedimos todas las columnas (incluyendo imagen_url)
         .eq('es_destacado', true) // Filtramos solo por los que son destacados
+        .eq('activo', true)
         .limit(4); // Limitamos a 4 productos por si tienes muchos
 
       if (error) {
