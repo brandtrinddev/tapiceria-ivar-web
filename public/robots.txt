@@ -2,5 +2,9 @@
 User-agent: *
 Allow: /
 
+# Darle permiso explícito y total al robot de Facebook
+User-agent: facebookexternalhit
+Disallow:
+
 # Ruta al sitemap
 Sitemap: https://www.tapiceriaivar.com.uy/sitemap.xml
