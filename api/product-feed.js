@@ -68,7 +68,7 @@ export default async function handler(req, res) {
       condition: 'new',
       price: `${product.precio_base.toFixed(2)} UYU`, // Formato requerido: "10900.00 UYU"
       link: `https://www.tapiceriaivar.com.uy/producto/${product.id}`, // Enlace directo al producto
-      image_link: product.imagen_url,
+      image_link: `https://www.tapiceriaivar.com.uy${product.imagen_url}`,
       brand: 'Tapicería Ivar',
     }));
 
