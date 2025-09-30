@@ -9,22 +9,14 @@ import './AdminPage.css';
 Modal.setAppElement('#root');
 
 const ADMIN_SECRET_CODE = import.meta.env.VITE_ADMIN_SECRET_CODE;
-const ORDER_STATUSES = [ 'Pendiente de transferencia', 'Pago realizado', 'En fabricación', 'Pedido finalizado', 'Enviado', 'Completado', 'Cancelado' ];
+const ORDER_STATUSES = [ 'Pendiente de transferencia', 'Pendiente de pago', 'Pago realizado', 'En fabricación', 'Pedido finalizado', 'Enviado', 'Completado', 'Cancelado' ];
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [inputCode, setInputCode] = useState('');
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Inicia en true para mostrar carga inicial
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  // --- CÓDIGO DE DEPURACIÓN MOVIDO AL LUGAR CORRECTO ---
-  // Todos los hooks deben estar al principio del componente, sin condiciones.
-  useEffect(() => {
-    if (selectedOrder) {
-      console.log("Datos del pedido seleccionado:", selectedOrder);
-    }
-  }, [selectedOrder]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -47,23 +39,65 @@ const AdminPage = () => {
     }
   }, [isAuthenticated]);
 
-  const handleLogin = (e) => { e.preventDefault(); if (inputCode === ADMIN_SECRET_CODE) { toast.success("Acceso concedido"); setIsAuthenticated(true); } else { toast.error("Código de acceso incorrecto"); } };
-
-  const handleStatusChange = async (orderId, newStatus) => {
-    setOrders(currentOrders => currentOrders.map(order => order.id === orderId ? { ...order, estado: newStatus } : order ));
-    const updatePromise = supabase.from('pedidos').update({ estado: newStatus }).eq('id', orderId);
-    toast.promise(updatePromise, { pending: 'Actualizando estado...', success: '¡Estado actualizado!', error: 'Error al actualizar.' });
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (inputCode === ADMIN_SECRET_CODE) {
+      toast.success("Acceso concedido");
+      setIsAuthenticated(true);
+    } else {
+      toast.error("Código de acceso incorrecto");
+    }
   };
 
-  const getStatusClass = (status) => { if (!status) return ''; return `status-${status.toLowerCase().replace(/ /g, '-')}`; };
+  const handleStatusChange = async (orderId, newStatus) => {
+    // Actualización visual inmediata (Optimistic Update)
+    setOrders(currentOrders => 
+      currentOrders.map(order => 
+        order.id === orderId ? { ...order, estado: newStatus } : order 
+      )
+    );
 
+    try {
+      const response = await fetch('/api/update-order-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, newStatus }),
+      });
+
+      if (!response.ok) {
+        // Si la respuesta del servidor no es exitosa, lanzamos un error
+        const errorResult = await response.json();
+        throw new Error(errorResult.error || 'Falló la comunicación con el servidor.');
+      }
+      
+      toast.success('¡Estado actualizado con éxito!');
+
+    } catch (error) {
+      console.error("Error en handleStatusChange:", error);
+      toast.error(`Error al actualizar: ${error.message}`);
+      // Opcional: Revertir el estado visual si falla la actualización
+      // fetchOrders(); // Vuelve a cargar los pedidos para mostrar el estado real
+    }
+  };
+
+  const getStatusClass = (status) => {
+    if (!status) return '';
+    return `status-${status.trim().toLowerCase().replace(/ /g, '-')}`;
+  };
+  
   if (!isAuthenticated) {
     return (
       <div className="admin-login-container">
         <form onSubmit={handleLogin} className="admin-form">
           <h1>Acceso al Panel</h1>
           <p>Por favor, introduce el código de acceso para continuar.</p>
-          <input type="password" value={inputCode} onChange={(e) => setInputCode(e.target.value)} className="admin-input" placeholder="Código secreto" />
+          <input
+            type="password"
+            value={inputCode}
+            onChange={(e) => setInputCode(e.target.value)}
+            className="admin-input"
+            placeholder="Código secreto"
+          />
           <button type="submit" className="cta-button">Entrar</button>
         </form>
       </div>
@@ -72,9 +106,10 @@ const AdminPage = () => {
 
   return (
     <div className="admin-dashboard-container standard-page-padding">
-      {/* ... (el resto del JSX de la tabla y el modal no cambia) ... */}
       <h1 className="section-title">Panel de administración de pedidos</h1>
-      {loading ? ( <p>Cargando pedidos...</p> ) : (
+      {loading ? (
+        <p>Cargando pedidos...</p>
+      ) : (
         <div className="orders-table-container">
           <table className="orders-table">
             <thead>
@@ -92,15 +127,22 @@ const AdminPage = () => {
                 <tr key={order.id} onClick={() => setSelectedOrder(order)} className="order-row">
                   <td><strong>#{order.numero_pedido}</strong></td>
                   <td>{new Date(order.created_at).toLocaleDateString('es-UY')}</td>
-                  <td>{order.datos_cliente?.nombre || 'N/A'} {order.datos_cliente?.apellido || ''}</td>
+                  <td>{`${order.datos_cliente?.nombre || 'N/A'} ${order.datos_cliente?.apellido || ''}`}</td>
                   <td>{formatPriceUYU(order.total_pedido)}</td>
                   <td>
                     <div>{order.cuenta_bancaria_id ? 'Transferencia' : 'Mercado Pago'}</div>
                     <div className="delivery-method">{order.datos_cliente?.shippingMethod === 'envio' ? 'Envío' : 'Retiro'}</div>
                   </td>
                   <td>
-                    <select value={order.estado || ''} onClick={(e) => e.stopPropagation()} onChange={(e) => handleStatusChange(order.id, e.target.value)} className={`status-select ${getStatusClass(order.estado)}`}>
-                      {ORDER_STATUSES.map(status => ( <option key={status} value={status}>{status}</option> ))}
+                    <select
+                      value={order.estado || ''}
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className={`status-select ${getStatusClass(order.estado)}`}
+                    >
+                      {ORDER_STATUSES.map(status => (
+                        <option key={status} value={status}>{status}</option>
+                      ))}
                     </select>
                   </td>
                 </tr>

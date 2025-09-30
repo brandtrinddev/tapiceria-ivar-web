@@ -9,6 +9,7 @@ import { useDrag } from '@use-gesture/react';
 import { useCart } from '../context/CartContext.jsx';
 import { calculateSubtotal } from '../utils/pricing.js';
 import { toast } from 'react-toastify'; // Se añade import para toast
+import ReactPixel from 'react-facebook-pixel';
 
 const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
 const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Altura', profundidadTotalChaise: 'Profundidad Total Chaise', profundidadChaise: 'Profundidad Chaise', profundidadTotal: 'Profundidad Total' };
@@ -46,6 +47,19 @@ function ProductDetailPage() {
   }, [productId]);
 
   useEffect(() => {
+    if(product && window.fbq) {
+      const productData = {
+        content_name: product.nombre,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.precio_base,
+        currency: 'UYU'
+      };
+      window.fbq('track', 'ViewContent', productData);
+    }
+  }, [product]);
+
+  useEffect(() => {
     const fetchTelas = async () => {
       const { data, error } = await supabase.from('telas').select('*');
       if (!error) setTelas(data);
@@ -76,9 +90,15 @@ function ProductDetailPage() {
 
   const precioFinalCalculado = useMemo(() => {
     if (!product) return 0;
-    const currentItem = { unitPrice: precioUnitario, quantity: quantity, detalles: product.detalles };
+    const currentItem = {
+      unitPrice: product.precio_base,
+      quantity: quantity,
+      detalles: product.detalles,
+      tela: selectedTela,
+      metros_tela_base: product.metros_tela_base
+    };
     return calculateSubtotal(currentItem);
-  }, [precioUnitario, quantity, product]);
+  }, [product, selectedTela, quantity]);
   
   const allImages = useMemo(() => [product?.imagen_url, ...(product?.detalles?.galeria || [])].filter(Boolean), [product]);
   const currentIndex = useMemo(() => allImages.indexOf(selectedImage), [allImages, selectedImage]);
@@ -109,12 +129,26 @@ function ProductDetailPage() {
       toast.error("Por favor, selecciona un tipo y color de tela.");
       return;
     }
+
+        if (window.fbq) {
+      const itemData = {
+        content_name: product.nombre,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: precioFinalCalculado, // Usamos el precio ya calculado que incluye la tela
+        currency: 'UYU',
+        num_items: quantity
+      };
+      window.fbq('track', 'AddToCart', itemData);
+    }
+
     const itemToAdd = {
       productId: product.id,
       productName: product.nombre,
       quantity: quantity,
       tela: selectedTela,
-      unitPrice: precioUnitario,
+      unitPrice: product.precio_base,
+      metros_tela_base: product.metros_tela_base,
       imageUrl: product.imagen_url,
       detalles: product.detalles
     };
@@ -314,15 +348,34 @@ function ProductDetailPage() {
                 <div className="tab-panel-content">
                   <div className="product-info-section">
                     <h2>Envíos y Retiros</h2>
-                    <p>Texto de marcador de posición sobre envíos y retiros. Aquí explicaremos las políticas, costos para Montevideo, coordinación para el interior, y la opción de retiro en el taller.</p>
+                    <p>Coordinamos cada entrega para adaptarnos a tus necesidades. Estos son nuestros métodos:</p>
+                    <ul>
+                      <li>
+                        <strong>Montevideo:</strong> Realizamos los envíos con nuestra propia logística. Tiene un costo fijo de <strong>$900</strong> que se añadirá en el checkout.
+                      </li>
+                      <li>
+                        <strong>Interior del País:</strong> Los envíos se realizan a través de agencias de confianza (ej: DAC). El costo varía según el tamaño del producto y el destino, y se coordina contigo después de realizada la compra.
+                      </li>
+                      <li>
+                        <strong>Retiro en Taller:</strong> Puedes retirar tu pedido sin costo en nuestro taller. Te notificaremos tan pronto como esté listo para que puedas pasar a buscarlo.
+                      </li>
+                    </ul>
+                    <p><strong>Tiempos:</strong> Recuerda que cada pieza se fabrica bajo pedido. El tiempo de preparación es de aproximadamente 7 a 15 días, a lo que se suma el tiempo de transporte de la agencia (1 a 3 días hábiles).</p>
                   </div>
                   <div className="product-info-section">
                     <h2>Política de Garantía</h2>
-                    <p>Texto de marcador de posición para la garantía. Detallaremos la cobertura, duración y el proceso para hacerla efectiva.</p>
+                    <p>
+                      Confiamos en la calidad de nuestro trabajo. Todos nuestros productos nuevos cuentan con una <strong>garantía estructural de 1 año</strong> por defectos de fabricación.
+                    </p>
+                    <p>
+                      Para conocer todos los detalles sobre la cobertura y el proceso de reclamo, te invitamos a leer nuestra página dedicada.
+                    </p>
+                    <Link to="/politicas-devolucion-garantia" className="cta-button-secondary-v2" style={{ marginTop: '15px' }}>
+                      Ver Política de Garantía y Devoluciones
+                    </Link>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
           {/* --- FIN DE ESTRUCTURA JSX --- */}

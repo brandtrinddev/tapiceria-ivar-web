@@ -1,0 +1,47 @@
+/* src/components/Footer/Footer.css */
+
+.site-footer {
+  background-color: var(--color-primario);
+  color: var(--color-texto-claro);
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: auto; /* Empuja el footer al final de la página */
+  flex-shrink: 0;
+}
+
+.footer-content p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  line-height: 1.6; /* Añadimos un poco de altura de línea */
+}
+
+.footer-separator {
+  margin: 0 10px;
+  opacity: 0.5;
+}
+
+.footer-link {
+  color: var(--color-texto-claro);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transicion-rapida);
+  opacity: 0.8;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  color: var(--color-blanco);
+}
+
+/* Ajuste para que en móviles muy pequeños se apilen */
+@media (max-width: 520px) {
+  .footer-separator {
+    display: none;
+  }
+  .footer-link {
+    display: block;
+    margin-top: 10px;
+  }
+}

@@ -272,17 +272,6 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
 .navbar-toggler.active .bar2 { opacity: 0; }
 .navbar-toggler.active .bar3 { transform: translateY(-6px) rotate(-45deg); margin-top:0; }
 
-/* 3. Footer */
-footer.site-footer {
-  flex-shrink: 0;
-}
-
-.site-footer {
-  background-color: var(--color-primario); color: var(--color-texto-claro);
-  text-align: center; padding: 30px 20px; margin-top: auto; font-size: 0.9rem;
-}
-.site-footer p { margin: 0; opacity: 0.8; }
-
 /* 4. HomePage V2 */
 .hero-section-v2 {
   position: relative; display: flex; align-items: center; min-height: 80vh;
@@ -769,6 +758,26 @@ footer.site-footer {
 
   .tab-panel-content .product-info-section + .product-info-section {
   margin-top: 30px;
+}
+
+/* --- Estilos para mejorar la legibilidad del contenido en las pestañas --- */
+
+.tab-panel-content .product-info-section p,
+.tab-panel-content .product-info-section ul {
+  margin-bottom: 1.5em; 
+  line-height: 1.7;   
+}
+
+.tab-panel-content .product-info-section ul {
+  padding-left: 20px; 
+}
+
+.tab-panel-content .product-info-section li {
+  margin-bottom: 0.8em; 
+}
+
+.tab-panel-content .product-info-section > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Estilos para el botón dentro de la notificación toast */
@@ -1653,6 +1662,41 @@ footer.site-footer {
 }
 .tela-precio-adicional strong {
   font-weight: 700;
+}
+
+/* --- Estilos para la nueva estructura de TelasPage --- */
+
+.tela-caracteristicas-titulo {
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.tela-caracteristicas-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.tela-caracteristicas-list li {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+/* El "check" verde para cada característica */
+.tela-caracteristicas-list li::before {
+  content: '✓';
+  color: #1b5e20; /* Un verde oscuro y elegante */
+  position: absolute;
+  left: 0;
+  top: 1px;
 }
 
 /* Responsive para TelasPage */
