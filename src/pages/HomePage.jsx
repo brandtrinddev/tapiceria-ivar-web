@@ -180,7 +180,7 @@ function HomePage() {
             </div>
             <div className="recognition-image-container-v2">
               <img
-                src="/img/mercado-libre-reputacion.png"
+                src="https://hejbnelwkzhfawbttjqd.supabase.co/storage/v1/object/public/imagenes-productos/hero/mercado-libre-reputacion.webp"
                 alt="Reputación Tapicería Ivar en Mercado Libre"
                 className="mercado-libre-screenshot-v2"
               />

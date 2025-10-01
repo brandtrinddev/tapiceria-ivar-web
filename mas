@@ -1,0 +1,87 @@
+[33mf543377[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeat/urls-limpias[m[33m, [m[1;31morigin/feat/urls-limpias[m[33m)[m Aprovechamos y cambiamos el placeholder del nombre del formulario de Contacto
+[33mb1ba9c5[m Modificamos el Route de ProductDetailPage a slug porque no cargaban los productos
+[33mefd47f9[m Implementación de URLs limpias, modificamos productId por Slug
+[33m8abf449[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mmain[m[33m, [m[1;32mdevelop[m[33m)[m Merge branch 'main' of https://github.com/brandtrinddev/tapiceria-ivar-web
+[33m7ea973d[m Merge branch 'develop'
+[33m8efe618[m[33m ([m[1;31morigin/main[m[33m)[m Mejora: Carrito Persistente con LocalStorage
+[33m7d9e4a4[m Merge pull request #26 from brandtrinddev/feature/persistent-cart
+[33mf919d11[m[33m ([m[1;31morigin/feature/persistent-cart[m[33m)[m feat: Añadimos un carrito persistente con localStorage para que el carrito se mantenga al recargar la página
+[33m0df23ef[m Merge pull request #25 from brandtrinddev/feature/product-feed
+[33mc7c986d[m[33m ([m[1;31morigin/feature/product-feed[m[33m)[m fix: Usar URLs absolutas para las imágenes en el feed de productos
+[33m14be075[m Merge pull request #24 from brandtrinddev/develop
+[33me396c0a[m Merge pull request #23 from brandtrinddev/feature/product-feed
+[33mc4bc2ae[m Modificamos el robots.txt para darle permiso a facebookexternalhit para ver las imágenes
+[33m23fb118[m Modificamos el const de HomePage.jsx y CatalogoPage.jsx y añadimos el eq activo para que solo se muestren los productos que tienen el activo en True, también se creó el archivo /api/product-feed
+[33m0d730de[m Merge pull request #21 from brandtrinddev/develop
+[33m2f923c3[m Merge pull request #20 from brandtrinddev/feature/pixel-contact-event
+[33m734d1b6[m[33m ([m[1;31morigin/feature/pixel-contact-event[m[33m)[m feat: Implementar evento Contact del Píxel
+[33me8a770b[m Merge pull request #19 from brandtrinddev/develop
+[33m5ce2879[m Merge pull request #18 from brandtrinddev/fix/backend-order-logic
+[33m93bf781[m[33m ([m[1;31morigin/fix/backend-order-logic[m[33m)[m Código final de update-order-status y AdminPage con solución de errores
+[33mc254f0c[m Corrección de AdminPage.jsx solución de error de sintaxis
+[33m073a34e[m test: console.log para revisar por qué cambian todos los estados de los pedidos
+[33me2bf18b[m Corrección de update-order-status y las variables de entorno
+[33m464b9e2[m debug: Imprimir variables de entorno del backend
+[33m08144e0[m fix: Corregir nombres de variables de entorno en backend
+[33m7274aaf[m Agregamos el nuevo AdminPage.jsx a la rama
+[33m54c591f[m Corrección para entorno de prueba y test de pago realizado
+[33mf9e2bb2[m feat: Mover lógica de actualización de pedidos al backend
+[33m45f950d[m fix: Añadimos el estado Pendiente de Pago que no estaba en el código y le implementamos el mismo estilo que Pendiente de Transferencia
+[33m8e6c2ec[m fix: Correción de estilo para los botones de estado en Panel Admin
+[33mf9503a9[m[33m ([m[1;31morigin/feature/pixel-initiate-checkout[m[33m)[m feat: Implementar evento de Initiate Checkout de Meta Pixel
+[33mb0c8c79[m Merge pull request #16 from brandtrinddev/feature/pixel-add-to-cart
+[33mbf4ec06[m[33m ([m[1;31morigin/feature/pixel-add-to-cart[m[33m)[m feat: Implementar evento AddToCart del Píxel
+[33m3215d0b[m Merge pull request #15 from brandtrinddev/feature/meta-pixel-events
+[33mf891155[m[33m ([m[1;31morigin/feature/meta-pixel-events[m[33m)[m fix(pixel): Usar window.fbq directamente para evento ViewContent
+[33m9e22815[m test: Desactivar StrictMode para verificar hipótesis del Píxel
+[33mb5bfeb6[m fix(pixel): Asegurar inicialización única del Píxel y tracking de SPA
+[33m408280c[m test: Reactivar autoConfig para depurar ViewContent
+[33meb7c594[m fix: Implementar tracking manual de PageView en SPA
+[33mfab5810[m Movimos la lógica de ReactPixel a App.jsx para que rastree los movimientos y la navegación del usuario en toda la página web
+[33mb09a943[m fix: Eliminar inicialización duplicada del Píxel de Meta
+[33m20428fa[m feat: Implementar evento ViewContent de Meta Pixel
+[33m3d46d10[m Merge pull request #14 from brandtrinddev/develop
+[33mefcea2a[m Fix: Corregir lógica de precios y función de Mercado Pago
+[33maaec76f[m Merge pull request #13 from brandtrinddev/develop
+[33m0f28b79[m Finalimente corregido el error en el que el precio de la promo no sumaba el costo adicional por metro de tela con proceso
+[33ma303647[m Corrección en pricing.js, había un error de tipeo en costo_adicional_por_metro (estaba costo_adicional_metro)
+[33meb44f55[m Corrección en ProductDetailPage, agregamos en el const itemToAdd el metros_tela_base para que se calcule y ahora el unitPrice es siempre el precio base del producto
+[33m7a742ac[m Utilizamos un condicional if para que las conversiones a Meta se envíen solo en la página oficial y no en las de prueba
+[33m6494564[m Ajustamos el pricing.js para que el costo adicional por metro se sume aparte sin importar el costo de la Promo
+[33m6416c05[m Merge pull request #12 from brandtrinddev/develop
+[33macd0c5b[m Corregida la pestaña de Detalles en ProductDetailPage
+[33mcc77115[m Agregamos console.log para ver el problema del Purchase
+[33m85a79ba[m Merge pull request #11 from brandtrinddev/develop
+[33m34494b9[m Nuevo OrderSuccessPage con intento de error corregido
+[33m0d4d371[m Test: Simplificar
+[33m5c32a4a[m Merge pull request #10 from brandtrinddev/develop
+[33mc53c013[m Fix: Corregir typo final en consulta de pedido
+[33m8c8497d[m Merge pull request #9 from brandtrinddev/develop
+[33m16b3b44[m Demora en OrderSuccessPage para evitar que no encuentre el producto
+[33mf3eb364[m Merge pull request #8 from brandtrinddev/develop
+[33maf66941[m Modificamos el index.html para mover el -noScript- del Head al Body para solucionar el error del build
+[33mea5ab2e[m Reinstalar dependencias para solucionar el problema de build
+[33maf3891a[m Implementación del seguimiento de conversiones de Meta
+[33m6f0c9da[m Merge pull request #7 from brandtrinddev/develop
+[33md228661[m fix(config): Añade rewrite para rutas de SPA
+[33m1f21737[m Merge pull request #6 from brandtrinddev/develop
+[33mda51466[m Implementación de sitemap con Supabase
+[33mc8b6626[m Merge pull request #5 from brandtrinddev/develop
+[33ma47ea57[m Agregamos los estilos a la TelasPage.jsx nueva
+[33m5dbef0f[m Merge pull request #4 from brandtrinddev/develop
+[33m3e43623[m fix(pages): Actualiza TelasPage a la versión final
+[33m773b193[m Merge pull request #3 from brandtrinddev/develop
+[33m119b5f0[m Merge pull request #2 from brandtrinddev/hotfix/politicas-final
+[33m585edea[m feat(legal): Crea página de políticas y refactoriza el footer
+[33m22139d3[m feat(legal): Crea página de políticas y refactoriza el footer
+[33mebd5511[m Merge pull request #1 from brandtrinddev/hotfix/google-verification
+[33m21839f9[m feat: Añade meta tag de verificación para Google Merchant Center
+[33m8bb9a19[m Mejoras en el estilo, el orden de las telas de ProductDetailPage y resaltamos el precio por metro adicional
+[33m814e79f[m Corrección de HomePage.jsx para que muestre correctamente los productos en la sección de Destacados
+[33m8de0c89[m feat(admin, notifications): Implementa panel de administración y notificaciones de pedidos
+[33m6c802da[m Última corrección a las letras, aplicamos las mayúsculas a los títulos de las telas en el ProductDetailPage
+[33mcaf85bd[m Modificaciones en CSS, correcciones de textos, estilos con mayúscula, correción de TelasPage (cambiamos costo adicional por cuerpo a costo adicional por metro, y más
+[33m1e1f6f4[m feat(product-detail): Refina la UX/UI de la página de producto
+[33mfe47409[m feat(ui, notifications): Implementa notificaciones toast y unifica estilos de botones
+[33mfac44cd[m Ajuste de estilos y modificaciones en ProductDetailPage, mejoramos la navegación responsive y en escritorio
+[33m525f71b[m Corrección de los círculos de tela en celulares y ajuste a los estilos
