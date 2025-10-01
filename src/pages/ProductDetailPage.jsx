@@ -17,7 +17,7 @@ const ORDEN_TELAS = [ 'Alpha', 'Carla', 'Tach', 'Pané' ];
 
 function ProductDetailPage() {
   const { addToCart } = useCart();
-  const { productId } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate(); // Se añade el hook useNavigate
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -35,7 +35,7 @@ function ProductDetailPage() {
       setLoading(true);
       setProduct(null);
       setActiveTab('personalizacion');
-      const { data, error } = await supabase.from('productos').select('*').eq('id', productId).single();
+      const { data, error } = await supabase.from('productos').select('*').eq('slug', slug).single();
       if (error) { console.error("Error buscando el producto:", error); } else {
         setProduct(data);
         setSelectedImage(data.imagen_url);
@@ -43,8 +43,8 @@ function ProductDetailPage() {
       }
       setLoading(false);
     };
-    if (productId) fetchProduct();
-  }, [productId]);
+    if (slug) fetchProduct();
+  }, [slug]);
 
   useEffect(() => {
     if(product && window.fbq) {
