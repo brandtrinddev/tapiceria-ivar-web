@@ -19,6 +19,12 @@ function ContactoPage() {
         window.fbq('track', 'Contact');
       }
       
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'generate_lead',
+        contact_method: 'formulario'
+      });
+
     } else {
       document.title = 'Contacto - Tapicería Ivar';
     }
