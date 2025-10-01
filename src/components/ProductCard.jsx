@@ -18,7 +18,7 @@ function ProductCard({ product }) {
 
   return (
     // INFO: El enlace ya usa product.id (el nuevo UUID), lo cual es perfecto. No lo cambiamos.
-    <Link to={`/producto/${product.id}`} className="product-card-link"> 
+    <Link to={`/producto/${product.slug}`} className="product-card-link"> 
       <div className="product-card">
         <div className="product-card-image-container">
           <img

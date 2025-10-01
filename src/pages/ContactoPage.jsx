@@ -113,7 +113,7 @@ function ContactoPage() {
             <form onSubmit={handleSubmit} className="contact-form-v2">
               <div className="form-group">
                 <label htmlFor="nombre">Nombre y apellido <span className="required-asterisk">*</span></label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ejemplo: Dahiana Lourent" required value={nombre} onChange={e => setNombre(e.target.value)}/>
+                <input type="text" id="nombre" name="nombre" placeholder="Ejemplo: Pablo Perez" required value={nombre} onChange={e => setNombre(e.target.value)}/>
                 <ValidationError prefix="Nombre" field="nombre" errors={state.errors} className="form-validation-error" />
               </div>
 

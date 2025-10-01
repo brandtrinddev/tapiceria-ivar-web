@@ -52,7 +52,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/catalogo" element={<CatalogoPage />} />
-            <Route path="/producto/:productId" element={<ProductDetailPage />} />
+            <Route path="/producto/:slug" element={<ProductDetailPage />} />
             <Route path="/carrito" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/orden-confirmada/:orderId" element={<OrderSuccessPage />} />
