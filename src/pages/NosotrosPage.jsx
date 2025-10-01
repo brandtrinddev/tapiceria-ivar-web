@@ -98,7 +98,7 @@ function NosotrosPage() {
               </Link>
             </div>
             <div className="image-content">
-              {<img src="/img/nosotros-personalizacion-image.jpg" alt="Proceso de personalización de sofás" />}
+              {<img src="https://hejbnelwkzhfawbttjqd.supabase.co/storage/v1/object/public/imagenes-productos/hero/nosotros-personalizacion-image.webp" alt="Proceso de personalización de sofás" />}
             </div>
           </div>
         </div>
