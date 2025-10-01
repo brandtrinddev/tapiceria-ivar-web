@@ -56,6 +56,20 @@ function ProductDetailPage() {
         currency: 'UYU'
       };
       window.fbq('track', 'ViewContent', productData);
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'view_item',
+        ecommerce: {
+          currency: 'UYU',
+          value: product.precio_base,
+          items: [{
+            item_id: product.id,
+            item_name: product.nombre,
+            price: product.precio_base
+          }]
+        }
+      });
     }
   }, [product]);
 
@@ -141,6 +155,21 @@ function ProductDetailPage() {
       };
       window.fbq('track', 'AddToCart', itemData);
     }
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'add_to_cart',
+        ecommerce: {
+          currency: 'UYU',
+          value: precioFinalCalculado,
+          items: [{
+            item_id: product.id,
+            item_name: product.nombre,
+            price: precioUnitario,
+            quantity: quantity
+          }]
+        }
+      });
 
     const itemToAdd = {
       productId: product.id,

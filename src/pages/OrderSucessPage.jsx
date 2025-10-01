@@ -74,6 +74,23 @@ const OrderSuccessPage = () => {
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     };
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'purchase',
+      ecommerce: {
+        transaction_id: `pedido_${order.numero_pedido}`,
+        value: order.total_pedido,
+        currency: 'UYU',
+        items: order.pedido_items.map(item => ({
+          item_id: item.productos.sku,
+          item_name: item.productos.nombre,
+          price: item.precio_unitario,
+          quantity: item.cantidad
+        }))
+      }
+    });
+
     const enviarConversionAMeta = async () => {
       try {
         const userData = {

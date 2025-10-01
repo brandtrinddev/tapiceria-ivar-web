@@ -21,6 +21,20 @@ const CartPage = () => {
       window.fbq('track', 'InitiateCheckout', checkoutData);
     }
     // --- FIN: CÓDIGO AÑADIDO PARA EL PÍXEL DE META ---
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'begin_checkout',
+      ecommerce: {
+        currency: 'UYU',
+        value: cartTotal,
+        items: cart.map(item => ({
+          item_id: item.productId,
+          item_name: item.productName,
+          price: item.unitPrice,
+          quantity: item.quantity
+        }))
+      }
+    });
     
     navigate('/checkout');
   };

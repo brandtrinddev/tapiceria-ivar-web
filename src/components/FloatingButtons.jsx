@@ -10,6 +10,12 @@ function FloatingButtons() {
     if (window.fbq) {
       window.fbq('track', 'Contact');
     }
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'generate_lead',
+      contact_method: 'whatsapp'
+    });
   };
 
   return (
