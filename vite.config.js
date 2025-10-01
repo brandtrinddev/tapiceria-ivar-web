@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import sitemap from 'vite-plugin-sitemap'
-import productData from './src/data/productos.json'
 
 // Creamos la lista de rutas de productos
 const productRoutes = productData.map(product => `/producto/${product.id}`)
