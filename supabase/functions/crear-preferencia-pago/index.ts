@@ -49,6 +49,7 @@ const calculateSubtotal = (item: CartItem): number => {
 
 
 serve(async (req) => {
+  console.log('Función crear-preferencia-pago invocada.');
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -56,6 +57,8 @@ serve(async (req) => {
   try {
     // Ahora recibimos el 'cart' completo y el 'shippingCost' por separado
     const { orderId, cart, shippingCost, datosCliente } = await req.json()
+
+    console.log('Datos recibidos del frontend:', { orderId, cart, shippingCost, datosCliente });
     
     const siteUrl = Deno.env.get('SITE_URL');
     const accessToken = Deno.env.get('MERCADOPAGO_ACCESS_TOKEN');
