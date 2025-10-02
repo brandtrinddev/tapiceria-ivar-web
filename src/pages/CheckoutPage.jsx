@@ -172,8 +172,8 @@ const CheckoutPage = () => {
         const { data: preferenceData, error: functionError } = await supabase.functions.invoke('crear-preferencia-pago', {
             body: { 
               orderId: pedido_id,
-              items: cart,
-              total: finalTotal,
+              cart: cart,
+              shippingCost: shippingCost,
               datosCliente: formData
             }
         });
