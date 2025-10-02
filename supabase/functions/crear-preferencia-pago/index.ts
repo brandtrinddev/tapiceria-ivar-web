@@ -18,6 +18,8 @@ interface CartItem {
     }
   };
   tela: {
+    nombre_color: string;
+    nombre_tipo: string;
     costo_adicional_por_metro: number;
   };
 }
