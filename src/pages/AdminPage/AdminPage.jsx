@@ -1,5 +1,5 @@
 // src/pages/AdminPage/AdminPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import { supabase } from '../../supabaseClient';
@@ -80,6 +80,11 @@ const uploadAdminImage = async (file, folder) => {
 };
 
 const AdminPage = () => {
+  const ITEMS_PER_PAGE = 10;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [inputCode, setInputCode] = useState('');
   const [orders, setOrders] = useState([]);
@@ -98,15 +103,7 @@ const AdminPage = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [editingFabric, setEditingFabric] = useState(null);
 
-useEffect(() => {
-    if (isAuthenticated) {
-      if (activeTab === 'orders') fetchOrders();
-      if (activeTab === 'products') fetchProducts();
-      if (activeTab === 'fabrics') fetchFabrics();
-    }
-  }, [isAuthenticated, activeTab]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('pedidos')
@@ -114,27 +111,69 @@ useEffect(() => {
       .order('created_at', { ascending: false });
     if (!error) setOrders(data);
     setLoading(false);
-  };
+  }, []);
 
-  const fetchProducts = async () => {
+const fetchProducts = useCallback(async () => {
     setLoadingItems(true);
-    const { data, error } = await supabase
+    const from = (currentPage - 1) * ITEMS_PER_PAGE;
+    const to = from + ITEMS_PER_PAGE - 1;
+
+    let query = supabase
       .from('productos')
-      .select('*')
-      .order('nombre', { ascending: true });
-    if (!error) setProducts(data);
-    setLoadingItems(false);
-  };
+      .select('*', { count: 'exact' });
 
-  const fetchFabrics = async () => {
-    setLoadingItems(true);
-    const { data, error } = await supabase
-      .from('telas')
-      .select('*')
-      .order('nombre_tipo', { ascending: true });
-    if (!error) setFabrics(data);
+    if (searchTerm) {
+      // Busca en nombre O en SKU
+      query = query.or(`nombre.ilike.%${searchTerm}%,sku.ilike.%${searchTerm}%`);
+    }
+
+    const { data, error, count } = await query
+      .order('nombre', { ascending: true })
+      .range(from, to);
+
+    if (!error) {
+      setProducts(data);
+      setTotalItems(count || 0);
+    }
     setLoadingItems(false);
-  };
+  }, [currentPage, searchTerm, ITEMS_PER_PAGE]);
+
+  const fetchFabrics = useCallback(async () => {
+    setLoadingItems(true);
+    const from = (currentPage - 1) * ITEMS_PER_PAGE;
+    const to = from + ITEMS_PER_PAGE - 1;
+
+    let query = supabase
+      .from('telas')
+      .select('*', { count: 'exact' });
+
+    if (searchTerm) {
+      query = query.or(`nombre_tipo.ilike.%${searchTerm}%,nombre_color.ilike.%${searchTerm}%`);
+    }
+
+    const { data, error, count } = await query
+      .order('nombre_tipo', { ascending: true })
+      .range(from, to);
+
+    if (!error) {
+      setFabrics(data);
+      setTotalItems(count || 0);
+    }
+    setLoadingItems(false);
+  }, [currentPage, searchTerm, ITEMS_PER_PAGE]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (activeTab === 'orders') fetchOrders();
+      if (activeTab === 'products') fetchProducts();
+      if (activeTab === 'fabrics') fetchFabrics();
+    }
+  }, [isAuthenticated, activeTab, fetchOrders, fetchProducts, fetchFabrics]);
+
+  useEffect(() => {
+    setSearchTerm('');
+    setCurrentPage(1);
+  }, [activeTab]);
 
   // Manejador genérico para cambios en inputs de productos
   const handleProductInputChange = (field, value) => {
@@ -376,6 +415,43 @@ const handleSaveFabric = async () => {
           Muestrario de Telas
         </button>
       </div>
+      {/* --- CABECERA GLOBAL (SOLO PARA PRODUCTOS Y TELAS) --- */}
+      {(activeTab === 'products' || activeTab === 'fabrics') && (
+        <div className="admin-view-controls">
+          <h2>{activeTab === 'products' ? 'Catálogo de Muebles' : 'Muestrario de Telas'}</h2>
+          
+          <div className="admin-global-search">
+            <input 
+              type="text" 
+              placeholder={`Buscar en ${activeTab === 'products' ? 'productos' : 'telas'}...`}
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // Reset al buscar
+              }}
+            />
+          </div>
+
+          <button 
+            className="cta-button" 
+            onClick={() => {
+              if (activeTab === 'products') {
+                setEditingProduct({
+                  nombre: '', precio_base: 0, metros_tela_base: 0, categoria: 'sofas', activo: true, sku: '', descripcion: '',
+                  detalles: { medidas: { sofa: { alto: '', ancho: '', profundidad: '' } }, descripcion_larga: { base: '', sabor: '', cta: '' }, galeria: [] }
+                });
+                setIsProductModalOpen(true);
+              } else {
+                setEditingFabric({ nombre_tipo: '', nombre_color: '', imagen_url: '', costo_adicional_por_metro: 0, disponible: true });
+                setIsFabricModalOpen(true);
+              }
+            }}
+          >
+            {activeTab === 'products' ? '+ Nuevo Producto' : '+ Nueva Tela'}
+          </button>
+        </div>
+      )}
+
       {activeTab === 'orders' && (
         <>
           <h1 className="section-title">Panel de administración de pedidos</h1>
@@ -429,32 +505,6 @@ const handleSaveFabric = async () => {
       {/* --- INICIO VISTA CATÁLOGO --- */}
       {activeTab === 'products' && (
         <div className="admin-catalog-section">
-          <div className="section-header-admin">
-            <h2>Gestión de Catálogo</h2>
-            <button 
-              className="cta-button" 
-              onClick={() => { 
-                setEditingProduct({
-                  nombre: '',
-                  precio_base: 0,
-                  metros_tela_base: 0,
-                  categoria: 'sofas',
-                  activo: true,
-                  sku: '',
-                  descripcion: '',
-                  detalles: {
-                    medidas: { sofa: { alto: '', ancho: '', profundidad: '' } },
-                    descripcion_larga: { base: '', sabor: '', cta: '' },
-                    galeria: []
-                  }
-                }); 
-                setIsProductModalOpen(true); 
-              }}
-            >
-              + Nuevo Producto
-            </button>
-          </div>
-
           {loadingItems ? (
             <p>Cargando catálogo...</p>
           ) : (
@@ -515,25 +565,6 @@ const handleSaveFabric = async () => {
       {/* --- INICIO VISTA TELAS --- */}
       {activeTab === 'fabrics' && (
         <div className="admin-fabrics-section">
-          <div className="section-header-admin">
-            <h2>Muestrario de Telas</h2>
-            <button 
-              className="cta-button" 
-              onClick={() => { 
-                setEditingFabric({
-                  nombre_tipo: '',
-                  nombre_color: '',
-                  imagen_url: '',
-                  costo_adicional_por_metro: 0,
-                  disponible: true
-                }); 
-                setIsFabricModalOpen(true); 
-              }}
-            >
-              + Nueva Tela
-            </button>
-          </div>
-
           {loadingItems ? (
             <p>Cargando telas...</p>
           ) : (
@@ -954,6 +985,28 @@ const handleSaveFabric = async () => {
             </div>
           </div>
         </Modal>
+      )}
+      {/* --- PAGINACIÓN GLOBAL --- */}
+      {(activeTab === 'products' || activeTab === 'fabrics') && !loadingItems && totalItems > ITEMS_PER_PAGE && (
+        <div className="pagination-controls">
+          <button 
+            className="pagination-btn"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => prev - 1)}
+          >
+            Anterior
+          </button>
+          <span className="page-indicator">
+            Página {currentPage} de {Math.ceil(totalItems / ITEMS_PER_PAGE)}
+          </span>
+          <button 
+            className="pagination-btn"
+            disabled={currentPage >= Math.ceil(totalItems / ITEMS_PER_PAGE)}
+            onClick={() => setCurrentPage(prev => prev + 1)}
+          >
+            Siguiente
+          </button>
+        </div>
       )}
     </div>
   );
