@@ -44,6 +44,8 @@
 .admin-dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
+  overflow-x: hidden; /* Bloquea el vaivén lateral */
+  width: 100%;
 }
 
 .orders-table-container {
@@ -262,6 +264,13 @@
   margin-bottom: 30px;
   border-bottom: 2px solid var(--color-borde);
   padding-bottom: 0;
+  overflow-x: auto; /* Permite scroll horizontal */
+  white-space: nowrap; /* Evita que el texto salte de línea */
+  scrollbar-width: none; /* Oculta scroll en Firefox */
+}
+
+.admin-nav-tabs::-webkit-scrollbar {
+  display: none; /* Oculta scroll en Chrome/Safari */
 }
 
 .admin-nav-tabs button {
@@ -277,6 +286,7 @@
   position: relative;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
 }
 
 .admin-nav-tabs button:hover {
@@ -327,18 +337,57 @@
   vertical-align: middle;
 }
 
-/* Ajustes de cabecera de sección */
-.section-header-admin {
-  display: flex;
-  justify-content: space-between;
+/* --- NUEVA CABECERA GLOBAL --- */
+.admin-view-controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 
+    "titulo boton"
+    "buscador buscador";
+  gap: 20px;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
 }
 
-.section-header-admin h2 {
-  margin: 0;
-  font-family: var(--fuente-titulos);
-  color: var(--color-primario);
+.admin-view-controls h2 { grid-area: titulo; margin: 0; color: var(--color-primario); }
+.admin-view-controls .cta-button { grid-area: boton; }
+
+.admin-global-search {
+  grid-area: buscador;
+  position: relative;
+  width: 100%;
+}
+
+.admin-global-search input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 1px solid var(--color-borde-input);
+  border-radius: 30px;
+  font-size: 1rem;
+  background-color: #fcfcfc;
+  /* Icono de lupa embebido */
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="11" cy="11" r="8"%3E%3C/circle%3E%3Cline x1="21" y1="21" x2="16.65" y2="16.65"%3E%3C/line%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+@media (min-width: 768px) {
+  .admin-view-controls {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "titulo buscador boton";
+  }
+  .admin-global-search { max-width: 400px; margin: 0 30px; }
+}
+
+@media (max-width: 600px) {
+  .admin-view-controls {
+    grid-template-columns: 1fr;
+    grid-template-areas: "titulo" "boton" "buscador";
+  }
 }
 
 /* --- ESTILOS PARA FORMULARIOS DE EDICIÓN --- */
@@ -493,4 +542,54 @@
 
 .control-btn:hover {
   color: var(--color-acento);
+}
+
+/* --- ESTILOS BUSCADOR Y PAGINACIÓN --- */
+.admin-search-bar {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.admin-search-bar input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--color-borde-input);
+  border-radius: 25px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+  padding: 15px;
+  background: #fdfdfd;
+  border-radius: 8px;
+}
+
+.pagination-btn {
+  padding: 8px 18px;
+  border-radius: 4px;
+  background-color: var(--color-primario);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.pagination-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  font-weight: 600;
 }
