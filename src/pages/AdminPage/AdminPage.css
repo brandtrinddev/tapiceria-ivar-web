@@ -254,3 +254,243 @@
     display: none;
   }
 }
+
+/* --- NAVEGACIÓN POR PESTAÑAS (TABS) --- */
+.admin-nav-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--color-borde);
+  padding-bottom: 0;
+}
+
+.admin-nav-tabs button {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--color-texto-secundario);
+  transition: all 0.3s ease;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-nav-tabs button:hover {
+  color: var(--color-primario);
+}
+
+.admin-nav-tabs button.active {
+  color: var(--color-primario);
+}
+
+.admin-nav-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-acento);
+}
+
+/* --- CONTENEDOR DE ACCIONES EN TABLAS --- */
+.admin-actions-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px; /* Asegura que tenga espacio suficiente */
+}
+
+.cta-button.edit-btn-small {
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+  background-color: var(--color-primario) !important;
+  margin: 0 !important;
+  min-width: 80px;
+}
+
+.cta-button.delete-btn-small {
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+  background-color: #dc3545 !important;
+  margin: 0 !important;
+  min-width: 80px;
+}
+
+/* Evitar que la celda de la tabla colapse el contenido */
+.orders-table td {
+  vertical-align: middle;
+}
+
+/* Ajustes de cabecera de sección */
+.section-header-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.section-header-admin h2 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  color: var(--color-primario);
+}
+
+/* --- ESTILOS PARA FORMULARIOS DE EDICIÓN --- */
+.admin-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 5px;
+}
+
+.form-group-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.admin-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.admin-field-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  text-transform: uppercase;
+}
+
+.admin-field-input, .admin-field-select, .admin-field-textarea {
+  padding: 10px;
+  border: 1px solid var(--color-borde-input);
+  border-radius: 4px;
+  font-family: var(--fuente-principal);
+  font-size: 0.95rem;
+}
+
+.admin-field-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-borde);
+}
+
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.image-preview-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.file-input-wrapper {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .form-group-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- ZONA DE CARGA DE IMÁGENES (DROPZONE STYLE) --- */
+.custom-file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--color-borde-input);
+  border-radius: var(--radio-borde-medio);
+  padding: 30px;
+  background-color: #fcfdfe;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  border-color: var(--color-acento-suave);
+  background-color: #f0f7ff;
+}
+
+.custom-file-upload i {
+  font-size: 2rem;
+  color: var(--color-acento-suave);
+  margin-bottom: 10px;
+}
+
+.custom-file-upload span {
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+}
+
+/* Ocultar el input original feo */
+.hidden-file-input {
+  display: none;
+}
+
+/* --- REORDENAMIENTO DE GALERÍA --- */
+.gallery-item-wrapper {
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.gallery-item-wrapper:hover {
+  transform: scale(1.02);
+}
+
+.gallery-controls {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.gallery-item-wrapper:hover .gallery-controls {
+  opacity: 1;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+}
+
+.control-btn:hover {
+  color: var(--color-acento);
+}
