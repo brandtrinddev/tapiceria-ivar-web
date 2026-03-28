@@ -13,7 +13,6 @@ import ReactPixel from 'react-facebook-pixel';
 
 const NOMBRES_COMPONENTES = { sofa: 'Sofá', sofa_xl: 'Sofá XL', sofa_estandar: 'Sofá Estándar', sofa_2c: 'Sofá 2 Cuerpos', sofa_3c: 'Sofá 3 Cuerpos', butaca: 'Butaca', isla: 'Isla', modulo: 'Módulo', modulo_chaise: "Módulo Chaise", modulo_con_brazo: "Modulo con brazo", modulo_sin_brazo: "Modulo sin brazo", respaldo: 'Respaldo', modulo_sofa: "Modulo Sofá", sofa_completo: "Sofá Completo" };
 const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Altura', profundidadTotalChaise: 'Profundidad Total Chaise', profundidadChaise: 'Profundidad Chaise', profundidadTotal: 'Profundidad Total' };
-const ORDEN_TELAS = [ 'Alpha', 'Carla', 'Tach', 'Pané' ];
 
 function ProductDetailPage() {
   const { addToCart } = useCart();
@@ -121,10 +120,24 @@ function ProductDetailPage() {
   useEffect(() => { const handleKeyDown = (event) => { if (event.key === 'ArrowLeft') goToPreviousImage(); if (event.key === 'ArrowRight') goToNextImage(); }; window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown); }, [goToPreviousImage, goToNextImage]);
   useEffect(() => { if (product) { document.title = `Tapicería Ivar - ${product.nombre}`; } }, [product]);
   const bind = useDrag(({ swipe: [swipeX] }) => { if (swipeX === -1) goToNextImage(); if (swipeX === 1) goToPreviousImage(); }, { axis: 'x' });
+
   const tiposDeTela = useMemo(() => {
-  const tiposDisponibles = new Set(telas.map(t => t.nombre_tipo));
-  return ORDEN_TELAS.filter(tipo => tiposDisponibles.has(tipo));
-}, [telas]);
+    // 1. Obtenemos los nombres de tipo únicos
+    const tiposEnDB = [...new Set(telas.map(t => t.nombre_tipo))];
+
+    // 2. Creamos objetos que contienen el nombre y el precio mínimo de esa familia
+    const tiposConPrecio = tiposEnDB.map(tipo => {
+      const telasDeEsteTipo = telas.filter(t => t.nombre_tipo === tipo);
+      // Buscamos el precio más bajo de esta familia para usarlo como referencia de orden
+      const precioReferencia = Math.min(...telasDeEsteTipo.map(t => t.costo_adicional_por_metro));
+      return { tipo, precioReferencia };
+    });
+
+    // 3. Ordenamos de menor a mayor precio y devolvemos solo los nombres
+    return tiposConPrecio
+      .sort((a, b) => a.precioReferencia - b.precioReferencia)
+      .map(item => item.tipo);
+  }, [telas]);
 
   const handleAccordionToggle = (tipo) => {
     setOpenAccordion(openAccordion === tipo ? null : tipo);
@@ -291,7 +304,8 @@ function ProductDetailPage() {
                     <div className="fabric-selector">
                       {tiposDeTela.map(tipo => {
                         // Buscamos la primera tela de este tipo para obtener su costo
-                        const costoAdicional = telas.find(t => t.nombre_tipo === tipo)?.costo_adicional_por_metro;
+                        const telasDeEsteTipo = telas.filter(t => t.nombre_tipo === tipo);
+                        const costoAdicional = Math.min(...telasDeEsteTipo.map(t => t.costo_adicional_por_metro));
 
                         return (
                           <div key={tipo} className="fabric-accordion-item">

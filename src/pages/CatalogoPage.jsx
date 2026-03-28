@@ -28,6 +28,7 @@ function CatalogoPage() {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const getProducts = async () => {
@@ -47,7 +48,12 @@ function CatalogoPage() {
   const paginaActual = parseInt(query.get('pagina'), 10) || 1;
   const ordenActual = query.get('orden') || 'default';
 
-  let productosFiltrados = categoriaActual ? products.filter(p => p.categoria === categoriaActual) : [...products];
+  let productosFiltrados = products.filter(p => {
+    const matchesCategory = !categoriaActual || p.categoria === categoriaActual;
+    const matchesSearch = p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (p.sku && p.sku.toLowerCase().includes(searchTerm.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
 
   const productosOrdenados = [...productosFiltrados];
   // ... Lógica de ordenamiento (sin cambios) ...
@@ -115,33 +121,52 @@ function CatalogoPage() {
           </div>
         </aside>
 
-{/* --- COLUMNA DERECHA: CONTENIDO PRINCIPAL --- */}
+        {/* --- COLUMNA DERECHA: CONTENIDO PRINCIPAL --- */}
         <main className="catalogo-main-content">
           <div className="catalog-page-header">
-            {/* El div intermedio <div className="section-container"> ha sido eliminado */}
             <div className="catalog-breadcrumb">
               <Link to="/">Inicio</Link> <span>/ </span> 
               <Link to="/catalogo">Catálogo</Link>
               {categoriaActual && <span>/ {pageTitle}</span>}
             </div>
             <h1 className="catalog-main-title">{pageTitle}</h1>
-            {productosOrdenados.length > 0 && (
-              <div className="catalog-controls">
-                <p className="product-count">
-                  Mostrando {currentProductsToDisplay.length} de {productosOrdenados.length} productos
-                </p>
-                <div className="sort-control">
-                  <label htmlFor="sort-select">Ordenar por:</label>
-                  <select id="sort-select" value={ordenActual} onChange={handleSortChange} className="sort-select">
-                    <option value="default">Relevancia</option>
-                    <option value="name-asc">Nombre (A-Z)</option>
-                    <option value="name-desc">Nombre (Z-A)</option>
-                    <option value="price-asc">Precio (Menor a Mayor)</option>
-                    <option value="price-desc">Precio (Mayor a Menor)</option>
-                  </select>
-                </div>
+            
+            <div className="catalog-controls">
+              {/* --- BUSCADOR SIEMPRE VISIBLE --- */}
+              <div className="catalog-search-control">
+                <input 
+                  type="text" 
+                  placeholder="¿Qué estás buscando?" 
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    const params = new URLSearchParams(location.search);
+                    params.set('pagina', '1'); // Reseteamos a la página 1 al buscar
+                    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+                  }}
+                  className="catalog-search-input"
+                />
               </div>
-            )}
+
+              {/* --- SOLO EL CONTEO Y ORDEN SE OCULTAN SI NO HAY RESULTADOS --- */}
+              {productosOrdenados.length > 0 && (
+                <>
+                  <p className="product-count">
+                    Mostrando {currentProductsToDisplay.length} de {productosOrdenados.length} productos
+                  </p>
+                  <div className="sort-control">
+                    <label htmlFor="sort-select">Ordenar por:</label>
+                    <select id="sort-select" value={ordenActual} onChange={handleSortChange} className="sort-select">
+                      <option value="default">Relevancia</option>
+                      <option value="name-asc">Nombre (A-Z)</option>
+                      <option value="name-desc">Nombre (Z-A)</option>
+                      <option value="price-asc">Precio (Menor a Mayor)</option>
+                      <option value="price-desc">Precio (Mayor a Menor)</option>
+                    </select>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {currentProductsToDisplay.length > 0 ? (

@@ -103,15 +103,45 @@ const AdminPage = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [editingFabric, setEditingFabric] = useState(null);
 
+    // Agrupamos las telas por tipo para la visualización en la tabla
+  const groupedFabrics = React.useMemo(() => {
+    return fabrics.reduce((acc, tela) => {
+      const tipo = tela.nombre_tipo;
+      if (!acc[tipo]) {
+        acc[tipo] = {
+          ...tela, // Tomamos los datos base del primer registro
+          colores: []
+        };
+      }
+      acc[tipo].colores.push(tela);
+      return acc;
+    }, {});
+  }, [fabrics]);
+
   const fetchOrders = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const from = (currentPage - 1) * ITEMS_PER_PAGE;
+    const to = from + ITEMS_PER_PAGE - 1;
+
+    let query = supabase
       .from('pedidos')
-      .select('*, cuentas_bancarias (nombre_banco, moneda), pedido_items ( cantidad, productos (nombre), telas (nombre_tipo, nombre_color) )')
-      .order('created_at', { ascending: false });
-    if (!error) setOrders(data);
+      .select('*, cuentas_bancarias (nombre_banco, moneda), pedido_items ( cantidad, productos (nombre), telas (nombre_tipo, nombre_color) )', { count: 'exact' });
+
+    if (searchTerm) {
+      // Buscamos por Nº de pedido o por nombre/apellido dentro del JSONB datos_cliente
+      query = query.or(`numero_pedido.ilike.%${searchTerm}%,datos_cliente->>nombre.ilike.%${searchTerm}%,datos_cliente->>apellido.ilike.%${searchTerm}%`);
+    }
+
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
+    if (!error) {
+      setOrders(data);
+      setTotalItems(count || 0);
+    }
     setLoading(false);
-  }, []);
+  }, [currentPage, searchTerm, ITEMS_PER_PAGE]);
 
 const fetchProducts = useCallback(async () => {
     setLoadingItems(true);
@@ -140,27 +170,25 @@ const fetchProducts = useCallback(async () => {
 
   const fetchFabrics = useCallback(async () => {
     setLoadingItems(true);
-    const from = (currentPage - 1) * ITEMS_PER_PAGE;
-    const to = from + ITEMS_PER_PAGE - 1;
 
     let query = supabase
       .from('telas')
-      .select('*', { count: 'exact' });
+      .select('*'); // Traemos todo para agrupar las familias correctamente
 
     if (searchTerm) {
       query = query.or(`nombre_tipo.ilike.%${searchTerm}%,nombre_color.ilike.%${searchTerm}%`);
     }
 
-    const { data, error, count } = await query
+    const { data, error } = await query
       .order('nombre_tipo', { ascending: true })
-      .range(from, to);
+      .order('nombre_color', { ascending: true });
 
     if (!error) {
       setFabrics(data);
-      setTotalItems(count || 0);
+      // No seteamos totalItems aquí, lo haremos en un useEffect basado en el agrupamiento
     }
     setLoadingItems(false);
-  }, [currentPage, searchTerm, ITEMS_PER_PAGE]);
+  }, [searchTerm]); // Ya no depende de currentPage para recargar
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -174,6 +202,13 @@ const fetchProducts = useCallback(async () => {
     setSearchTerm('');
     setCurrentPage(1);
   }, [activeTab]);
+
+  // Sincroniza el total de items para la paginación de telas (basado en familias)
+  useEffect(() => {
+    if (activeTab === 'fabrics') {
+      setTotalItems(Object.keys(groupedFabrics).length);
+    }
+  }, [groupedFabrics, activeTab]);
 
   // Manejador genérico para cambios en inputs de productos
   const handleProductInputChange = (field, value) => {
@@ -229,7 +264,7 @@ const fetchProducts = useCallback(async () => {
     });
   };
 
-const handleSaveProduct = async () => {
+  const handleSaveProduct = async () => {
     try {
       setLoadingItems(true);
       let updatedProduct = { ...editingProduct };
@@ -278,33 +313,102 @@ const handleSaveProduct = async () => {
 
   // --- LÓGICA PARA TELAS ---
   const handleFabricInputChange = (field, value) => {
-    setEditingFabric(prev => ({ ...prev, [field]: value }));
+    setEditingFabric(prev => {
+      const updated = { ...prev, [field]: value };
+      
+      // LÓGICA MAESTRA: Si cambias el precio global, se aplica a todos los colores de la lista
+      if (field === 'costo_adicional_por_metro') {
+        const nuevoPrecio = parseFloat(value) || 0;
+        updated.colores = prev.colores.map(col => ({
+          ...col,
+          costo_adicional_por_metro: nuevoPrecio
+        }));
+      }
+      
+      return updated;
+    });
   };
 
-const handleSaveFabric = async () => {
+  // Cambiar un dato de un color específico en la lista
+  const handleFabricColorChange = (index, field, value) => {
+    setEditingFabric(prev => {
+      const newColores = [...(prev.colores || [])];
+      newColores[index] = { ...newColores[index], [field]: value };
+      return { ...prev, colores: newColores };
+    });
+  };
+
+  // Añadir un nuevo espacio de color vacío a la familia
+  const handleAddFabricColor = () => {
+    const newColor = {
+      nombre_tipo: editingFabric?.nombre_tipo || '',
+      nombre_color: '',
+      imagen_url: '',
+      costo_adicional_por_metro: editingFabric?.costo_adicional_por_metro || 0,
+      disponible: true,
+      descripcion: editingFabric?.descripcion || ''
+    };
+    setEditingFabric(prev => ({
+      ...prev,
+      colores: [...(prev.colores || []), newColor]
+    }));
+  };
+
+  // Quitar un color de la lista (localmente)
+  const handleRemoveFabricColor = (index) => {
+    setEditingFabric(prev => ({
+      ...prev,
+      colores: prev.colores.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleSaveFabric = async () => {
     try {
       setLoadingItems(true);
-      let updatedFabric = { ...editingFabric };
+      const { nombre_tipo, descripcion, colores } = editingFabric;
 
-      // Si la imagen es un archivo nuevo, subirla primero
-      if (updatedFabric.imagen_url instanceof File) {
-        toast.info("Subiendo muestra de tela...");
-        const url = await uploadAdminImage(updatedFabric.imagen_url, 'telas');
-        updatedFabric.imagen_url = url;
+      if (!nombre_tipo || !colores || colores.length === 0) {
+        toast.error("Debes incluir al menos un nombre de tipo y un color.");
+        return;
       }
 
+      toast.info("Procesando cambios en la familia de telas...");
+
+      // 1. Procesar cada color: subir imágenes si son nuevas y unificar datos globales
+      const coloresProcesados = await Promise.all(
+        colores.map(async (col) => {
+          let finalUrl = col.imagen_url;
+          
+          // Si la imagen es un archivo nuevo, subirla
+          if (col.imagen_url instanceof File) {
+            finalUrl = await uploadAdminImage(col.imagen_url, 'telas');
+          }
+
+          return {
+            ...col,
+            id: col.id || undefined, // Si no tiene ID, Supabase crea uno nuevo
+            nombre_tipo,             // Unificamos el tipo
+            descripcion,             // Unificamos la descripción en todos
+            imagen_url: finalUrl,
+            // Si el color no tiene un precio específico, usamos el global del modal
+            costo_adicional_por_metro: col.costo_adicional_por_metro
+          };
+        })
+      );
+
+      // 2. Guardado masivo (Upsert)
       const { error } = await supabase
         .from('telas')
-        .upsert(updatedFabric);
+        .upsert(coloresProcesados);
 
       if (error) throw error;
 
-      toast.success(editingFabric.id ? "Tela actualizada" : "Tela creada con éxito");
+      toast.success("Familia de telas actualizada correctamente");
       setIsFabricModalOpen(false);
       fetchFabrics();
     } catch (err) {
       console.error(err);
-      toast.error("Error al guardar la tela");
+      toast.error("Error al guardar los cambios");
     } finally {
       setLoadingItems(false);
     }
@@ -415,91 +519,98 @@ const handleSaveFabric = async () => {
           Muestrario de Telas
         </button>
       </div>
-      {/* --- CABECERA GLOBAL (SOLO PARA PRODUCTOS Y TELAS) --- */}
-      {(activeTab === 'products' || activeTab === 'fabrics') && (
+      {/* --- CABECERA GLOBAL --- */}
+      {(activeTab === 'orders' || activeTab === 'products' || activeTab === 'fabrics') && (
         <div className="admin-view-controls">
-          <h2>{activeTab === 'products' ? 'Catálogo de Muebles' : 'Muestrario de Telas'}</h2>
+          <h2>
+            {activeTab === 'orders' ? 'Gestión de Pedidos' : 
+             activeTab === 'products' ? 'Catálogo de Muebles' : 'Muestrario de Telas'}
+          </h2>
           
           <div className="admin-global-search">
             <input 
               type="text" 
-              placeholder={`Buscar en ${activeTab === 'products' ? 'productos' : 'telas'}...`}
+              placeholder={
+                activeTab === 'orders' ? "Buscar por Nº pedido o cliente..." :
+                activeTab === 'products' ? "Buscar por nombre o SKU..." : "Buscar telas..."
+              }
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset al buscar
+                setCurrentPage(1);
               }}
             />
           </div>
 
-          <button 
-            className="cta-button" 
-            onClick={() => {
-              if (activeTab === 'products') {
-                setEditingProduct({
-                  nombre: '', precio_base: 0, metros_tela_base: 0, categoria: 'sofas', activo: true, sku: '', descripcion: '',
-                  detalles: { medidas: { sofa: { alto: '', ancho: '', profundidad: '' } }, descripcion_larga: { base: '', sabor: '', cta: '' }, galeria: [] }
-                });
-                setIsProductModalOpen(true);
-              } else {
-                setEditingFabric({ nombre_tipo: '', nombre_color: '', imagen_url: '', costo_adicional_por_metro: 0, disponible: true });
-                setIsFabricModalOpen(true);
-              }
-            }}
-          >
-            {activeTab === 'products' ? '+ Nuevo Producto' : '+ Nueva Tela'}
-          </button>
+          {/* El botón de 'Nuevo' solo aparece en Productos y Telas */}
+          {activeTab !== 'orders' && (
+            <button 
+              className="cta-button" 
+              onClick={() => {
+                if (activeTab === 'products') {
+                  setEditingProduct({
+                    nombre: '', precio_base: 0, metros_tela_base: 0, categoria: 'sofas', activo: true, sku: '', descripcion: '',
+                    detalles: { medidas: { sofa: { alto: '', ancho: '', profundidad: '' } }, descripcion_larga: { base: '', sabor: '', cta: '' }, galeria: [] }
+                  });
+                  setIsProductModalOpen(true);
+                } else {
+                  setEditingFabric({ nombre_tipo: '', nombre_color: '', imagen_url: '', costo_adicional_por_metro: 0, disponible: true });
+                  setIsFabricModalOpen(true);
+                }
+              }}
+            >
+              {activeTab === 'products' ? '+ Nuevo Producto' : '+ Nueva Tela'}
+            </button>
+          )}
         </div>
-      )}
+        )}
 
+      {/* --- INICIO VISTA PEDIDOS --- */}
       {activeTab === 'orders' && (
-        <>
-          <h1 className="section-title">Panel de administración de pedidos</h1>
-      {loading ? (
-        <p>Cargando pedidos...</p>
-      ) : (
-        <div className="orders-table-container">
-          <table className="orders-table">
-            <thead>
-              <tr>
-                <th>Nº Pedido</th>
-                <th>Fecha</th>
-                <th>Cliente</th>
-                <th>Total</th>
-                <th>Pago / Entrega</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map(order => (
-                <tr key={order.id} onClick={() => setSelectedOrder(order)} className="order-row">
-                  <td><strong>#{order.numero_pedido}</strong></td>
-                  <td>{new Date(order.created_at).toLocaleDateString('es-UY')}</td>
-                  <td>{`${order.datos_cliente?.nombre || 'N/A'} ${order.datos_cliente?.apellido || ''}`}</td>
-                  <td>{formatPriceUYU(order.total_pedido)}</td>
-                  <td>
-                    <div>{order.cuenta_bancaria_id ? 'Transferencia' : 'Mercado Pago'}</div>
-                    <div className="delivery-method">{order.datos_cliente?.shippingMethod === 'envio' ? 'Envío' : 'Retiro'}</div>
-                  </td>
-                  <td>
-                    <select
-                      value={order.estado || ''}
-                      onClick={(e) => e.stopPropagation()}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                      className={`status-select ${getStatusClass(order.estado)}`}
-                    >
-                      {ORDER_STATUSES.map(status => (
-                        <option key={status} value={status}>{status}</option>
-                      ))}
-                    </select>
-                  </td>
+        loading ? (
+          <p>Cargando pedidos...</p>
+        ) : (
+          <div className="orders-table-container">
+            <table className="orders-table">
+              <thead>
+                <tr>
+                  <th>Nº Pedido</th>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Pago / Entrega</th>
+                  <th>Estado</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      </>
+              </thead>
+              <tbody>
+                {orders.map(order => (
+                  <tr key={order.id} onClick={() => setSelectedOrder(order)} className="order-row">
+                    <td><strong>#{order.numero_pedido}</strong></td>
+                    <td>{new Date(order.created_at).toLocaleDateString('es-UY')}</td>
+                    <td>{`${order.datos_cliente?.nombre || 'N/A'} ${order.datos_cliente?.apellido || ''}`}</td>
+                    <td>{formatPriceUYU(order.total_pedido)}</td>
+                    <td>
+                      <div>{order.cuenta_bancaria_id ? 'Transferencia' : 'Mercado Pago'}</div>
+                      <div className="delivery-method">{order.datos_cliente?.shippingMethod === 'envio' ? 'Envío' : 'Retiro'}</div>
+                    </td>
+                    <td>
+                      <select
+                        value={order.estado || ''}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                        className={`status-select ${getStatusClass(order.estado)}`}
+                      >
+                        {ORDER_STATUSES.map(status => (
+                          <option key={status} value={status}>{status}</option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
       )}
 
       {/* --- INICIO VISTA CATÁLOGO --- */}
@@ -580,43 +691,58 @@ const handleSaveFabric = async () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {fabrics.map(tela => (
-                    <tr key={tela.id}>
-                      <td>
-                        <img 
-                          src={tela.imagen_url} 
-                          alt={tela.nombre_color} 
-                          style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '50%', border: '1px solid #ddd' }} 
-                        />
-                      </td>
-                      <td>
-                        <strong>{tela.nombre_tipo}</strong><br/>
-                        <span style={{color: '#666'}}>{tela.nombre_color}</span>
-                      </td>
-                      <td>{formatPriceUYU(tela.costo_adicional_por_metro)}</td>
-                      <td>
-                        <span className={tela.disponible ? 'status-pago-realizado' : 'status-cancelado'} style={{padding: '4px 8px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold'}}>
-                          {tela.disponible ? 'DISPONIBLE' : 'AGOTADA'}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="admin-actions-container">
-                          <button 
-                            className="cta-button edit-btn-small" 
-                            onClick={() => { setEditingFabric(tela); setIsFabricModalOpen(true); }}
-                          >
-                            Editar
-                          </button>
-                          <button 
-                            className="cta-button delete-btn-small" 
-                            onClick={() => handleDeleteItem(tela.id, 'telas')}
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                {Object.values(groupedFabrics)
+                  .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                  .map(grupo => (
+                  <tr key={grupo.nombre_tipo}>
+                    <td>
+                      <img 
+                        src={grupo.imagen_url} 
+                        alt={grupo.nombre_tipo} 
+                        style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '50%', border: '1px solid #ddd' }} 
+                      />
+                    </td>
+                    <td>
+                      <strong>{grupo.nombre_tipo}</strong><br/>
+                      <small style={{color: '#888'}}>{grupo.colores.length} variantes de color</small>
+                    </td>
+                    <td>
+                      {/* Si hay precios distintos en la familia, avisamos con un '+' */}
+                      {new Set(grupo.colores.map(c => c.costo_adicional_por_metro)).size > 1 
+                        ? `Desde ${formatPriceUYU(Math.min(...grupo.colores.map(c => c.costo_adicional_por_metro)))}`
+                        : formatPriceUYU(grupo.costo_adicional_por_metro)
+                      }
+                    </td>
+                    <td>
+                      <span className={grupo.colores.some(c => c.disponible) ? 'status-pago-realizado' : 'status-cancelado'} style={{padding: '4px 8px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold'}}>
+                        {grupo.colores.some(c => c.disponible) ? 'CON STOCK' : 'SIN STOCK'}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="admin-actions-container">
+                        <button 
+                          className="cta-button edit-btn-small" 
+                          onClick={() => { 
+                              // Calculamos cuál es el precio que más se repite (el valor 'madre' real)
+                              const precios = grupo.colores.map(c => c.costo_adicional_por_metro);
+                              const precioMasFrecuente = precios.sort((a,b) =>
+                                    precios.filter(v => v===a).length - precios.filter(v => v===b).length
+                              ).pop();
+
+                              setEditingFabric({
+                                ...grupo,
+                                costo_adicional_por_metro: precioMasFrecuente, // Seteamos el predominante como base
+                                colores: grupo.colores
+                              }); 
+                              setIsFabricModalOpen(true); 
+                            }}
+                        >
+                          Gestionar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
                 </tbody>
               </table>
             </div>
@@ -840,7 +966,7 @@ const handleSaveFabric = async () => {
         </div>
       </Modal>
 
-      {/* --- MODAL DE TELAS (NUEVO / EDITAR) --- */}
+      {/* --- MODAL DE TELAS (GESTIÓN AGRUPADA) --- */}
       <Modal
         isOpen={isFabricModalOpen}
         onRequestClose={() => setIsFabricModalOpen(false)}
@@ -848,85 +974,119 @@ const handleSaveFabric = async () => {
         overlayClassName="order-detail-overlay"
       >
         <div className="modal-header">
-          <h2>{editingFabric?.id ? 'Editar Tela' : 'Nueva Tela'}</h2>
+          <h2>{editingFabric?.id ? `Gestionar Tela: ${editingFabric.nombre_tipo}` : 'Nueva Familia de Tela'}</h2>
           <button className="close-button" onClick={() => setIsFabricModalOpen(false)}>&times;</button>
         </div>
 
         <div className="admin-form-container">
-          <div className="admin-field-group">
-            <label>Imagen de la Muestra</label>
-            <label className="custom-file-upload">
-              <input 
-                type="file" 
-                className="hidden-file-input"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) handleFabricInputChange('imagen_url', file);
-                }}
-              />
-              {editingFabric?.imagen_url ? (
-                <img 
-                  src={editingFabric.imagen_url instanceof File ? URL.createObjectURL(editingFabric.imagen_url) : editingFabric.imagen_url} 
-                  className="image-preview-img" 
-                  style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover' }} 
+          {/* 1. INFORMACIÓN GLOBAL (Se aplica a todos los colores) */}
+          <div className="order-detail-section">
+            <h3>Información General (Tipo)</h3>
+            <div className="form-group-grid">
+              <div className="admin-field-group">
+                <label>Nombre del Tipo (Ej: Pané)</label>
+                <input 
+                  type="text" className="admin-field-input"
+                  value={editingFabric?.nombre_tipo || ''}
+                  onChange={(e) => handleFabricInputChange('nombre_tipo', e.target.value)}
                 />
-              ) : (
-                <>
-                  <i style={{ fontSize: '1.5rem', marginBottom: '5px' }}>🎨</i>
-                  <span>Subir muestra de tela</span>
-                </>
-              )}
-            </label>
-          </div>
-
-          <div className="form-group-grid">
-            <div className="admin-field-group">
-              <label>Tipo de Tela (Ej: Pané)</label>
-              <input 
-                type="text" className="admin-field-input"
-                value={editingFabric?.nombre_tipo || ''}
-                onChange={(e) => handleFabricInputChange('nombre_tipo', e.target.value)}
-              />
+              </div>
+              <div className="admin-field-group">
+                <label>Costo Extra por Metro (UYU)</label>
+                <input 
+                  type="number" className="admin-field-input"
+                  value={editingFabric?.costo_adicional_por_metro || 0}
+                  onChange={(e) => handleFabricInputChange('costo_adicional_por_metro', e.target.value)}
+                />
+              </div>
             </div>
+
             <div className="admin-field-group">
-              <label>Color (Ej: Beige)</label>
-              <input 
-                type="text" className="admin-field-input"
-                value={editingFabric?.nombre_color || ''}
-                onChange={(e) => handleFabricInputChange('nombre_color', e.target.value)}
+              <label>Descripción de la Tela (Aparece en la web)</label>
+              <textarea 
+                className="admin-field-textarea"
+                placeholder="Ej: Tela con proceso anti-manchas, tacto suave y gran resistencia..."
+                value={editingFabric?.descripcion || ''}
+                onChange={(e) => handleFabricInputChange('descripcion', e.target.value)}
               />
             </div>
           </div>
 
-          <div className="form-group-grid">
-            <div className="admin-field-group">
-              <label>Costo Extra por Metro (UYU)</label>
-              <input 
-                type="number" className="admin-field-input"
-                value={editingFabric?.costo_adicional_por_metro || ''}
-                onChange={(e) => handleFabricInputChange('costo_adicional_por_metro', e.target.value)}
-              />
+          {/* 2. GESTIÓN DE VARIANTES DE COLOR (LISTA POR FILAS) */}
+          <div className="order-detail-section">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <h3>Variantes de Color</h3>
+              <button type="button" className="cta-button" style={{ padding: '5px 15px', fontSize: '0.8rem' }} onClick={handleAddFabricColor}>
+                + Añadir Color
+              </button>
             </div>
-            <div className="admin-field-group">
-              <label>Disponibilidad</label>
-              <select 
-                className="admin-field-select"
-                value={editingFabric?.disponible ? 'true' : 'false'}
-                onChange={(e) => handleFabricInputChange('disponible', e.target.value === 'true')}
-              >
-                <option value="true">Disponible</option>
-                <option value="false">Agotada / Sin Stock</option>
-              </select>
+            
+            <div style={{ maxHeight: '350px', overflowY: 'auto', border: '1px solid #eee', borderRadius: '8px' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                <thead style={{ background: '#f5f5f5', position: 'sticky', top: 0 }}>
+                  <tr>
+                    <th style={{ padding: '10px' }}>Muestra</th>
+                    <th style={{ padding: '10px' }}>Nombre del Color</th>
+                    <th style={{ padding: '10px' }}>Precio Extra</th>
+                    <th style={{ padding: '10px' }}>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {editingFabric?.colores?.map((col, index) => (
+                    <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                      <td style={{ padding: '8px', textAlign: 'center' }}>
+                        <label style={{ cursor: 'pointer' }}>
+                          <input 
+                            type="file" hidden 
+                            onChange={(e) => {
+                              if (e.target.files[0]) handleFabricColorChange(index, 'imagen_url', e.target.files[0]);
+                            }}
+                          />
+                          <img 
+                            src={col.imagen_url instanceof File ? URL.createObjectURL(col.imagen_url) : col.imagen_url || 'https://via.placeholder.com/40'} 
+                            style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #ddd' }} 
+                          />
+                        </label>
+                      </td>
+                      <td style={{ padding: '8px' }}>
+                        <input 
+                          type="text" className="admin-field-input" style={{ padding: '5px' }}
+                          placeholder="Ej: Beige"
+                          value={col.nombre_color || ''}
+                          onChange={(e) => handleFabricColorChange(index, 'nombre_color', e.target.value)}
+                        />
+                      </td>
+                      <td style={{ padding: '8px' }}>
+                        <input 
+                          type="number" className="admin-field-input" style={{ padding: '5px', width: '80px' }}
+                          value={col.costo_adicional_por_metro}
+                          onChange={(e) => handleFabricColorChange(index, 'costo_adicional_por_metro', e.target.value)}
+                        />
+                      </td>
+                      <td style={{ padding: '8px', textAlign: 'center' }}>
+                        <button 
+                          onClick={() => handleRemoveFabricColor(index)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc3545', fontSize: '1.1rem' }}
+                        >
+                          🗑️
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
           <div className="admin-form-actions">
             <button className="cta-button secondary" onClick={() => setIsFabricModalOpen(false)}>Cancelar</button>
             <button className="cta-button" onClick={handleSaveFabric}>
-              {editingFabric?.id ? 'Actualizar Tela' : 'Crear Tela'}
+              Guardar Cambios Globales
             </button>
           </div>
+          <small style={{ color: '#888', textAlign: 'center' }}>
+            * Al guardar, el precio y descripción se actualizarán en todos los colores de esta familia.
+          </small>
         </div>
       </Modal>
 
@@ -987,7 +1147,8 @@ const handleSaveFabric = async () => {
         </Modal>
       )}
       {/* --- PAGINACIÓN GLOBAL --- */}
-      {(activeTab === 'products' || activeTab === 'fabrics') && !loadingItems && totalItems > ITEMS_PER_PAGE && (
+      {(activeTab === 'orders' || activeTab === 'products' || activeTab === 'fabrics') && 
+       !(activeTab === 'orders' ? loading : loadingItems) && totalItems > ITEMS_PER_PAGE && (
         <div className="pagination-controls">
           <button 
             className="pagination-btn"
