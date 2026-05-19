@@ -8,6 +8,12 @@ import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
 import { useCart } from '../context/CartContext.jsx';
 import { calculateSubtotal } from '../utils/pricing.js';
+import {
+  NOMBRES_DIMENSIONES,
+  getDimensionEntriesForDisplay,
+  getModuloDisplayName,
+  getModulosConMedidas,
+} from '../utils/medidas.js';
 import { toast } from 'react-toastify'; // Se añade import para toast
 import ReactPixel from 'react-facebook-pixel';
 
@@ -28,6 +34,11 @@ function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [openAccordion, setOpenAccordion] = useState(null);
   const [activeTab, setActiveTab] = useState('personalizacion');
+
+  const modulosConMedidas = useMemo(
+    () => getModulosConMedidas(product?.detalles?.medidas),
+    [product?.detalles?.medidas],
+  );
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -75,10 +86,18 @@ function ProductDetailPage() {
   useEffect(() => {
     const fetchTelas = async () => {
       const { data, error } = await supabase.from('telas').select('*');
-      if (!error) setTelas(data);
+      if (!error && data) {
+        setTelas(data.filter((tela) => tela.disponible === true));
+      }
     };
     fetchTelas();
   }, []);
+
+  useEffect(() => {
+    if (selectedTela && selectedTela.disponible !== true) {
+      setSelectedTela(null);
+    }
+  }, [selectedTela]);
 
   useEffect(() => {
     if (product) {
@@ -121,23 +140,28 @@ function ProductDetailPage() {
   useEffect(() => { if (product) { document.title = `Tapicería Ivar - ${product.nombre}`; } }, [product]);
   const bind = useDrag(({ swipe: [swipeX] }) => { if (swipeX === -1) goToNextImage(); if (swipeX === 1) goToPreviousImage(); }, { axis: 'x' });
 
-  const tiposDeTela = useMemo(() => {
-    // 1. Obtenemos los nombres de tipo únicos
-    const tiposEnDB = [...new Set(telas.map(t => t.nombre_tipo))];
+  const telasDisponibles = useMemo(
+    () => telas.filter((tela) => tela.disponible === true),
+    [telas],
+  );
 
-    // 2. Creamos objetos que contienen el nombre y el precio mínimo de esa familia
-    const tiposConPrecio = tiposEnDB.map(tipo => {
-      const telasDeEsteTipo = telas.filter(t => t.nombre_tipo === tipo);
-      // Buscamos el precio más bajo de esta familia para usarlo como referencia de orden
-      const precioReferencia = Math.min(...telasDeEsteTipo.map(t => t.costo_adicional_por_metro));
+  const tiposDeTela = useMemo(() => {
+    const tiposEnDB = [...new Set(telasDisponibles.map((t) => t.nombre_tipo))];
+
+    const tiposConPrecio = tiposEnDB.map((tipo) => {
+      const telasDeEsteTipo = telasDisponibles.filter(
+        (t) => t.nombre_tipo === tipo,
+      );
+      const precioReferencia = Math.min(
+        ...telasDeEsteTipo.map((t) => t.costo_adicional_por_metro),
+      );
       return { tipo, precioReferencia };
     });
 
-    // 3. Ordenamos de menor a mayor precio y devolvemos solo los nombres
     return tiposConPrecio
       .sort((a, b) => a.precioReferencia - b.precioReferencia)
-      .map(item => item.tipo);
-  }, [telas]);
+      .map((item) => item.tipo);
+  }, [telasDisponibles]);
 
   const handleAccordionToggle = (tipo) => {
     setOpenAccordion(openAccordion === tipo ? null : tipo);
@@ -304,8 +328,13 @@ function ProductDetailPage() {
                     <div className="fabric-selector">
                       {tiposDeTela.map(tipo => {
                         // Buscamos la primera tela de este tipo para obtener su costo
-                        const telasDeEsteTipo = telas.filter(t => t.nombre_tipo === tipo);
-                        const costoAdicional = Math.min(...telasDeEsteTipo.map(t => t.costo_adicional_por_metro));
+                        const telasDeEsteTipo = telasDisponibles.filter(
+                          (t) => t.nombre_tipo === tipo && t.disponible === true,
+                        );
+                        if (telasDeEsteTipo.length === 0) return null;
+                        const costoAdicional = Math.min(
+                          ...telasDeEsteTipo.map((t) => t.costo_adicional_por_metro),
+                        );
 
                         return (
                           <div key={tipo} className="fabric-accordion-item">
@@ -327,7 +356,7 @@ function ProductDetailPage() {
                               <div className="fabric-colors">
                                 <p>Selecciona un color para la tela <strong>{tipo}</strong>:</p>
                                 <div className="color-swatch-grid">
-                                  {telas.filter(t => t.nombre_tipo === tipo).map(tela => (
+                                  {telasDeEsteTipo.map((tela) => (
                                     <button type="button" key={tela.id} className={`color-swatch ${selectedTela?.id === tela.id ? 'active' : ''}`} onClick={() => handleTelaSelect(tela)} title={tela.nombre_color}>
                                       <img src={tela.imagen_url} alt={tela.nombre_color} />
                                     </button>
@@ -353,26 +382,30 @@ function ProductDetailPage() {
               {/* Panel de Detalles */}
               <div className={`tab-panel ${activeTab === 'detalles' ? 'open' : ''}`}>
                 <div className="tab-panel-content">
-                  {product.detalles?.medidas && Object.keys(product.detalles.medidas).length > 0 && (
+                  {modulosConMedidas.length > 0 && (
                       <div className="product-info-section product-detail-dimensions">
                           <h2>Medidas</h2>
-                          {Object.keys(product.detalles.medidas).length === 1 ? (
-                              <div className="dimension-block">
-                                  <ul>{Object.entries(Object.values(product.detalles.medidas)[0]).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
-                              </div>
-                          ) : (
-                              <div className="dimensions-grid">
-                                  {Object.entries(product.detalles.medidas).map(([componenteKey, medidasComponente]) => {
-                                      const displayName = NOMBRES_COMPONENTES[componenteKey] || componenteKey;
-                                      return (
-                                          <div key={componenteKey} className="dimension-block">
-                                              <h3 className="dimension-component-title">{displayName}</h3>
-                                              <ul>{Object.entries(medidasComponente).map(([medida, valor]) => (<li key={medida}><strong>{NOMBRES_MEDIDAS[medida] || medida}:</strong> {valor}</li>))}</ul>
-                                          </div>
-                                      );
-                                  })}
-                              </div>
-                          )}
+                          <div className="dimensions-grid">
+                              {modulosConMedidas.map(([componenteKey, medidasComponente]) => {
+                                  const dimensionRows = getDimensionEntriesForDisplay(medidasComponente);
+                                  const displayName = getModuloDisplayName(componenteKey, NOMBRES_COMPONENTES);
+                                  return (
+                                      <div key={componenteKey} className="dimension-block">
+                                          <h3 className="dimension-component-title">{displayName}</h3>
+                                          <ul>
+                                              {dimensionRows.map(([medida, valor]) => (
+                                                  <li key={medida}>
+                                                      <strong>
+                                                          {NOMBRES_MEDIDAS[medida] || NOMBRES_DIMENSIONES[medida] || medida}:
+                                                      </strong>{' '}
+                                                      {valor}
+                                                  </li>
+                                              ))}
+                                          </ul>
+                                      </div>
+                                  );
+                              })}
+                          </div>
                       </div>
                   )}
                   <div className="product-info-section">

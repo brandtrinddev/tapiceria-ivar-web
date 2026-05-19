@@ -153,39 +153,52 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(10, 47, 81, 0.75);
+  background-color: rgba(10, 47, 81, 0.55);
+  backdrop-filter: blur(4px);
   z-index: 20000;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
 }
 
 /* El contenedor principal del modal (la ventana blanca) */
 .order-detail-modal {
-  background: var(--color-blanco);
-  width: 90vw;
+  background: #ffffff;
+  width: 100%;
   max-width: 600px;
-  max-height: 90vh;
+  max-height: calc(100vh - 48px);
   overflow-y: auto;
-  border-radius: var(--radio-borde-medio);
-  box-shadow: var(--sombra-elevada);
-  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow:
+    0 4px 6px -1px rgba(10, 47, 81, 0.06),
+    0 20px 40px -8px rgba(10, 47, 81, 0.18);
+  padding: 28px 32px;
   outline: none;
+}
+
+/* Modales de formulario (productos / telas): más ancho y aire */
+.order-detail-modal:has(.admin-form-container) {
+  max-width: 840px;
+  padding: 32px 40px;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--color-borde);
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #e8edf2;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .modal-header h2 {
   margin: 0;
   font-family: var(--fuente-titulos);
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-primario);
 }
 
@@ -200,18 +213,32 @@
 }
 
 .order-detail-section {
-  margin-bottom: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 4px;
 }
 .order-detail-section:last-child {
   margin-bottom: 0;
 }
-.order-detail-section h3 {
+
+/* Jerarquía de sección en formularios admin */
+.admin-form-container .order-detail-section h3,
+.order-detail-modal .order-detail-section h3 {
   font-family: var(--fuente-titulos);
-  font-size: 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  border-bottom: 1px solid #e8edf2;
+  padding-bottom: 12px;
+  margin: 0 0 20px 0;
+}
+
+/* Detalle de pedido: títulos un poco más visibles */
+.order-detail-modal:not(:has(.admin-form-container)) .order-detail-section h3 {
+  font-size: 0.85rem;
   color: var(--color-primario);
-  border-bottom: 1px solid var(--color-borde);
-  padding-bottom: 8px;
-  margin-bottom: 10px;
+  letter-spacing: 0.04em;
 }
 .order-detail-section p, .modal-product-list li {
   margin: 5px 0;
@@ -390,63 +417,129 @@
   }
 }
 
-/* --- ESTILOS PARA FORMULARIOS DE EDICIÓN --- */
+/* --- ESTILOS PARA FORMULARIOS DE EDICIÓN (premium / corporativo) --- */
 .admin-form-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 10px 5px;
+  gap: 8px;
+  padding: 4px 0 0;
 }
 
 .form-group-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 20px 24px;
 }
 
 .admin-field-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .admin-field-group label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-primario);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #64748b;
   text-transform: uppercase;
 }
 
-.admin-field-input, .admin-field-select, .admin-field-textarea {
-  padding: 10px;
-  border: 1px solid var(--color-borde-input);
-  border-radius: 4px;
-  font-family: var(--fuente-principal);
-  font-size: 0.95rem;
+/* Inputs: fondo blanco, texto oscuro, contraste en modo oscuro del SO */
+.admin-field-input,
+.admin-field-select,
+.admin-field-textarea,
+.order-detail-modal input[type="text"],
+.order-detail-modal input[type="number"],
+.order-detail-modal input[type="email"],
+.order-detail-modal input[type="tel"],
+.order-detail-modal input[type="url"],
+.order-detail-modal input[type="search"],
+.order-detail-modal textarea,
+.order-detail-modal select {
+  width: 100%;
+  padding: 12px 14px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #333333;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color-scheme: light;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.admin-field-textarea {
-  min-height: 80px;
+.admin-field-input::placeholder,
+.admin-field-textarea::placeholder,
+.order-detail-modal input::placeholder,
+.order-detail-modal textarea::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.admin-field-input:hover,
+.admin-field-select:hover,
+.admin-field-textarea:hover,
+.order-detail-modal input:hover:not(:disabled),
+.order-detail-modal textarea:hover:not(:disabled),
+.order-detail-modal select:hover:not(:disabled) {
+  border-color: #cbd5e1;
+}
+
+.admin-field-input:focus,
+.admin-field-select:focus,
+.admin-field-textarea:focus,
+.order-detail-modal input:focus,
+.order-detail-modal textarea:focus,
+.order-detail-modal select:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(10, 47, 81, 0.12);
+  background-color: #ffffff;
+}
+
+.admin-field-select,
+.order-detail-modal select {
+  cursor: pointer;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 1em;
+}
+
+.admin-field-textarea,
+.order-detail-modal textarea {
+  min-height: 100px;
   resize: vertical;
 }
 
 .admin-form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-borde);
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid #e8edf2;
 }
 
 .image-preview-container {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 8px;
+  gap: 20px;
+  padding: 16px 18px;
+  background: #f8fafc;
+  border: 1px solid #e8edf2;
+  border-radius: 10px;
 }
 
 .image-preview-img {
@@ -464,6 +557,21 @@
 @media (max-width: 600px) {
   .form-group-grid {
     grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .order-detail-modal:has(.admin-form-container) {
+    padding: 24px 20px;
+  }
+
+  .admin-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .admin-form-actions .cta-button {
+    width: 100%;
+    text-align: center;
   }
 }
 
@@ -473,18 +581,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed var(--color-borde-input);
-  border-radius: var(--radio-borde-medio);
-  padding: 30px;
-  background-color: #fcfdfe;
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+  padding: 36px 24px;
+  background-color: #ffffff;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
   text-align: center;
 }
 
 .custom-file-upload:hover {
-  border-color: var(--color-acento-suave);
-  background-color: #f0f7ff;
+  border-color: var(--color-primario);
+  background-color: #f8fafc;
+  box-shadow: 0 0 0 3px rgba(10, 47, 81, 0.06);
 }
 
 .custom-file-upload i {
@@ -592,4 +704,151 @@
   font-size: 0.9rem;
   color: var(--color-texto-secundario);
   font-weight: 600;
+}
+
+/* --- Medidas por módulo (Admin productos) --- */
+.medidas-modulos-section .medidas-modulos-header {
+  margin-bottom: 20px;
+}
+
+.medidas-modulos-add-row {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 16px;
+}
+
+.medidas-modulos-add-row .admin-field-input {
+  flex: 1;
+}
+
+.medidas-modulos-empty {
+  font-size: 0.9rem;
+  color: var(--color-texto-secundario);
+  font-style: italic;
+  margin: 0;
+  padding: 12px 0;
+}
+
+.medidas-modulos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.medidas-modulo-card {
+  border: 1px solid #e8edf2;
+  border-radius: 10px;
+  padding: 22px 24px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(10, 47, 81, 0.04);
+}
+
+.medidas-modulo-card-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.medidas-modulo-card .form-group-grid {
+  gap: 18px 22px;
+}
+
+.medidas-modulo-name-field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.medidas-modulo-slug-hint {
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+}
+
+.medidas-modulo-slug-hint code {
+  font-family: monospace;
+  background: #eee;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.medidas-modulo-remove-btn {
+  padding: 8px 14px !important;
+  font-size: 0.8rem !important;
+  flex-shrink: 0;
+}
+
+.cta-button.secondary {
+  background-color: transparent;
+  color: var(--color-primario);
+  border: 2px solid var(--color-primario);
+}
+
+.cta-button.secondary:hover {
+  background-color: var(--color-secundario);
+}
+
+@media (max-width: 600px) {
+  .medidas-modulos-add-row {
+    flex-direction: column;
+  }
+
+  .medidas-modulo-card-header {
+    flex-direction: column;
+  }
+}
+
+/* --- Visibilidad de telas (soft delete) --- */
+.fabric-global-visibility {
+  margin-top: 8px;
+  padding: 16px 18px;
+  background: #f8fafc;
+  border: 1px solid #e8edf2;
+  border-radius: 10px;
+}
+
+.fabric-visibility-hint {
+  margin: 0 0 14px 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.fabric-visibility-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fabric-visibility-btn {
+  padding: 10px 18px !important;
+  font-size: 0.85rem !important;
+}
+
+.fabric-visibility-btn--hide {
+  color: #b45309 !important;
+  border-color: #f59e0b !important;
+}
+
+.fabric-visibility-btn--hide:hover {
+  background-color: #fffbeb !important;
+}
+
+.fabric-color-visibility-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  user-select: none;
+}
+
+.fabric-color-visibility-toggle input {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--color-primario);
 }
