@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
@@ -8,26 +8,26 @@ import { CartProvider } from './context/CartContext.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-createRoot(document.getElementById('root')).render(
-    <BrowserRouter>
-      <CartProvider>
-        <App />
-        
-        {/* --- AÑADIDO: Contenedor para mostrar las notificaciones --- */}
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          zIndex={99999}
-        />
+const toastContainer = (
+  <ToastContainer
+    position="bottom-right"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="light"
+  />
+);
 
-      </CartProvider>
-    </BrowserRouter>
+createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <CartProvider>
+      <App />
+      {createPortal(toastContainer, document.body)}
+    </CartProvider>
+  </BrowserRouter>,
 );
