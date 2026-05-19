@@ -4,6 +4,14 @@ import { toast } from "react-toastify";
 import Modal from "react-modal";
 import { supabase } from "../../supabaseClient";
 import { formatPriceUYU } from "../../utils/formatters";
+import {
+  DIMENSIONES_ESTANDAR,
+  NOMBRES_DIMENSIONES,
+  humanizeModuloKey,
+  sanitizeMedidas,
+  slugifyModulo,
+  getUniqueModuloSlug,
+} from "../../utils/medidas";
 import "./AdminPage.css";
 
 Modal.setAppElement("#root");
@@ -125,6 +133,8 @@ const AdminPage = () => {
   const [isFabricModalOpen, setIsFabricModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [editingFabric, setEditingFabric] = useState(null);
+  const [newModuloLabel, setNewModuloLabel] = useState("");
+  const [moduleLabelDrafts, setModuleLabelDrafts] = useState({});
 
   // Agrupamos las telas por tipo para la visualización en la tabla
   const groupedFabrics = React.useMemo(() => {
@@ -243,30 +253,140 @@ const AdminPage = () => {
     setEditingProduct((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Manejador específico para el JSONB de 'detalles'
-  const handleProductDetailChange = (subField, value, parent = "medidas") => {
+  // Manejador específico para el JSONB de 'detalles' (descripcion_larga, etc.)
+  const handleProductDetailChange = (subField, value, parent = "descripcion_larga") => {
     setEditingProduct((prev) => {
-      // 1. Aseguramos que 'detalles' sea un objeto
       const newDetails = { ...(prev.detalles || {}) };
 
-      if (parent === "medidas") {
-        // 2. Aseguramos que 'medidas' y 'sofa' existan antes de escribir
-        newDetails.medidas = { ...(newDetails.medidas || {}) };
-        newDetails.medidas.sofa = { ...(newDetails.medidas.sofa || {}) };
-
-        newDetails.medidas.sofa[subField] = value;
-      } else if (parent === "descripcion_larga") {
-        // 3. Aseguramos que 'descripcion_larga' exista
+      if (parent === "descripcion_larga") {
         newDetails.descripcion_larga = {
           ...(newDetails.descripcion_larga || {}),
         };
-
         newDetails.descripcion_larga[subField] = value;
       }
 
       return { ...prev, detalles: newDetails };
     });
   };
+
+  const handleMedidaDimensionChange = (moduleKey, dimension, value) => {
+    setEditingProduct((prev) => {
+      const newDetails = { ...(prev.detalles || {}) };
+      const medidas = { ...(newDetails.medidas || {}) };
+      medidas[moduleKey] = {
+        ...(medidas[moduleKey] || {}),
+        [dimension]: value,
+      };
+      newDetails.medidas = medidas;
+      return { ...prev, detalles: newDetails };
+    });
+  };
+
+  const handleAddMedidaModule = (label = "") => {
+    const displayLabel = (label || newModuloLabel || "").trim() || "Nuevo módulo";
+    const medidas = editingProduct?.detalles?.medidas || {};
+    const moduleKey = getUniqueModuloSlug(displayLabel, medidas);
+
+    setEditingProduct((prev) => {
+      const newDetails = { ...(prev.detalles || {}) };
+      const nextMedidas = { ...(newDetails.medidas || {}) };
+      nextMedidas[moduleKey] = Object.fromEntries(
+        DIMENSIONES_ESTANDAR.map((dim) => [dim, ""]),
+      );
+      newDetails.medidas = nextMedidas;
+      return { ...prev, detalles: newDetails };
+    });
+
+    setNewModuloLabel("");
+    toast.success(`Módulo "${humanizeModuloKey(moduleKey)}" agregado`);
+  };
+
+  const handleRemoveMedidaModule = (moduleKey) => {
+    const moduleData = editingProduct?.detalles?.medidas?.[moduleKey];
+    const hasData =
+      moduleData &&
+      Object.values(moduleData).some((v) => v != null && String(v).trim() !== "");
+
+    if (
+      hasData &&
+      !window.confirm(
+        `¿Eliminar el módulo "${humanizeModuloKey(moduleKey)}" y sus medidas?`,
+      )
+    ) {
+      return;
+    }
+
+    setEditingProduct((prev) => {
+      const newDetails = { ...(prev.detalles || {}) };
+      const medidas = { ...(newDetails.medidas || {}) };
+      delete medidas[moduleKey];
+      newDetails.medidas = medidas;
+      return { ...prev, detalles: newDetails };
+    });
+
+    setModuleLabelDrafts((prev) => {
+      const next = { ...prev };
+      delete next[moduleKey];
+      return next;
+    });
+  };
+
+  const handleRenameMedidaModule = (oldKey, newLabel) => {
+    const trimmed = (newLabel || "").trim();
+    if (!trimmed) {
+      toast.error("El nombre del módulo no puede estar vacío.");
+      return;
+    }
+
+    const newKey = slugifyModulo(trimmed);
+    if (!newKey) {
+      toast.error("El nombre del módulo no es válido.");
+      return;
+    }
+
+    if (newKey === oldKey) return;
+
+    const medidas = editingProduct?.detalles?.medidas || {};
+    if (medidas[newKey]) {
+      toast.error(`Ya existe un módulo llamado "${humanizeModuloKey(newKey)}".`);
+      return;
+    }
+
+    setEditingProduct((prev) => {
+      const newDetails = { ...(prev.detalles || {}) };
+      const nextMedidas = { ...(newDetails.medidas || {}) };
+      if (!nextMedidas[oldKey]) return prev;
+      nextMedidas[newKey] = nextMedidas[oldKey];
+      delete nextMedidas[oldKey];
+      newDetails.medidas = nextMedidas;
+      return { ...prev, detalles: newDetails };
+    });
+
+    setModuleLabelDrafts((prev) => {
+      const next = { ...prev };
+      delete next[oldKey];
+      delete next[newKey];
+      return next;
+    });
+  };
+
+  const handleModuloLabelBlur = (moduleKey) => {
+    const draft = moduleLabelDrafts[moduleKey];
+    if (draft === undefined) return;
+    handleRenameMedidaModule(moduleKey, draft);
+    setModuleLabelDrafts((prev) => {
+      const next = { ...prev };
+      delete next[moduleKey];
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (!isProductModalOpen) {
+      setNewModuloLabel("");
+      setModuleLabelDrafts({});
+    }
+  }, [isProductModalOpen]);
 
   // Agregar imagen a la galería
   const handleAddGalleryImage = (url) => {
@@ -339,6 +459,14 @@ const AdminPage = () => {
         updatedProduct.detalles.galeria = updatedGaleria;
       }
 
+      updatedProduct = {
+        ...updatedProduct,
+        detalles: {
+          ...updatedProduct.detalles,
+          medidas: sanitizeMedidas(updatedProduct.detalles?.medidas),
+        },
+      };
+
       const isNew = !updatedProduct.id;
       const payload = {
         ...updatedProduct,
@@ -386,9 +514,25 @@ const AdminPage = () => {
   const handleFabricColorChange = (index, field, value) => {
     setEditingFabric((prev) => {
       const newColores = [...(prev.colores || [])];
-      newColores[index] = { ...newColores[index], [field]: value };
+      const parsedValue = field === "disponible" ? value === true || value === "true" : value;
+      newColores[index] = { ...newColores[index], [field]: parsedValue };
       return { ...prev, colores: newColores };
     });
+  };
+
+  const handleSetAllFabricColorsDisponible = (disponible) => {
+    setEditingFabric((prev) => {
+      if (!prev?.colores?.length) return prev;
+      return {
+        ...prev,
+        colores: prev.colores.map((col) => ({ ...col, disponible })),
+      };
+    });
+    toast.info(
+      disponible
+        ? "Todos los colores quedarán visibles en la tienda al guardar."
+        : "Todos los colores quedarán ocultos en la tienda al guardar.",
+    );
   };
 
   // Añadir un nuevo espacio de color vacío a la familia
@@ -445,6 +589,7 @@ const AdminPage = () => {
             imagen_url: finalUrl,
             // Si el color no tiene un precio específico, usamos el global del modal
             costo_adicional_por_metro: col.costo_adicional_por_metro,
+            disponible: col.disponible === true,
           };
         }),
       );
@@ -623,9 +768,7 @@ const AdminPage = () => {
                     sku: "",
                     descripcion: "",
                     detalles: {
-                      medidas: {
-                        sofa: { alto: "", ancho: "", profundidad: "" },
-                      },
+                      medidas: {},
                       descripcion_larga: { base: "", sabor: "", cta: "" },
                       galeria: [],
                     },
@@ -634,10 +777,9 @@ const AdminPage = () => {
                 } else {
                   setEditingFabric({
                     nombre_tipo: "",
-                    nombre_color: "",
-                    imagen_url: "",
+                    descripcion: "",
                     costo_adicional_por_metro: 0,
-                    disponible: true,
+                    colores: [],
                   });
                   setIsFabricModalOpen(true);
                 }
@@ -898,7 +1040,10 @@ const AdminPage = () => {
                                 setEditingFabric({
                                   ...grupo,
                                   costo_adicional_por_metro: precioMasFrecuente, // Seteamos el predominante como base
-                                  colores: grupo.colores,
+                                  colores: grupo.colores.map((c) => ({
+                                    ...c,
+                                    disponible: c.disponible !== false,
+                                  })),
                                 });
                                 setIsFabricModalOpen(true);
                               }}
@@ -1139,54 +1284,103 @@ const AdminPage = () => {
             </div>
           </div>
 
-          {/* --- SECCIÓN TÉCNICA (JSONB) --- */}
-          <div className="order-detail-section">
-            <h3>Medidas Técnicas (Sofá)</h3>
-            <div className="form-group-grid">
-              <div className="admin-field-group">
-                <label>Ancho (ej: 170 cm)</label>
+          {/* --- MEDIDAS POR MÓDULO (JSONB dinámico) --- */}
+          <div className="order-detail-section medidas-modulos-section">
+            <div className="medidas-modulos-header">
+              <h3>Medidas por módulo</h3>
+              <div className="medidas-modulos-add-row">
                 <input
                   type="text"
                   className="admin-field-input"
-                  value={editingProduct?.detalles?.medidas?.sofa?.ancho || ""}
-                  onChange={(e) =>
-                    handleProductDetailChange(
-                      "ancho",
-                      e.target.value,
-                      "medidas",
-                    )
-                  }
+                  placeholder="Ej: Mesa Puente, Isla, Puff..."
+                  value={newModuloLabel}
+                  onChange={(e) => setNewModuloLabel(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddMedidaModule();
+                    }
+                  }}
                 />
-              </div>
-              <div className="admin-field-group">
-                <label>Altura</label>
-                <input
-                  type="text"
-                  className="admin-field-input"
-                  value={editingProduct?.detalles?.medidas?.sofa?.alto || ""}
-                  onChange={(e) =>
-                    handleProductDetailChange("alto", e.target.value, "medidas")
-                  }
-                />
-              </div>
-              <div className="admin-field-group">
-                <label>Profundidad</label>
-                <input
-                  type="text"
-                  className="admin-field-input"
-                  value={
-                    editingProduct?.detalles?.medidas?.sofa?.profundidad || ""
-                  }
-                  onChange={(e) =>
-                    handleProductDetailChange(
-                      "profundidad",
-                      e.target.value,
-                      "medidas",
-                    )
-                  }
-                />
+                <button
+                  type="button"
+                  className="cta-button"
+                  style={{ padding: "8px 16px", fontSize: "0.85rem", flexShrink: 0 }}
+                  onClick={() => handleAddMedidaModule()}
+                >
+                  + Agregar módulo
+                </button>
               </div>
             </div>
+
+            {Object.keys(editingProduct?.detalles?.medidas || {}).length === 0 ? (
+              <p className="medidas-modulos-empty">
+                Sin módulos. Agrega uno (ej: Sofá, Isla, Butaca) e ingresa ancho,
+                alto y profundidad.
+              </p>
+            ) : (
+              <div className="medidas-modulos-list">
+                {Object.entries(editingProduct?.detalles?.medidas || {}).map(
+                  ([moduleKey, dimensiones]) => (
+                    <div key={moduleKey} className="medidas-modulo-card">
+                      <div className="medidas-modulo-card-header">
+                        <div className="admin-field-group medidas-modulo-name-field">
+                          <label>Nombre del módulo</label>
+                          <input
+                            type="text"
+                            className="admin-field-input"
+                            value={
+                              moduleLabelDrafts[moduleKey] ??
+                              humanizeModuloKey(moduleKey)
+                            }
+                            onChange={(e) =>
+                              setModuleLabelDrafts((prev) => ({
+                                ...prev,
+                                [moduleKey]: e.target.value,
+                              }))
+                            }
+                            onBlur={() => handleModuloLabelBlur(moduleKey)}
+                          />
+                          <span className="medidas-modulo-slug-hint">
+                            Clave: <code>{moduleKey}</code>
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          className="cta-button secondary medidas-modulo-remove-btn"
+                          onClick={() => handleRemoveMedidaModule(moduleKey)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+
+                      <div className="form-group-grid">
+                        {DIMENSIONES_ESTANDAR.map((dim) => (
+                          <div key={dim} className="admin-field-group">
+                            <label>
+                              {NOMBRES_DIMENSIONES[dim] || dim}
+                              {dim === "ancho" ? " (ej: 170 cm)" : ""}
+                            </label>
+                            <input
+                              type="text"
+                              className="admin-field-input"
+                              value={dimensiones?.[dim] || ""}
+                              onChange={(e) =>
+                                handleMedidaDimensionChange(
+                                  moduleKey,
+                                  dim,
+                                  e.target.value,
+                                )
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ),
+                )}
+              </div>
+            )}
           </div>
 
           <div className="admin-field-group">
@@ -1299,6 +1493,32 @@ const AdminPage = () => {
                 }
               />
             </div>
+
+            <div className="admin-field-group fabric-global-visibility">
+              <label>Visibilidad en catálogo (toda la familia)</label>
+              <p className="fabric-visibility-hint">
+                Ocultar un color lo mantiene en la base de datos (pedidos antiguos) pero
+                no aparece en la tienda.
+              </p>
+              <div className="fabric-visibility-actions">
+                <button
+                  type="button"
+                  className="cta-button secondary fabric-visibility-btn"
+                  onClick={() => handleSetAllFabricColorsDisponible(true)}
+                  disabled={!editingFabric?.colores?.length}
+                >
+                  Mostrar todos
+                </button>
+                <button
+                  type="button"
+                  className="cta-button secondary fabric-visibility-btn fabric-visibility-btn--hide"
+                  onClick={() => handleSetAllFabricColorsDisponible(false)}
+                  disabled={!editingFabric?.colores?.length}
+                >
+                  Ocultar todos
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* 2. GESTIÓN DE VARIANTES DE COLOR (LISTA POR FILAS) */}
@@ -1344,12 +1564,19 @@ const AdminPage = () => {
                     <th style={{ padding: "10px" }}>Muestra</th>
                     <th style={{ padding: "10px" }}>Nombre del Color</th>
                     <th style={{ padding: "10px" }}>Precio Extra</th>
+                    <th style={{ padding: "10px" }}>Visible</th>
                     <th style={{ padding: "10px" }}>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {editingFabric?.colores?.map((col, index) => (
-                    <tr key={index} style={{ borderBottom: "1px solid #eee" }}>
+                    <tr
+                      key={col.id ?? `color-${index}`}
+                      style={{
+                        borderBottom: "1px solid #eee",
+                        opacity: col.disponible === false ? 0.55 : 1,
+                      }}
+                    >
                       <td style={{ padding: "8px", textAlign: "center" }}>
                         <label style={{ cursor: "pointer" }}>
                           <input
@@ -1413,7 +1640,26 @@ const AdminPage = () => {
                         />
                       </td>
                       <td style={{ padding: "8px", textAlign: "center" }}>
+                        <label className="fabric-color-visibility-toggle">
+                          <input
+                            type="checkbox"
+                            checked={col.disponible !== false}
+                            onChange={(e) =>
+                              handleFabricColorChange(
+                                index,
+                                "disponible",
+                                e.target.checked,
+                              )
+                            }
+                          />
+                          <span>
+                            {col.disponible === false ? "Oculto" : "Visible"}
+                          </span>
+                        </label>
+                      </td>
+                      <td style={{ padding: "8px", textAlign: "center" }}>
                         <button
+                          type="button"
                           onClick={() => handleRemoveFabricColor(index)}
                           style={{
                             background: "none",
@@ -1422,6 +1668,7 @@ const AdminPage = () => {
                             color: "#dc3545",
                             fontSize: "1.1rem",
                           }}
+                          title="Quitar de la lista (no borra en BD hasta guardar)"
                         >
                           🗑️
                         </button>
