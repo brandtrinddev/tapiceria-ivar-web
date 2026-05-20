@@ -1,25 +1,50 @@
 // src/components/Header.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logoIvar from '../assets/logo.png';
 import CartWidget from './CartWidget';
 
+/** Histéresis: evita vibración cuando scrollY oscila en el umbral */
+const SCROLL_DOWN_THRESHOLD = 56;
+const SCROLL_UP_THRESHOLD = 20;
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const isScrolledRef = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-        if (window.scrollY > 10) {
-            setIsScrolled(true);
-        } else {
-            setIsScrolled(false);
-        }
+    const applyScrollState = () => {
+      const y = window.scrollY;
+      const next =
+        !isScrolledRef.current && y > SCROLL_DOWN_THRESHOLD
+          ? true
+          : isScrolledRef.current && y < SCROLL_UP_THRESHOLD
+            ? false
+            : isScrolledRef.current;
+
+      if (next !== isScrolledRef.current) {
+        isScrolledRef.current = next;
+        setIsScrolled(next);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          applyScrollState();
+          ticking = false;
+        });
+      }
+    };
+
+    applyScrollState();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -44,8 +69,8 @@ function Header() {
   };
 
   return (
-      <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="navbar-content section-container">
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+      <div className="navbar-content section-container">
           <div className="logo">
             <Link to="/" onClick={handleLinkClick}>
               <img src={logoIvar} alt="Logo Tapicería Ivar" />
@@ -77,7 +102,7 @@ function Header() {
             </li>
           </ul>
         </div>
-      </nav>
+    </nav>
   );
 }
 export default Header;

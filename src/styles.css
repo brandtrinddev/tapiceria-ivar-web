@@ -39,6 +39,16 @@
   --ancho-max-catalogo: 1520px;
   --padding-seccion-desktop: 80px;
   --padding-seccion-mobile: 50px;
+
+  /* Altura expandida del navbar (15+50+15). Compensa header fixed en main. */
+  --navbar-height-expanded: 80px;
+  --navbar-height-scrolled: 60px;
+  --navbar-padding-y: 15px;
+  --navbar-padding-y-scrolled: 10px;
+  --navbar-row-height: 50px;
+  --navbar-row-height-scrolled: 40px;
+  --navbar-logo-size: 72px;
+  --navbar-logo-size-scrolled: 62px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -60,6 +70,8 @@ body {
 main.page-content-container, .page-content-container {
   flex: 1 0 auto;
   animation: fadeIn 0.5s ease-in-out;
+  /* Compensación: header fixed fuera del flujo (altura expandida 80px) */
+  padding-top: var(--navbar-height-expanded);
 }
 
 .cta-button {
@@ -137,54 +149,60 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* 2. Header / Navegación (Navbar)
+   Fixed: el nav puede achicarse sin alterar scrollY; main compensa con padding-top.
 -------------------------------------------------- */
 
-header {
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1020;
-}
-
 nav.navbar {
-  background-color: var(--color-blanco);
-  padding: 15px 0; /* Un padding base que no cambiará mucho */
-  border-bottom: 1px solid var(--color-borde);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1020;
-  transition: box-shadow 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #ffffff;
+  padding: var(--navbar-padding-y) 0;
+  border-bottom: 1px solid var(--color-borde);
+  box-shadow: var(--sombra-sutil);
+  box-sizing: border-box;
+  transition:
+    padding 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
   transform: translateZ(0);
 }
 
 nav.navbar.scrolled {
-  padding: 10px 0;
+  padding-top: var(--navbar-padding-y-scrolled);
+  padding-bottom: var(--navbar-padding-y-scrolled);
   box-shadow: var(--sombra-estandar);
 }
 
 nav.navbar .navbar-content {
   display: flex;
-  justify-content: flex-end; /* 1. Alineamos los links a la derecha */
+  justify-content: flex-end;
   align-items: center;
-  height: 50px; /* 2. Le damos una altura FIJA a la fila */
-  position: relative; /* 3. MUY IMPORTANTE: para que el logo se posicione respecto a esta caja */
-  transition: height 0.3s ease-in-out;
+  height: var(--navbar-row-height);
+  min-height: var(--navbar-row-height);
+  position: relative;
+  transition: height 0.3s ease-in-out, min-height 0.3s ease-in-out;
 }
 
 nav.navbar.scrolled .navbar-content {
-  height: 40px;
+  height: var(--navbar-row-height-scrolled);
+  min-height: var(--navbar-row-height-scrolled);
 }
 
 nav.navbar .logo {
-  position: absolute; /* 4. SACAMOS EL LOGO DEL FLUJO NORMAL */
-  left: 20px; /* 5. Lo posicionamos a la izquierda (respetando el padding del section-container) */
-  top: 50%; /* 6. Lo centramos verticalmente */
-  transform: translateY(-50%); /* 7. Ajuste fino para el centrado vertical perfecto */
-  height: 80px; /* <-- ¡AHORA SÍ! CONTROLA EL TAMAÑO DESDE AQUÍ */
-  transition: height 0.3s ease-in-out;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  height: var(--navbar-logo-size);
+  width: auto;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 nav.navbar.scrolled .logo {
-  height: 70px; /* <-- Y el tamaño al hacer scroll desde aquí */
+  height: var(--navbar-logo-size-scrolled);
 }
 
 nav.navbar .logo img { 
@@ -2347,18 +2365,20 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
 }
 
 nav.navbar .navbar-content {
-  justify-content: space-between; /* En móvil, volvemos a separar los elementos */
-  height: auto; /* Dejamos que la altura sea flexible en móvil */
+  justify-content: space-between;
+  height: var(--navbar-row-height, 50px);
+  min-height: var(--navbar-row-height, 50px);
 }
 
 nav.navbar .logo {
-  position: static; /* MUY IMPORTANTE: el logo vuelve al flujo normal */
-  transform: none; /* Quitamos la transformación vertical */
-  height: 50px;    /* Le damos un tamaño fijo y apropiado para móvil */
+  position: static;
+  transform: none;
+  height: 50px;
+  transition: height 0.3s ease-in-out;
 }
 
 nav.navbar.scrolled .logo {
-  height: 45px; /* Y un tamaño ligeramente más pequeño al hacer scroll */
+  height: 42px;
 }
 
   .section-title { font-size: 1.9rem; margin-bottom: 35px; }
