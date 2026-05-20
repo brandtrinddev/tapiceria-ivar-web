@@ -787,28 +787,7 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   margin-bottom: 0;
 }
 
-/* --- react-toastify: por encima de modales (overlay admin: 20000) --- */
-:root {
-  --toastify-z-index: 99999;
-}
-
-.Toastify,
-.Toastify__toast-container {
-  z-index: var(--toastify-z-index) !important;
-  isolation: isolate;
-}
-
-.Toastify__toast-container {
-  pointer-events: none;
-}
-
-.Toastify__toast {
-  pointer-events: auto;
-  opacity: 1 !important;
-  filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
+/* Toasts: ver src/toastify-overrides.css (importado al final en main.jsx) */
 
 /* Estilos para el botón dentro de la notificación toast */
   .toast-go-to-cart-btn {

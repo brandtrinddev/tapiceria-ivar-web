@@ -7,6 +7,8 @@ import './styles.css';
 import { CartProvider } from './context/CartContext.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+/* Debe ir después del CSS de la librería para ganar la cascada (--toastify-z-index) */
+import './toastify-overrides.css';
 
 const toastContainer = (
   <ToastContainer
@@ -23,11 +25,24 @@ const toastContainer = (
   />
 );
 
+/** Montaje al final de body para ganar orden DOM frente a ReactModalPortal */
+function getToastMountNode() {
+  let mount = document.getElementById('toast-root');
+  if (!mount) {
+    mount = document.createElement("div");
+    mount.id = "toast-root";
+    document.body.appendChild(mount);
+  } else {
+    document.body.appendChild(mount);
+  }
+  return mount;
+}
+
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <CartProvider>
       <App />
-      {createPortal(toastContainer, document.body)}
+      {createPortal(toastContainer, getToastMountNode())}
     </CartProvider>
   </BrowserRouter>,
 );
