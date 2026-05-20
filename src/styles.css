@@ -787,6 +787,8 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   margin-bottom: 0;
 }
 
+/* Toasts: ver src/toastify-overrides.css (importado al final en main.jsx) */
+
 /* Estilos para el botón dentro de la notificación toast */
   .toast-go-to-cart-btn {
     background-color: transparent;

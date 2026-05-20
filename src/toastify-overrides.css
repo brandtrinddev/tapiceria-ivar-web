@@ -1,0 +1,48 @@
+/**
+ * Overrides de react-toastify — cargar SIEMPRE al final en main.jsx
+ * (después de react-toastify/dist/ReactToastify.css).
+ *
+ * El CSS de la librería fija --toastify-z-index: 9999 y el modal admin usa 1100+.
+ * Aquí forzamos capa superior con z-index literal + !important.
+ */
+
+:root {
+  --toastify-z-index: 2147483000 !important;
+}
+
+#toast-root {
+  position: relative;
+  z-index: 2147483000 !important;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+#toast-root .Toastify,
+.Toastify {
+  z-index: 2147483000 !important;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.Toastify__toast-container,
+.Toastify__toast-container--bottom-right,
+.Toastify__toast-container--top-right,
+.Toastify__toast-container--top-left,
+.Toastify__toast-container--bottom-left,
+.Toastify__toast-container--top-center,
+.Toastify__toast-container--bottom-center {
+  z-index: 2147483000 !important;
+  position: fixed !important;
+  /* La librería usa translate3d(0,0,var(--toastify-z-index)); anulamos ese hack */
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+  pointer-events: none;
+}
+
+.Toastify__toast {
+  pointer-events: auto;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
