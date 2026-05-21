@@ -576,21 +576,29 @@ const AdminPage = () => {
         colores.map(async (col) => {
           let finalUrl = col.imagen_url;
 
-          // Si la imagen es un archivo nuevo, subirla
           if (col.imagen_url instanceof File) {
             finalUrl = await uploadAdminImage(col.imagen_url, "telas");
           }
 
-          return {
-            ...col,
-            id: col.id || undefined, // Si no tiene ID, Supabase crea uno nuevo
-            nombre_tipo, // Unificamos el tipo
-            descripcion, // Unificamos la descripción en todos
+          const row = {
+            nombre_tipo,
+            nombre_color: col.nombre_color,
+            descripcion,
             imagen_url: finalUrl,
-            // Si el color no tiene un precio específico, usamos el global del modal
             costo_adicional_por_metro: col.costo_adicional_por_metro,
             disponible: col.disponible === true,
           };
+
+          // Solo filas existentes llevan id; omitir la clave para que Postgres genere el UUID
+          const existingId =
+            typeof col.id === "string" && col.id.trim().length > 0
+              ? col.id.trim()
+              : null;
+          if (existingId) {
+            row.id = existingId;
+          }
+
+          return row;
         }),
       );
 
