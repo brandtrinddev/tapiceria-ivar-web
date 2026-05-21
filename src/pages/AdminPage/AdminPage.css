@@ -802,6 +802,128 @@
   }
 }
 
+.admin-delete-family-btn {
+  min-width: 88px !important;
+}
+
+.admin-fabric-remove-color-btn {
+  background: none;
+  border: 1px solid #dee2e6;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 0.95rem;
+  padding: 2px 8px;
+  line-height: 1.2;
+  border-radius: 4px;
+  transition: var(--transicion-rapida);
+}
+
+.admin-fabric-remove-color-btn:hover:not(:disabled) {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.06);
+}
+
+.admin-fabric-remove-color-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Modal de confirmación: eliminar familia (misma base que order-detail, z-index mayor) */
+.admin-delete-confirm-overlay,
+.ReactModal__Overlay.admin-delete-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(10, 47, 81, 0.55) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.admin-delete-confirm-modal,
+.ReactModal__Content.admin-delete-confirm-modal {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0;
+  max-width: 440px;
+  width: 100%;
+  padding: 0;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radio-borde-medio);
+  background: var(--color-blanco);
+  box-shadow: var(--sombra-elevada);
+  outline: none;
+  overflow: hidden;
+}
+
+.admin-delete-confirm-content {
+  padding: 32px 28px 28px;
+  text-align: center;
+}
+
+.admin-delete-confirm-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 50%;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.admin-delete-confirm-title {
+  font-family: var(--fuente-titulos);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  margin: 0 0 12px;
+}
+
+.admin-delete-confirm-message {
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.admin-delete-confirm-message strong {
+  color: var(--color-texto-principal);
+}
+
+.admin-delete-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.admin-delete-confirm-actions .cta-button {
+  min-width: 130px;
+  margin: 0 !important;
+}
+
+.admin-delete-confirm-submit {
+  background-color: #dc3545 !important;
+}
+
+.admin-delete-confirm-submit:hover:not(:disabled) {
+  background-color: #c82333 !important;
+}
+
 /* --- Visibilidad de telas (soft delete) --- */
 .fabric-global-visibility {
   margin-top: 8px;

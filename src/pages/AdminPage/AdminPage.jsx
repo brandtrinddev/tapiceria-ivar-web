@@ -133,6 +133,8 @@ const AdminPage = () => {
   const [isFabricModalOpen, setIsFabricModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [editingFabric, setEditingFabric] = useState(null);
+  const [fabricFamilyPendingDelete, setFabricFamilyPendingDelete] =
+    useState(null);
   const [newModuloLabel, setNewModuloLabel] = useState("");
   const [moduleLabelDrafts, setModuleLabelDrafts] = useState({});
 
@@ -142,7 +144,8 @@ const AdminPage = () => {
       const tipo = tela.nombre_tipo;
       if (!acc[tipo]) {
         acc[tipo] = {
-          ...tela, // Tomamos los datos base del primer registro
+          ...tela,
+          nombre_tipo: tipo,
           colores: [],
         };
       }
@@ -551,12 +554,76 @@ const AdminPage = () => {
     }));
   };
 
-  // Quitar un color de la lista (localmente)
+  // Quitar un color de la lista (solo en memoria, aún no guardado en BD)
   const handleRemoveFabricColor = (index) => {
     setEditingFabric((prev) => ({
       ...prev,
       colores: prev.colores.filter((_, i) => i !== index),
     }));
+  };
+
+  const openDeleteFabricFamilyConfirm = (grupo, event) => {
+    event?.stopPropagation?.();
+    event?.preventDefault?.();
+
+    const nombre_tipo = String(
+      grupo?.nombre_tipo ?? grupo?.colores?.[0]?.nombre_tipo ?? "",
+    ).trim();
+
+    if (!nombre_tipo) {
+      toast.error("No se pudo identificar la familia de tela a eliminar.");
+      return;
+    }
+
+    setFabricFamilyPendingDelete({
+      nombre_tipo,
+      variantes: grupo?.colores?.length ?? 0,
+    });
+  };
+
+  const closeDeleteFabricFamilyConfirm = () => {
+    if (!loadingItems) {
+      setFabricFamilyPendingDelete(null);
+    }
+  };
+
+  const confirmDeleteFabricFamily = async () => {
+    if (!fabricFamilyPendingDelete) return;
+
+    const { nombre_tipo } = fabricFamilyPendingDelete;
+
+    try {
+      setLoadingItems(true);
+      const { error } = await supabase
+        .from("telas")
+        .delete()
+        .eq("nombre_tipo", nombre_tipo);
+
+      if (error) {
+        if (error.code === "23503") {
+          toast.error(
+            "No puedes eliminar esta tela porque tiene ventas asociadas, puedes ocultarla.",
+          );
+          return;
+        }
+        throw error;
+      }
+
+      setFabrics((prev) =>
+        prev.filter((t) => t.nombre_tipo !== nombre_tipo),
+      );
+      if (editingFabric?.nombre_tipo === nombre_tipo) {
+        setIsFabricModalOpen(false);
+        setEditingFabric(null);
+      }
+      setFabricFamilyPendingDelete(null);
+      toast.success(`Familia "${nombre_tipo}" eliminada correctamente`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al eliminar la familia de tela");
+    } finally {
+      setLoadingItems(false);
+    }
   };
 
   const handleSaveFabric = async () => {
@@ -1057,6 +1124,17 @@ const AdminPage = () => {
                               }}
                             >
                               Gestionar
+                            </button>
+                            <button
+                              type="button"
+                              className="cta-button delete-btn-small admin-delete-family-btn"
+                              onClick={(e) =>
+                                openDeleteFabricFamilyConfirm(grupo, e)
+                              }
+                              disabled={loadingItems}
+                              title={`Eliminar familia ${grupo.nombre_tipo}`}
+                            >
+                              Eliminar
                             </button>
                           </div>
                         </td>
@@ -1668,17 +1746,13 @@ const AdminPage = () => {
                       <td style={{ padding: "8px", textAlign: "center" }}>
                         <button
                           type="button"
+                          className="admin-fabric-remove-color-btn"
                           onClick={() => handleRemoveFabricColor(index)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            color: "#dc3545",
-                            fontSize: "1.1rem",
-                          }}
+                          disabled={loadingItems}
                           title="Quitar de la lista (no borra en BD hasta guardar)"
+                          aria-label="Quitar color de la lista"
                         >
-                          🗑️
+                          ✕
                         </button>
                       </td>
                     </tr>
@@ -1695,7 +1769,11 @@ const AdminPage = () => {
             >
               Cancelar
             </button>
-            <button className="cta-button" onClick={handleSaveFabric}>
+            <button
+              className="cta-button"
+              onClick={handleSaveFabric}
+              disabled={loadingItems}
+            >
               Guardar Cambios Globales
             </button>
           </div>
@@ -1817,6 +1895,53 @@ const AdminPage = () => {
             </button>
           </div>
         )}
+
+      {/* Confirmación eliminar familia (al final, junto al resto de modales) */}
+      <Modal
+        isOpen={fabricFamilyPendingDelete !== null}
+        onRequestClose={closeDeleteFabricFamilyConfirm}
+        className="admin-delete-confirm-modal"
+        overlayClassName="admin-delete-confirm-overlay"
+        contentLabel="Confirmar eliminación de familia de tela"
+        shouldCloseOnOverlayClick={!loadingItems}
+        shouldCloseOnEsc={!loadingItems}
+      >
+        <div className="admin-delete-confirm-content">
+          <div className="admin-delete-confirm-icon" aria-hidden="true">
+            🗑️
+          </div>
+          <h3 className="admin-delete-confirm-title">
+            ¿Eliminar familia de tela?
+          </h3>
+          <p className="admin-delete-confirm-message">
+            Vas a eliminar permanentemente la familia{" "}
+            <strong>{fabricFamilyPendingDelete?.nombre_tipo}</strong> y sus{" "}
+            <strong>{fabricFamilyPendingDelete?.variantes}</strong>{" "}
+            {fabricFamilyPendingDelete?.variantes === 1
+              ? "variante de color"
+              : "variantes de color"}
+            . Esta acción no se puede deshacer.
+          </p>
+          <div className="admin-delete-confirm-actions">
+            <button
+              type="button"
+              className="cta-button secondary"
+              onClick={closeDeleteFabricFamilyConfirm}
+              disabled={loadingItems}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className="cta-button admin-delete-confirm-submit"
+              onClick={confirmDeleteFabricFamily}
+              disabled={loadingItems}
+            >
+              {loadingItems ? "Eliminando…" : "Sí, eliminar"}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
