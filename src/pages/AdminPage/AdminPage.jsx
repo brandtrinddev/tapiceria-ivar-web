@@ -638,7 +638,7 @@ const AdminPage = () => {
 
       toast.info("Procesando cambios en la familia de telas...");
 
-      // 1. Procesar cada color: subir imágenes si son nuevas y unificar datos globales
+      // 1. Procesar cada color: subir imágenes y armar filas (insert vs update separados)
       const coloresProcesados = await Promise.all(
         colores.map(async (col) => {
           let finalUrl = col.imagen_url;
@@ -647,7 +647,7 @@ const AdminPage = () => {
             finalUrl = await uploadAdminImage(col.imagen_url, "telas");
           }
 
-          const row = {
+          const baseRow = {
             nombre_tipo,
             nombre_color: col.nombre_color,
             descripcion,
@@ -656,23 +656,32 @@ const AdminPage = () => {
             disponible: col.disponible === true,
           };
 
-          // Solo filas existentes llevan id; omitir la clave para que Postgres genere el UUID
           const existingId =
-            typeof col.id === "string" && col.id.trim().length > 0
-              ? col.id.trim()
+            col.id != null && String(col.id).trim().length > 0
+              ? String(col.id).trim()
               : null;
-          if (existingId) {
-            row.id = existingId;
-          }
 
-          return row;
+          return existingId ? { ...baseRow, id: existingId } : baseRow;
         }),
       );
 
-      // 2. Guardado masivo (Upsert)
-      const { error } = await supabase.from("telas").upsert(coloresProcesados);
+      const filasInsert = coloresProcesados.filter((row) => !row.id);
+      const filasUpdate = coloresProcesados.filter((row) => row.id);
 
-      if (error) throw error;
+      // PostgREST no admite upsert en lote con filas con/sin id mezcladas (id ausente → NULL)
+      if (filasInsert.length > 0) {
+        const { error: insertError } = await supabase
+          .from("telas")
+          .insert(filasInsert);
+        if (insertError) throw insertError;
+      }
+
+      if (filasUpdate.length > 0) {
+        const { error: updateError } = await supabase
+          .from("telas")
+          .upsert(filasUpdate, { onConflict: "id" });
+        if (updateError) throw updateError;
+      }
 
       toast.success("Familia de telas actualizada correctamente");
       setIsFabricModalOpen(false);
