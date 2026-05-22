@@ -17,6 +17,7 @@ import "./AdminPage.css";
 
 Modal.setAppElement("#root");
 
+const ADMIN_AUTH_STORAGE_KEY = "ivarAdminAuth";
 const ADMIN_SECRET_CODE = import.meta.env.VITE_ADMIN_SECRET_CODE;
 const ORDER_STATUSES = [
   "Pendiente de transferencia",
@@ -187,7 +188,13 @@ const AdminPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    try {
+      return localStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
   const [inputCode, setInputCode] = useState("");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true); // Inicia en true para mostrar carga inicial
@@ -789,11 +796,31 @@ const AdminPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (inputCode === ADMIN_SECRET_CODE) {
+      try {
+        localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, "true");
+      } catch {
+        /* storage bloqueado; sesión solo en memoria */
+      }
       toast.success("Acceso concedido");
       setIsAuthenticated(true);
     } else {
       toast.error("Código de acceso incorrecto");
     }
+  };
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem(ADMIN_AUTH_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    setIsAuthenticated(false);
+    setInputCode("");
+    setSelectedOrder(null);
+    setIsProductModalOpen(false);
+    setIsFabricModalOpen(false);
+    setFabricFamilyPendingDelete(null);
+    toast.info("Sesión cerrada");
   };
 
   const handleStatusChange = async (orderId, newStatus) => {
@@ -856,25 +883,34 @@ const AdminPage = () => {
 
   return (
     <div className="admin-dashboard-container standard-page-padding">
-      {/* --- SISTEMA DE PESTAÑAS (TABS) --- */}
-      <div className="admin-nav-tabs">
+      <div className="admin-panel-topbar">
+        {/* --- SISTEMA DE PESTAÑAS (TABS) --- */}
+        <div className="admin-nav-tabs">
+          <button
+            className={activeTab === "orders" ? "active" : ""}
+            onClick={() => setActiveTab("orders")}
+          >
+            Gestión de Pedidos
+          </button>
+          <button
+            className={activeTab === "products" ? "active" : ""}
+            onClick={() => setActiveTab("products")}
+          >
+            Catálogo de Muebles
+          </button>
+          <button
+            className={activeTab === "fabrics" ? "active" : ""}
+            onClick={() => setActiveTab("fabrics")}
+          >
+            Muestrario de Telas
+          </button>
+        </div>
         <button
-          className={activeTab === "orders" ? "active" : ""}
-          onClick={() => setActiveTab("orders")}
+          type="button"
+          className="admin-logout-btn"
+          onClick={handleLogout}
         >
-          Gestión de Pedidos
-        </button>
-        <button
-          className={activeTab === "products" ? "active" : ""}
-          onClick={() => setActiveTab("products")}
-        >
-          Catálogo de Muebles
-        </button>
-        <button
-          className={activeTab === "fabrics" ? "active" : ""}
-          onClick={() => setActiveTab("fabrics")}
-        >
-          Muestrario de Telas
+          Cerrar sesión
         </button>
       </div>
       {/* --- CABECERA GLOBAL --- */}
@@ -951,8 +987,8 @@ const AdminPage = () => {
         (loading ? (
           <p>Cargando pedidos...</p>
         ) : (
-          <div className="orders-table-container">
-            <table className="orders-table">
+          <div className="orders-table-container orders-table-scroll">
+            <table className="orders-table orders-table--wide">
               <thead>
                 <tr>
                   <th>Nº Pedido</th>
@@ -1019,8 +1055,8 @@ const AdminPage = () => {
           {loadingItems ? (
             <p>Cargando catálogo...</p>
           ) : (
-            <div className="orders-table-container">
-              <table className="orders-table">
+            <div className="orders-table-container admin-table-mobile-cards">
+              <table className="orders-table admin-catalog-table">
                 <thead>
                   <tr>
                     <th>Miniatura</th>
@@ -1033,7 +1069,7 @@ const AdminPage = () => {
                 <tbody>
                   {products.map((prod) => (
                     <tr key={prod.id}>
-                      <td>
+                      <td data-label="Miniatura">
                         <img
                           src={prod.imagen_url}
                           alt={prod.nombre}
@@ -1045,15 +1081,17 @@ const AdminPage = () => {
                           }}
                         />
                       </td>
-                      <td>
+                      <td data-label="Nombre">
                         <strong>{prod.nombre}</strong>
                         <br />
                         <small style={{ color: "#888" }}>
                           {prod.categoria}
                         </small>
                       </td>
-                      <td>{formatPriceUYU(prod.precio_base)}</td>
-                      <td>
+                      <td data-label="Precio base">
+                        {formatPriceUYU(prod.precio_base)}
+                      </td>
+                      <td data-label="Estado">
                         <span
                           className={
                             prod.activo
@@ -1070,7 +1108,7 @@ const AdminPage = () => {
                           {prod.activo ? "ACTIVO" : "OCULTO"}
                         </span>
                       </td>
-                      <td>
+                      <td data-label="Acciones">
                         <div className="admin-actions-container">
                           <button
                             className="cta-button edit-btn-small"
@@ -1107,8 +1145,8 @@ const AdminPage = () => {
           {loadingItems ? (
             <p>Cargando telas...</p>
           ) : (
-            <div className="orders-table-container">
-              <table className="orders-table">
+            <div className="orders-table-container admin-table-mobile-cards">
+              <table className="orders-table admin-catalog-table">
                 <thead>
                   <tr>
                     <th>Muestra</th>
@@ -1126,7 +1164,7 @@ const AdminPage = () => {
                     )
                     .map((grupo) => (
                       <tr key={grupo.nombre_tipo}>
-                        <td>
+                        <td data-label="Muestra">
                           <img
                             src={grupo.imagen_url}
                             alt={grupo.nombre_tipo}
@@ -1139,14 +1177,14 @@ const AdminPage = () => {
                             }}
                           />
                         </td>
-                        <td>
+                        <td data-label="Tipo">
                           <strong>{grupo.nombre_tipo}</strong>
                           <br />
                           <small style={{ color: "#888" }}>
                             {grupo.colores.length} variantes de color
                           </small>
                         </td>
-                        <td>
+                        <td data-label="Costo extra (m)">
                           {/* Si hay precios distintos en la familia, avisamos con un '+' */}
                           {new Set(
                             grupo.colores.map(
@@ -1156,7 +1194,7 @@ const AdminPage = () => {
                             ? `Desde ${formatPriceUYU(Math.min(...grupo.colores.map((c) => c.costo_adicional_por_metro)))}`
                             : formatPriceUYU(grupo.costo_adicional_por_metro)}
                         </td>
-                        <td>
+                        <td data-label="Estado">
                           <span
                             className={
                               grupo.colores.some((c) => c.disponible)
@@ -1175,7 +1213,7 @@ const AdminPage = () => {
                               : "SIN STOCK"}
                           </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                           <div className="admin-actions-container">
                             <button
                               className="cta-button edit-btn-small"
@@ -1880,7 +1918,46 @@ const AdminPage = () => {
               &times;
             </button>
           </div>
-          <div className="modal-content">
+          <div className="modal-content order-detail-modal-content">
+            <div className="order-detail-section order-detail-summary">
+              <h3>Resumen del pedido</h3>
+              <dl className="order-detail-dl">
+                <div className="order-detail-dl-row">
+                  <dt>Fecha</dt>
+                  <dd>
+                    {selectedOrder.created_at
+                      ? new Date(selectedOrder.created_at).toLocaleString(
+                          "es-UY",
+                        )
+                      : "—"}
+                  </dd>
+                </div>
+                <div className="order-detail-dl-row">
+                  <dt>Total</dt>
+                  <dd>{formatPriceUYU(selectedOrder.total_pedido)}</dd>
+                </div>
+                <div className="order-detail-dl-row">
+                  <dt>Estado</dt>
+                  <dd>{selectedOrder.estado || "—"}</dd>
+                </div>
+                <div className="order-detail-dl-row">
+                  <dt>Pago</dt>
+                  <dd>
+                    {selectedOrder.cuenta_bancaria_id
+                      ? "Transferencia bancaria"
+                      : "Mercado Pago"}
+                  </dd>
+                </div>
+                <div className="order-detail-dl-row">
+                  <dt>Entrega</dt>
+                  <dd>
+                    {selectedOrder.datos_cliente?.shippingMethod === "envio"
+                      ? "Envío a domicilio"
+                      : "Retiro en local"}
+                  </dd>
+                </div>
+              </dl>
+            </div>
             <div className="order-detail-section">
               <h3>Datos del Cliente</h3>
               <p>
