@@ -884,27 +884,6 @@ const AdminPage = () => {
   return (
     <div className="admin-dashboard-container standard-page-padding">
       <div className="admin-panel-topbar">
-        {/* --- SISTEMA DE PESTAÑAS (TABS) --- */}
-        <div className="admin-nav-tabs">
-          <button
-            className={activeTab === "orders" ? "active" : ""}
-            onClick={() => setActiveTab("orders")}
-          >
-            Gestión de Pedidos
-          </button>
-          <button
-            className={activeTab === "products" ? "active" : ""}
-            onClick={() => setActiveTab("products")}
-          >
-            Catálogo de Muebles
-          </button>
-          <button
-            className={activeTab === "fabrics" ? "active" : ""}
-            onClick={() => setActiveTab("fabrics")}
-          >
-            Muestrario de Telas
-          </button>
-        </div>
         <button
           type="button"
           className="admin-logout-btn"
@@ -912,6 +891,37 @@ const AdminPage = () => {
         >
           Cerrar sesión
         </button>
+        <div className="admin-nav-tabs-scroll" role="tablist" aria-label="Secciones del panel">
+          <div className="admin-nav-tabs">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "orders"}
+              className={activeTab === "orders" ? "active" : ""}
+              onClick={() => setActiveTab("orders")}
+            >
+              Gestión de Pedidos
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "products"}
+              className={activeTab === "products" ? "active" : ""}
+              onClick={() => setActiveTab("products")}
+            >
+              Catálogo de Muebles
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "fabrics"}
+              className={activeTab === "fabrics" ? "active" : ""}
+              onClick={() => setActiveTab("fabrics")}
+            >
+              Muestrario de Telas
+            </button>
+          </div>
+        </div>
       </div>
       {/* --- CABECERA GLOBAL --- */}
       {(activeTab === "orders" ||
