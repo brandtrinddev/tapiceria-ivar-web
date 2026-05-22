@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 import { formatPriceUYU } from '../utils/formatters.js';
+import { getTelaThumbnailUrl } from '../utils/telaImages.js';
 
 // Define el orden deseado para las telas
 const ORDEN_TELAS = ['Alpha', 'Carla', 'Tach', 'Pané'];
@@ -165,9 +166,13 @@ function TelasPage() {
                         }
                       >
                         <img
-                          src={color.imagen_url}
+                          src={getTelaThumbnailUrl(color.imagen_url)}
                           alt={color.nombre_color}
-                          className="color-swatch texture-swatch"
+                          className="texture-swatch"
+                          loading="lazy"
+                          decoding="async"
+                          width={48}
+                          height={48}
                         />
                       </button>
                     ))}

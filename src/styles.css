@@ -19,6 +19,7 @@
   --color-borde: #dee2e6;
   --color-borde-input: #ced4da;
   --color-fondo-suave: #f8f9fa; /* Un gris muy sutil y limpio */
+  --color-swatch-placeholder: #e5e7eb;
 
   --fuente-titulos: 'Montserrat', sans-serif;
   --fuente-cuerpo: 'Open Sans', sans-serif;
@@ -685,14 +686,17 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
 .color-swatch {
   width: 45px;
   height: 45px;
+  min-width: 45px;
+  min-height: 45px;
   border-radius: 50%;
   border: 1px solid var(--color-borde);
-  padding: 0; /* Sin padding para eliminar el anillo blanco */
-  background-color: transparent;
+  padding: 0;
+  background-color: var(--color-swatch-placeholder);
   cursor: pointer;
   transition: var(--transicion-rapida);
   overflow: hidden;
-  display: inline-block; /* Asegura un comportamiento consistente */
+  display: inline-block;
+  flex-shrink: 0;
 }
 .color-swatch:hover {
   border-color: var(--color-acento);
@@ -710,10 +714,6 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   object-fit: cover;
   border-radius: 50%;
   display: block;
-
-  /* La clave para la nitidez que faltaba en este bloque */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
 /* --- INICIA NUEVO SISTEMA DE PESTAÑAS / ACORDEÓN --- */
@@ -1751,18 +1751,36 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
 }
 
 .color-swatch-item {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
-  background: none;
-  border: none;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   padding: 0;
+  border: 1px solid var(--color-borde);
+  border-radius: 50%;
+  background-color: var(--color-swatch-placeholder);
+  overflow: hidden;
   font-family: inherit;
-  cursor: help; /* Para indicar que el title tiene info */
+  cursor: help;
+  flex-shrink: 0;
+  transition: var(--transicion-rapida);
 }
 
-.texture-swatch { /* Si la muestra es una imagen de textura */
-  object-fit: cover; /* Para que la textura llene el círculo */
+.color-swatch-item:hover {
+  border-color: var(--color-acento);
+  transform: scale(1.05);
+}
+
+.color-swatch-item .texture-swatch {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
 
 .color-name { /* Opcional: si quieres mostrar el nombre del color debajo del swatch */
@@ -2572,6 +2590,15 @@ nav.navbar.scrolled .logo {
 .color-swatch {
   width: 40px;
   height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.color-swatch-item {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
 }
 
   /* Carrito MEDIA QUERIES */

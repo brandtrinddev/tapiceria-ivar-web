@@ -12,6 +12,7 @@ import {
   slugifyModulo,
   getUniqueModuloSlug,
 } from "../../utils/medidas";
+import heic2any from "heic2any";
 import "./AdminPage.css";
 
 Modal.setAppElement("#root");
@@ -50,49 +51,119 @@ const generateSKU = (name, category) => {
   return `${prefix}-${namePart}-${randomPart}`;
 };
 
-const optimizeImage = (file) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const MAX_WIDTH = 1200; // Tamaño ideal para web
-        let width = img.width;
-        let height = img.height;
-
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-
-        // Convertimos a WebP con calidad 0.8 (80%)
-        canvas.toBlob(
-          (blob) => {
-            resolve(
-              new File([blob], file.name.replace(/\.[^/.]+$/, ".webp"), {
-                type: "image/webp",
-              }),
-            );
-          },
-          "image/webp",
-          0.8,
-        );
-      };
-    };
-  });
+const isHeicFile = (file) => {
+  const type = (file.type || "").toLowerCase();
+  return (
+    type === "image/heic" ||
+    type === "image/heif" ||
+    /\.heic$/i.test(file.name) ||
+    /\.heif$/i.test(file.name)
+  );
 };
 
-const uploadAdminImage = async (file, folder) => {
-  // --- PASO DE OPTIMIZACIÓN AUTOMÁTICA ---
-  const optimizedFile = await optimizeImage(file);
+const convertHeicToJpegFile = async (file) => {
+  try {
+    const result = await heic2any({
+      blob: file,
+      toType: "image/jpeg",
+      quality: 0.92,
+    });
+    const blob = Array.isArray(result) ? result[0] : result;
+    if (!blob) {
+      throw new Error("La conversión HEIC no produjo ninguna imagen.");
+    }
+    const baseName = file.name.replace(/\.(heic|heif)$/i, "") || "imagen";
+    return new File([blob], `${baseName}.jpg`, { type: "image/jpeg" });
+  } catch (err) {
+    const message =
+      err instanceof Error
+        ? err.message
+        : "No se pudo convertir la imagen HEIC.";
+    throw new Error(
+      `${message} Prueba exportar como JPEG desde el iPhone o usa otro navegador.`,
+    );
+  }
+};
+
+const readFileAsDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () =>
+      reject(new Error("No se pudo leer el archivo de imagen."));
+    reader.onload = (event) => resolve(event.target.result);
+    reader.readAsDataURL(file);
+  });
+
+const loadImageFromDataUrl = (dataUrl) =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onerror = () =>
+      reject(
+        new Error("Formato de imagen no compatible o archivo corrupto."),
+      );
+    img.onload = () => resolve(img);
+    img.src = dataUrl;
+  });
+
+const canvasToWebpBlob = (canvas, quality) =>
+  new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Error al comprimir la imagen a WebP."));
+          return;
+        }
+        resolve(blob);
+      },
+      "image/webp",
+      quality,
+    );
+  });
+
+/**
+ * Master WebP para storage. Telas: más ancho y calidad (textura).
+ * HEIC se normaliza a JPEG antes del canvas.
+ */
+const optimizeImage = async (file, isFabric = false) => {
+  const MAX_WIDTH = isFabric ? 1400 : 1200;
+  const quality = isFabric ? 0.9 : 0.8;
+
+  let inputFile = file;
+  if (isHeicFile(file)) {
+    inputFile = await convertHeicToJpegFile(file);
+  }
+
+  const dataUrl = await readFileAsDataUrl(inputFile);
+  const img = await loadImageFromDataUrl(dataUrl);
+
+  let width = img.width;
+  let height = img.height;
+  if (!width || !height) {
+    throw new Error("La imagen no tiene dimensiones válidas.");
+  }
+
+  if (width > MAX_WIDTH) {
+    height *= MAX_WIDTH / width;
+    width = MAX_WIDTH;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(width);
+  canvas.height = Math.round(height);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("No se pudo procesar la imagen en este navegador.");
+  }
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const blob = await canvasToWebpBlob(canvas, quality);
+  const outName = inputFile.name.replace(/\.[^/.]+$/, ".webp");
+
+  return new File([blob], outName, { type: "image/webp" });
+};
+
+const uploadAdminImage = async (file, folder, isFabric = folder === "telas") => {
+  const optimizedFile = await optimizeImage(file, isFabric);
 
   const fileExt = optimizedFile.name.split(".").pop();
   const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
@@ -644,7 +715,7 @@ const AdminPage = () => {
           let finalUrl = col.imagen_url;
 
           if (col.imagen_url instanceof File) {
-            finalUrl = await uploadAdminImage(col.imagen_url, "telas");
+            finalUrl = await uploadAdminImage(col.imagen_url, "telas", true);
           }
 
           const baseRow = {

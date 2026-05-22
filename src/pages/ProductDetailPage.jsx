@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../supabaseClient.js'; 
 import { formatPriceUYU } from '../utils/formatters.js';
+import { getTelaThumbnailUrl } from '../utils/telaImages.js';
 import { useParams, Link, useNavigate } from 'react-router-dom'; // Se añade useNavigate
 import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
@@ -358,7 +359,14 @@ function ProductDetailPage() {
                                 <div className="color-swatch-grid">
                                   {telasDeEsteTipo.map((tela) => (
                                     <button type="button" key={tela.id} className={`color-swatch ${selectedTela?.id === tela.id ? 'active' : ''}`} onClick={() => handleTelaSelect(tela)} title={tela.nombre_color}>
-                                      <img src={tela.imagen_url} alt={tela.nombre_color} />
+                                      <img
+                                        src={getTelaThumbnailUrl(tela.imagen_url)}
+                                        alt={tela.nombre_color}
+                                        loading="lazy"
+                                        decoding="async"
+                                        width={45}
+                                        height={45}
+                                      />
                                     </button>
                                   ))}
                                 </div>
