@@ -44,15 +44,25 @@
 .admin-dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
-  overflow-x: hidden; /* Bloquea el vaivén lateral */
+  overflow-x: clip;
   width: 100%;
 }
 
 .orders-table-container {
-  overflow-x: auto; /* Permite scroll horizontal en pantallas muy pequeñas */
+  width: 100%;
+  max-width: 100%;
   border: 1px solid var(--color-borde);
   border-radius: var(--radio-borde-medio);
   background-color: var(--color-blanco);
+}
+
+.orders-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.orders-table--wide {
+  min-width: 880px;
 }
 
 .orders-table {
@@ -271,27 +281,59 @@
 }
 
 @media (max-width: 768px) {
-  /* Hacemos el texto de la tabla un poco más pequeño en móvil */
-  .orders-table {
-    font-size: 0.9rem;
+  .orders-table-scroll .orders-table {
+    font-size: 0.88rem;
   }
-  
-  /* Ocultamos las columnas de Fecha, Total y Pago/Entrega */
-  .orders-table th:nth-child(2), /* Oculta la 2ª cabecera (Fecha) */
-  .orders-table td:nth-child(2), /* Oculta la 2ª celda (Fecha) */
-  .orders-table th:nth-child(4), /* Oculta la 4ª cabecera (Total) */
-  .orders-table td:nth-child(4), /* Oculta la 4ª celda (Total) */
-  .orders-table th:nth-child(5), /* Oculta la 5ª cabecera (Pago/Entrega) */
-  .orders-table td:nth-child(5) { /* Oculta la 5ª celda (Pago/Entrega) */
-    display: none;
+
+  .orders-table-scroll .orders-table th,
+  .orders-table-scroll .orders-table td {
+    padding: 10px 12px;
+    white-space: nowrap;
   }
+}
+
+/* --- Cabecera del panel (tabs + cerrar sesión) --- */
+.admin-panel-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-bottom: 24px;
+}
+
+.admin-panel-topbar .admin-nav-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.admin-logout-btn {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  font-family: var(--fuente-titulos);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-texto-secundario);
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  cursor: pointer;
+  transition: var(--transicion-rapida);
+}
+
+.admin-logout-btn:hover {
+  color: #b71c1c;
+  border-color: #f5c6cb;
+  background: #fff5f5;
 }
 
 /* --- NAVEGACIÓN POR PESTAÑAS (TABS) --- */
 .admin-nav-tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 30px;
   border-bottom: 2px solid var(--color-borde);
   padding-bottom: 0;
   overflow-x: auto; /* Permite scroll horizontal */
@@ -365,6 +407,141 @@
 /* Evitar que la celda de la tabla colapse el contenido */
 .orders-table td {
   vertical-align: middle;
+}
+
+/* Catálogo y telas: tarjetas en móvil (acciones siempre visibles) */
+@media (max-width: 768px) {
+  .admin-table-mobile-cards {
+    overflow-x: visible;
+    border: none;
+    background: transparent;
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table {
+    min-width: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table thead {
+    display: none;
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde-medio);
+    box-shadow: var(--sombra-sutil);
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table tbody tr:hover {
+    background: var(--color-blanco);
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table td {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    text-align: left;
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--fuente-titulos);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+
+  .admin-table-mobile-cards .admin-catalog-table td:first-child::before {
+    display: none;
+  }
+
+  .admin-table-mobile-cards .admin-actions-container {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    min-height: auto;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .admin-table-mobile-cards .admin-actions-container .cta-button {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 120px;
+    max-width: 100%;
+  }
+}
+
+/* Modal detalle de pedido — layout vertical en móvil */
+.order-detail-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-detail-dl {
+  margin: 0;
+  padding: 0;
+}
+
+.order-detail-dl-row {
+  display: grid;
+  grid-template-columns: minmax(100px, 38%) 1fr;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.order-detail-dl-row:last-child {
+  border-bottom: none;
+}
+
+.order-detail-dl dt {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.order-detail-dl dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-texto-principal);
+  word-break: break-word;
+}
+
+@media (max-width: 480px) {
+  .order-detail-dl-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .order-detail-modal {
+    padding: 22px 18px;
+  }
+
+  .admin-panel-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-logout-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /* --- NUEVA CABECERA GLOBAL --- */
