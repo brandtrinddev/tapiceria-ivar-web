@@ -1,28 +1,55 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { formatPriceUYU } from '../utils/formatters';
 
 function ProductCard({ product }) {
+  const descriptionRef = useRef(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  const description = product?.descripcion?.trim() || '';
+
+  useEffect(() => {
+    const element = descriptionRef.current;
+    if (!element || !description) {
+      setIsTruncated(false);
+      return undefined;
+    }
+
+    const checkTruncation = () => {
+      setIsTruncated(element.scrollHeight > element.clientHeight + 1);
+    };
+
+    checkTruncation();
+
+    const resizeObserver = new ResizeObserver(checkTruncation);
+    resizeObserver.observe(element);
+
+    return () => resizeObserver.disconnect();
+  }, [description]);
+
   if (!product) {
     return null;
   }
 
-  // CAMBIO: Usamos 'precio_base' en lugar de 'precioBase'
   const formattedPrice = formatPriceUYU(product.precio_base);
 
   const imageStyle = {
-    // CAMBIO: Leemos 'posicion_imagen' desde el objeto 'detalles'
-    // Usamos 'optional chaining' (?.) por si algún producto no tuviera este dato
     objectPosition: product.detalles?.posicion_imagen || 'center',
   };
 
+  const descriptionWrapClass = [
+    'product-card-description-wrap',
+    description ? 'has-text' : '',
+    isTruncated ? 'is-truncated' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    // INFO: El enlace ya usa product.id (el nuevo UUID), lo cual es perfecto. No lo cambiamos.
-    <Link to={`/producto/${product.slug}`} className="product-card-link"> 
+    <Link to={`/producto/${product.slug}`} className="product-card-link">
       <div className="product-card">
         <div className="product-card-image-container">
           <img
-            // CAMBIO: Usamos 'imagen_url' en lugar de 'imagenPrincipal'
             src={product.imagen_url}
             alt={product.nombre}
             className="product-card-image"
@@ -32,19 +59,40 @@ function ProductCard({ product }) {
         </div>
         <div className="product-card-content">
           <h3 className="product-card-name">{product.nombre}</h3>
-          {/* CAMBIO: Usamos 'descripcion' en lugar de 'descripcionCorta' */}
-          <p className="product-card-description">{product.descripcion}</p>
-          <p className="product-card-price">{formattedPrice}
-            {/* CAMBIO: Leemos 'mostrarUnidad' desde 'detalles' */}
-            {product.detalles?.mostrarUnidad && <span className="price-unit">c/u</span>}
-          </p>
-          
-          {/* CAMBIO: Leemos 'promo' desde el objeto 'detalles' */}
-          {product.detalles?.promo && (
-            <p className="product-card-promo-price">
-              ✨ Lleva {product.detalles.promo.cantidad} por ${product.detalles.promo.precio.toLocaleString('es-UY')}
-            </p>
+
+          {description ? (
+            <div
+              className={descriptionWrapClass}
+              tabIndex={isTruncated ? 0 : undefined}
+              aria-label={isTruncated ? description : undefined}
+            >
+              <p
+                ref={descriptionRef}
+                className="product-card-description"
+                title={isTruncated ? description : undefined}
+              >
+                {description}
+              </p>
+            </div>
+          ) : (
+            <div className="product-card-description-wrap product-card-description-wrap--empty" />
           )}
+
+          <div className="product-card-footer">
+            <p className="product-card-price">
+              {formattedPrice}
+              {product.detalles?.mostrarUnidad && (
+                <span className="price-unit">c/u</span>
+              )}
+            </p>
+
+            {product.detalles?.promo && (
+              <p className="product-card-promo-price">
+                ✨ Lleva {product.detalles.promo.cantidad} por $
+                {product.detalles.promo.precio.toLocaleString('es-UY')}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </Link>

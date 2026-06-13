@@ -12,6 +12,11 @@ import {
   slugifyModulo,
   getUniqueModuloSlug,
 } from "../../utils/medidas";
+import {
+  generateSlug,
+  normalizeProductSlug,
+  PRODUCT_PAGE_BASE_URL,
+} from "../../utils/slug";
 import heic2any from "heic2any";
 import "./AdminPage.css";
 
@@ -31,15 +36,6 @@ const ORDER_STATUSES = [
 ];
 
 // --- FUNCIONES DE APOYO ---
-const generateSlug = (text) => {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Quita tildes
-    .replace(/[^\w ]+/g, "") // Quita caracteres especiales
-    .replace(/ +/g, "-"); // Cambia espacios por guiones
-};
-
 const generateSKU = (name, category) => {
   const prefix = category ? category.substring(0, 3).toUpperCase() : "PROD";
   const namePart = name
@@ -210,6 +206,7 @@ const AdminPage = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isFabricModalOpen, setIsFabricModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
   const [editingFabric, setEditingFabric] = useState(null);
   const [fabricFamilyPendingDelete, setFabricFamilyPendingDelete] =
     useState(null);
@@ -332,6 +329,65 @@ const AdminPage = () => {
   // Manejador genérico para cambios en inputs de productos
   const handleProductInputChange = (field, value) => {
     setEditingProduct((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleProductNombreChange = (value) => {
+    setEditingProduct((prev) => ({
+      ...prev,
+      nombre: value,
+      slug: isSlugManuallyEdited ? prev.slug : generateSlug(value),
+    }));
+  };
+
+  const handleProductSlugChange = (value) => {
+    setIsSlugManuallyEdited(true);
+    setEditingProduct((prev) => ({
+      ...prev,
+      slug: normalizeProductSlug(value, { forInput: true }),
+    }));
+  };
+
+  const handleProductSlugBlur = () => {
+    setEditingProduct((prev) => {
+      const slug = normalizeProductSlug(prev.slug);
+      if (!slug && prev.nombre?.trim()) {
+        setIsSlugManuallyEdited(false);
+        return { ...prev, slug: generateSlug(prev.nombre) };
+      }
+      return { ...prev, slug };
+    });
+  };
+
+  const openNewProductModal = () => {
+    setIsSlugManuallyEdited(false);
+    setEditingProduct({
+      nombre: "",
+      slug: "",
+      precio_base: 0,
+      metros_tela_base: 0,
+      categoria: "sofas",
+      activo: true,
+      sku: "",
+      descripcion: "",
+      detalles: {
+        medidas: {},
+        descripcion_larga: { base: "", sabor: "", cta: "" },
+        galeria: [],
+      },
+    });
+    setIsProductModalOpen(true);
+  };
+
+  const openEditProductModal = (product) => {
+    setIsSlugManuallyEdited(true);
+    setEditingProduct(product);
+    setIsProductModalOpen(true);
+  };
+
+  const closeProductModal = () => {
+    setIsProductModalOpen(false);
+    setIsSlugManuallyEdited(false);
+    setEditingProduct(null);
   };
 
   // Manejador específico para el JSONB de 'detalles' (descripcion_larga, etc.)
@@ -549,9 +605,40 @@ const AdminPage = () => {
       };
 
       const isNew = !updatedProduct.id;
+      const nombre = updatedProduct.nombre?.trim();
+
+      if (!nombre) {
+        toast.error("El nombre del producto es obligatorio.");
+        return;
+      }
+
+      const finalSlug =
+        normalizeProductSlug(updatedProduct.slug) || generateSlug(nombre);
+
+      if (!finalSlug) {
+        toast.error("No se pudo generar una URL válida para el producto.");
+        return;
+      }
+
+      const { data: duplicateSlug, error: duplicateError } = await supabase
+        .from("productos")
+        .select("id, nombre")
+        .eq("slug", finalSlug)
+        .maybeSingle();
+
+      if (duplicateError) throw duplicateError;
+
+      if (duplicateSlug && duplicateSlug.id !== updatedProduct.id) {
+        toast.error(
+          `La URL "/producto/${finalSlug}" ya está en uso por "${duplicateSlug.nombre}".`,
+        );
+        return;
+      }
+
       const payload = {
         ...updatedProduct,
-        slug: updatedProduct.slug || generateSlug(updatedProduct.nombre),
+        nombre,
+        slug: finalSlug,
         sku:
           updatedProduct.sku ||
           generateSKU(updatedProduct.nombre, updatedProduct.category),
@@ -563,7 +650,7 @@ const AdminPage = () => {
       toast.success(
         isNew ? "Producto creado con éxito" : "Producto actualizado",
       );
-      setIsProductModalOpen(false);
+      closeProductModal();
       fetchProducts();
     } catch (err) {
       console.error(err);
@@ -818,6 +905,8 @@ const AdminPage = () => {
     setInputCode("");
     setSelectedOrder(null);
     setIsProductModalOpen(false);
+    setIsSlugManuallyEdited(false);
+    setEditingProduct(null);
     setIsFabricModalOpen(false);
     setFabricFamilyPendingDelete(null);
     toast.info("Sesión cerrada");
@@ -960,21 +1049,7 @@ const AdminPage = () => {
               className="cta-button"
               onClick={() => {
                 if (activeTab === "products") {
-                  setEditingProduct({
-                    nombre: "",
-                    precio_base: 0,
-                    metros_tela_base: 0,
-                    categoria: "sofas",
-                    activo: true,
-                    sku: "",
-                    descripcion: "",
-                    detalles: {
-                      medidas: {},
-                      descripcion_larga: { base: "", sabor: "", cta: "" },
-                      galeria: [],
-                    },
-                  });
-                  setIsProductModalOpen(true);
+                  openNewProductModal();
                 } else {
                   setEditingFabric({
                     nombre_tipo: "",
@@ -1122,10 +1197,7 @@ const AdminPage = () => {
                         <div className="admin-actions-container">
                           <button
                             className="cta-button edit-btn-small"
-                            onClick={() => {
-                              setEditingProduct(prod);
-                              setIsProductModalOpen(true);
-                            }}
+                            onClick={() => openEditProductModal(prod)}
                           >
                             Editar
                           </button>
@@ -1279,7 +1351,7 @@ const AdminPage = () => {
       {/* --- MODAL DE PRODUCTO (NUEVO / EDITAR) --- */}
       <Modal
         isOpen={isProductModalOpen}
-        onRequestClose={() => setIsProductModalOpen(false)}
+        onRequestClose={closeProductModal}
         className="order-detail-modal"
         overlayClassName="order-detail-overlay"
       >
@@ -1287,7 +1359,7 @@ const AdminPage = () => {
           <h2>{editingProduct?.id ? "Editar Producto" : "Nuevo Producto"}</h2>
           <button
             className="close-button"
-            onClick={() => setIsProductModalOpen(false)}
+            onClick={closeProductModal}
           >
             &times;
           </button>
@@ -1411,9 +1483,7 @@ const AdminPage = () => {
                 type="text"
                 className="admin-field-input"
                 value={editingProduct?.nombre || ""}
-                onChange={(e) =>
-                  handleProductInputChange("nombre", e.target.value)
-                }
+                onChange={(e) => handleProductNombreChange(e.target.value)}
               />
             </div>
             <div className="admin-field-group">
@@ -1428,6 +1498,33 @@ const AdminPage = () => {
                 }
               />
             </div>
+          </div>
+
+          <div className="admin-field-group">
+            <label>URL del producto (Slug)</label>
+            <input
+              type="text"
+              className="admin-field-input"
+              placeholder="Se genera automáticamente desde el nombre"
+              value={editingProduct?.slug || ""}
+              onChange={(e) => handleProductSlugChange(e.target.value)}
+              onBlur={handleProductSlugBlur}
+            />
+            <p className="admin-field-hint">
+              Solo letras minúsculas, números y guiones. Se actualiza con el
+              nombre hasta que lo edites. Si lo dejas vacío al guardar, se
+              generará desde el nombre.
+            </p>
+            {(editingProduct?.slug || editingProduct?.nombre) && (
+              <p className="product-slug-preview">
+                Vista previa:{" "}
+                <strong>
+                  {PRODUCT_PAGE_BASE_URL}/
+                  {normalizeProductSlug(editingProduct?.slug) ||
+                    generateSlug(editingProduct?.nombre || "")}
+                </strong>
+              </p>
+            )}
           </div>
 
           <div className="form-group-grid">
@@ -1632,7 +1729,7 @@ const AdminPage = () => {
           <div className="admin-form-actions">
             <button
               className="cta-button secondary"
-              onClick={() => setIsProductModalOpen(false)}
+              onClick={closeProductModal}
             >
               Cancelar
             </button>

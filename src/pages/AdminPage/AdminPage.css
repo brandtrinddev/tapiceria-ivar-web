@@ -37,6 +37,9 @@
   border-radius: var(--radio-borde-suave);
   border: 1px solid var(--color-borde-input);
   margin-bottom: 20px;
+  color: var(--color-texto-principal);
+  background-color: #ffffff;
+  color-scheme: light;
 }
 
 /* --- Estilos para el Dashboard de Administración --- */
@@ -610,11 +613,25 @@
   border: 1px solid var(--color-borde-input);
   border-radius: 30px;
   font-size: 1rem;
-  background-color: #fcfcfc;
+  font-family: var(--fuente-cuerpo);
+  color: var(--color-texto-principal);
+  background-color: #ffffff;
+  color-scheme: light;
   /* Icono de lupa embebido */
   background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="11" cy="11" r="8"%3E%3C/circle%3E%3Cline x1="21" y1="21" x2="16.65" y2="16.65"%3E%3C/line%3E%3C/svg%3E');
   background-repeat: no-repeat;
   background-position: 15px center;
+}
+
+.admin-global-search input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.admin-global-search input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(10, 47, 81, 0.12);
 }
 
 @media (min-width: 768px) {
@@ -659,6 +676,26 @@
   letter-spacing: 0.06em;
   color: #64748b;
   text-transform: uppercase;
+}
+
+.admin-field-hint {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #64748b;
+  margin: 0;
+}
+
+.product-slug-preview {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #64748b;
+  margin: 0;
+  word-break: break-all;
+}
+
+.product-slug-preview strong {
+  color: #0a2f51;
+  font-weight: 600;
 }
 
 /* Inputs: fondo blanco, texto oscuro, contraste en modo oscuro del SO */
@@ -885,7 +922,15 @@
   border: 1px solid var(--color-borde-input);
   border-radius: 25px;
   font-size: 0.95rem;
-  background-color: #f9f9f9;
+  font-family: var(--fuente-cuerpo);
+  color: var(--color-texto-principal);
+  background-color: #ffffff;
+  color-scheme: light;
+}
+
+.admin-search-bar input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
 }
 
 .pagination-controls {
