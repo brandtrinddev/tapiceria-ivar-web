@@ -171,44 +171,27 @@ export async function auditStorageOrphans(
   };
 }
 
-const DELETE_BATCH_SIZE = 50;
+/**
+ * Elimina huérfanos vía API serverless (service role). El cliente anon solo tiene
+ * SELECT/INSERT/UPDATE en Storage, no DELETE.
+ */
+export async function deleteStorageOrphansViaApi(paths, adminCode) {
+  const response = await fetch("/api/admin-delete-storage-orphans", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ paths, adminCode }),
+  });
 
-export async function deleteStorageOrphans(
-  supabase,
-  orphanPaths,
-  { onProgress, isCancelled } = {},
-) {
-  const deleted = [];
-  const errors = [];
+  const result = await response.json().catch(() => ({}));
 
-  for (let i = 0; i < orphanPaths.length; i += DELETE_BATCH_SIZE) {
-    if (isCancelled?.()) break;
-
-    const batch = orphanPaths.slice(i, i + DELETE_BATCH_SIZE);
-    onProgress?.({
-      current: Math.min(i + batch.length, orphanPaths.length),
-      total: orphanPaths.length,
-      label: `Eliminando ${batch.length} archivo(s)...`,
-    });
-
-    const { error } = await supabase.storage
-      .from(IMAGENES_BUCKET)
-      .remove(batch);
-
-    if (error) {
-      errors.push(
-        `Lote ${Math.floor(i / DELETE_BATCH_SIZE) + 1}: ${error.message}`,
-      );
-      continue;
-    }
-
-    deleted.push(...batch);
+  if (!response.ok) {
+    throw new Error(result.error || `Error al eliminar (${response.status})`);
   }
 
   return {
-    deletedCount: deleted.length,
-    failedCount: orphanPaths.length - deleted.length,
-    errors,
+    deletedCount: result.deletedCount ?? 0,
+    failedCount: result.failedCount ?? paths.length,
+    errors: Array.isArray(result.errors) ? result.errors : [],
   };
 }
 
