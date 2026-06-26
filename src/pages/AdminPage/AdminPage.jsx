@@ -29,7 +29,7 @@ import {
 import { regenerateAllImageVariants } from "../../utils/regenerateImageVariants.js";
 import {
   auditStorageOrphans,
-  deleteStorageOrphans,
+  deleteStorageOrphansViaApi,
 } from "../../utils/storageAudit.js";
 import "./AdminPage.css";
 
@@ -963,10 +963,18 @@ const AdminPage = () => {
 
     try {
       const paths = storageAuditResult.orphans.map((f) => f.path);
-      const summary = await deleteStorageOrphans(supabase, paths, {
-        onProgress: setStorageAuditProgress,
-        isCancelled: () => storageAuditCancelRef.current,
-      });
+      const summary = await deleteStorageOrphansViaApi(
+        paths,
+        ADMIN_SECRET_CODE,
+      );
+
+      if (summary.deletedCount === 0 && paths.length > 0) {
+        toast.error(
+          summary.errors[0] ||
+            "No se pudo eliminar ningún archivo. Verificá ADMIN_SECRET_CODE y SUPABASE_SERVICE_KEY en Vercel.",
+        );
+        return;
+      }
 
       if (summary.failedCount > 0) {
         toast.warning(
@@ -2322,7 +2330,9 @@ const AdminPage = () => {
           <p className="admin-maintenance-intro">
             Detecta archivos en el bucket <code>imagenes-productos</code> que no
             están referenciados en productos ni telas. La carpeta{" "}
-            <code>hero/</code> (imágenes del sitio) queda protegida.
+            <code>hero/</code> (imágenes del sitio) queda protegida. La
+            eliminación se ejecuta en el servidor (requiere{" "}
+            <code>ADMIN_SECRET_CODE</code> en Vercel).
           </p>
 
           <div className="admin-maintenance-actions">
