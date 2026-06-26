@@ -4,7 +4,7 @@ import { formatSupabaseFetchError } from "./useActiveProducts.js";
 
 export const AVAILABLE_TELAS_QUERY_KEY = ["telas", "available"];
 
-const TELA_LIST_COLUMNS =
+export const TELA_LIST_COLUMNS =
   "id, nombre_tipo, nombre_color, imagen_url, imagen_swatch_url, costo_adicional_por_metro, disponible, descripcion, caracteristicas";
 
 const STALE_TIME_MS = 5 * 60 * 1000;

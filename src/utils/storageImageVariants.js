@@ -1,6 +1,8 @@
 import {
   IMAGENES_BUCKET,
   extractImagenesProductosPath,
+} from "./storageUrls.js";
+import {
   createSwatchWebpFromImage,
   createWebpFileFromImage,
   loadImageFromFile,

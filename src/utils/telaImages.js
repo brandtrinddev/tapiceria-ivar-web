@@ -2,7 +2,7 @@
  * URLs de swatches de tela. Preferir imagen_swatch_url pre-generada al subir (Plan Free).
  */
 
-import { normalizeStoragePublicUrl } from "./imageProcessing.js";
+import { normalizeStoragePublicUrl } from "./storageUrls.js";
 
 export function getTelaThumbnailUrl(fullUrl, tela) {
   if (tela?.imagen_swatch_url) {

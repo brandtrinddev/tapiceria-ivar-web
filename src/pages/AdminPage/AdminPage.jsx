@@ -19,7 +19,7 @@ import {
 } from "../../utils/slug";
 import { useQueryClient } from "@tanstack/react-query";
 import { ACTIVE_PRODUCTS_QUERY_KEY } from "../../hooks/useActiveProducts.js";
-import { AVAILABLE_TELAS_QUERY_KEY } from "../../hooks/useAvailableTelas.js";
+import { AVAILABLE_TELAS_QUERY_KEY, TELA_LIST_COLUMNS } from "../../hooks/useAvailableTelas.js";
 import { optimizeImageFile } from "../../utils/imageProcessing.js";
 import {
   uploadProductImageSet,
@@ -27,6 +27,10 @@ import {
   uploadStorageFile,
 } from "../../utils/storageImageVariants.js";
 import { regenerateAllImageVariants } from "../../utils/regenerateImageVariants.js";
+import {
+  auditStorageOrphans,
+  deleteStorageOrphans,
+} from "../../utils/storageAudit.js";
 import "./AdminPage.css";
 
 Modal.setAppElement("#root");
@@ -66,6 +70,9 @@ const uploadAdminImage = async (file, folder, isFabric = folder === "telas") => 
 
   return uploadStorageFile(supabase, filePath, optimizedFile);
 };
+
+const ADMIN_PRODUCT_LIST_COLUMNS =
+  "id, nombre, categoria, precio_base, activo, imagen_url, sku";
 
 const AdminPage = () => {
   const queryClient = useQueryClient();
@@ -108,6 +115,12 @@ const AdminPage = () => {
   const [regenProgress, setRegenProgress] = useState(null);
   const [regenSummary, setRegenSummary] = useState(null);
   const regenCancelRef = useRef(false);
+
+  const [isAuditingStorage, setIsAuditingStorage] = useState(false);
+  const [storageAuditProgress, setStorageAuditProgress] = useState(null);
+  const [storageAuditResult, setStorageAuditResult] = useState(null);
+  const [isDeletingOrphans, setIsDeletingOrphans] = useState(false);
+  const storageAuditCancelRef = useRef(false);
 
   // Agrupamos las telas por tipo para la visualización en la tabla
   const groupedFabrics = React.useMemo(() => {
@@ -160,7 +173,9 @@ const AdminPage = () => {
     const from = (currentPage - 1) * ITEMS_PER_PAGE;
     const to = from + ITEMS_PER_PAGE - 1;
 
-    let query = supabase.from("productos").select("*", { count: "exact" });
+    let query = supabase
+      .from("productos")
+      .select(ADMIN_PRODUCT_LIST_COLUMNS, { count: "exact" });
 
     if (searchTerm) {
       // Busca en nombre O en SKU
@@ -183,7 +198,7 @@ const AdminPage = () => {
   const fetchFabrics = useCallback(async () => {
     setLoadingItems(true);
 
-    let query = supabase.from("telas").select("*"); // Traemos todo para agrupar las familias correctamente
+    let query = supabase.from("telas").select(TELA_LIST_COLUMNS);
 
     if (searchTerm) {
       query = query.or(
@@ -274,9 +289,25 @@ const AdminPage = () => {
     setIsProductModalOpen(true);
   };
 
-  const openEditProductModal = (product) => {
+  const openEditProductModal = async (product) => {
     setIsSlugManuallyEdited(true);
-    setEditingProduct(product);
+    setLoadingItems(true);
+
+    const { data, error } = await supabase
+      .from("productos")
+      .select("*")
+      .eq("id", product.id)
+      .single();
+
+    setLoadingItems(false);
+
+    if (error || !data) {
+      toast.error("No se pudo cargar el producto para editar.");
+      console.error("Error al cargar producto:", error);
+      return;
+    }
+
+    setEditingProduct(data);
     setIsProductModalOpen(true);
   };
 
@@ -874,6 +905,87 @@ const AdminPage = () => {
 
   const handleCancelRegeneration = () => {
     regenCancelRef.current = true;
+  };
+
+  const handleStartStorageAudit = async () => {
+    storageAuditCancelRef.current = false;
+    setStorageAuditResult(null);
+    setIsAuditingStorage(true);
+    setStorageAuditProgress({ label: "Iniciando auditoría..." });
+
+    try {
+      const result = await auditStorageOrphans(supabase, {
+        onProgress: setStorageAuditProgress,
+        isCancelled: () => storageAuditCancelRef.current,
+      });
+
+      if (storageAuditCancelRef.current) {
+        toast.warning("Auditoría cancelada.");
+        return;
+      }
+
+      if (!result) return;
+
+      setStorageAuditResult(result);
+
+      if (result.orphanCount > 0) {
+        toast.info(
+          `Auditoría lista: ${result.orphanCount} archivo(s) huérfano(s) (~${result.orphanBytesLabel}).`,
+        );
+      } else {
+        toast.success("No se encontraron archivos huérfanos.");
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Error al auditar storage.";
+      toast.error(message);
+    } finally {
+      setIsAuditingStorage(false);
+      setStorageAuditProgress(null);
+    }
+  };
+
+  const handleCancelStorageAudit = () => {
+    storageAuditCancelRef.current = true;
+  };
+
+  const handleDeleteStorageOrphans = async () => {
+    if (!storageAuditResult?.orphans?.length) return;
+
+    const count = storageAuditResult.orphanCount;
+    const size = storageAuditResult.orphanBytesLabel;
+    const confirmed = window.confirm(
+      `¿Eliminar ${count} archivo(s) huérfano(s) (~${size}) del bucket? Esta acción no se puede deshacer.`,
+    );
+    if (!confirmed) return;
+
+    setIsDeletingOrphans(true);
+
+    try {
+      const paths = storageAuditResult.orphans.map((f) => f.path);
+      const summary = await deleteStorageOrphans(supabase, paths, {
+        onProgress: setStorageAuditProgress,
+        isCancelled: () => storageAuditCancelRef.current,
+      });
+
+      if (summary.failedCount > 0) {
+        toast.warning(
+          `Eliminados ${summary.deletedCount}; ${summary.failedCount} no se pudieron borrar.`,
+        );
+      } else {
+        toast.success(`${summary.deletedCount} archivo(s) huérfano(s) eliminados.`);
+      }
+
+      setStorageAuditResult(null);
+      await handleStartStorageAudit();
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Error al eliminar huérfanos.";
+      toast.error(message);
+    } finally {
+      setIsDeletingOrphans(false);
+      setStorageAuditProgress(null);
+    }
   };
 
   const handleStatusChange = async (orderId, newStatus) => {
@@ -2197,6 +2309,91 @@ const AdminPage = () => {
                   <ul>
                     {regenSummary.errors.map((msg) => (
                       <li key={msg}>{msg}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+          )}
+
+          <hr className="admin-maintenance-divider" />
+
+          <h3 className="admin-maintenance-subtitle">Auditoría de Storage</h3>
+          <p className="admin-maintenance-intro">
+            Detecta archivos en el bucket <code>imagenes-productos</code> que no
+            están referenciados en productos ni telas. La carpeta{" "}
+            <code>hero/</code> (imágenes del sitio) queda protegida.
+          </p>
+
+          <div className="admin-maintenance-actions">
+            <button
+              type="button"
+              className="cta-button"
+              disabled={isAuditingStorage || isDeletingOrphans || isRegenerating}
+              onClick={handleStartStorageAudit}
+            >
+              {isAuditingStorage ? "Escaneando..." : "Escanear storage"}
+            </button>
+            {isAuditingStorage && (
+              <button
+                type="button"
+                className="admin-secondary-btn"
+                onClick={handleCancelStorageAudit}
+              >
+                Cancelar
+              </button>
+            )}
+            {storageAuditResult?.orphanCount > 0 && (
+              <button
+                type="button"
+                className="admin-danger-btn"
+                disabled={isDeletingOrphans || isAuditingStorage}
+                onClick={handleDeleteStorageOrphans}
+              >
+                {isDeletingOrphans
+                  ? "Eliminando..."
+                  : `Eliminar ${storageAuditResult.orphanCount} huérfano(s)`}
+              </button>
+            )}
+          </div>
+
+          {storageAuditProgress && (isAuditingStorage || isDeletingOrphans) && (
+            <p className="admin-maintenance-progress-label">
+              {storageAuditProgress.label}
+              {storageAuditProgress.current != null &&
+                storageAuditProgress.total != null &&
+                ` (${storageAuditProgress.current} / ${storageAuditProgress.total})`}
+            </p>
+          )}
+
+          {storageAuditResult && (
+            <div className="admin-maintenance-summary">
+              <h3>Resultado del escaneo</h3>
+              <ul>
+                <li>Archivos totales en bucket: {storageAuditResult.totalFiles}</li>
+                <li>Referenciados en BD: {storageAuditResult.referencedCount}</li>
+                <li>Protegidos (hero/): {storageAuditResult.protectedCount}</li>
+                <li>
+                  Huérfanos: {storageAuditResult.orphanCount} (~
+                  {storageAuditResult.orphanBytesLabel})
+                </li>
+              </ul>
+              {storageAuditResult.orphans.length > 0 && (
+                <details className="admin-maintenance-errors">
+                  <summary>
+                    Ver lista de huérfanos ({storageAuditResult.orphanCount})
+                  </summary>
+                  <ul className="admin-orphan-list">
+                    {storageAuditResult.orphans.map((file) => (
+                      <li key={file.path}>
+                        <code>{file.path}</code>
+                        {file.size > 0 && (
+                          <span className="admin-orphan-size">
+                            {" "}
+                            ({Math.round(file.size / 1024)} KB)
+                          </span>
+                        )}
+                      </li>
                     ))}
                   </ul>
                 </details>

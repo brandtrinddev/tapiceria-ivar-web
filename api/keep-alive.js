@@ -2,7 +2,12 @@ import { createClient } from "@supabase/supabase-js";
 
 /**
  * Ping liviano a PostgREST para mantener actividad en el proyecto Supabase (Plan Free).
- * Invocado por Vercel Cron. Configurar CRON_SECRET en Vercel para proteger el endpoint.
+ * Invocado por Vercel Cron (`vercel.json`: 0 12 * * * UTC).
+ *
+ * Variables en Vercel (Production + Preview si aplica):
+ *   SUPABASE_URL          — URL del proyecto (Settings → API)
+ *   SUPABASE_ANON_KEY     — clave anon/public (o SUPABASE_SERVICE_KEY como fallback)
+ *   CRON_SECRET           — token aleatorio; Vercel lo envía como Authorization: Bearer <CRON_SECRET>
  */
 export default async function handler(req, res) {
   const cronSecret = process.env.CRON_SECRET;
