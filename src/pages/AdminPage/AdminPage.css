@@ -1234,3 +1234,119 @@
   cursor: pointer;
   accent-color: var(--color-primario);
 }
+
+/* --- Mantenimiento de imágenes --- */
+.admin-maintenance-panel {
+  margin-top: 24px;
+  padding: 28px;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-medio);
+  box-shadow: var(--sombra-estandar);
+  max-width: 720px;
+}
+
+.admin-maintenance-panel h2 {
+  margin: 0 0 12px;
+  font-family: var(--fuente-titulos);
+  color: var(--color-primario);
+}
+
+.admin-maintenance-intro {
+  color: var(--color-texto-secundario);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.admin-maintenance-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.admin-maintenance-option input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--color-primario);
+}
+
+.admin-maintenance-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-secondary-btn {
+  padding: 10px 18px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-suave);
+  background: var(--color-blanco);
+  color: var(--color-texto-principal);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.admin-secondary-btn:hover {
+  background: #f8fafc;
+}
+
+.admin-maintenance-progress {
+  margin-top: 24px;
+}
+
+.admin-maintenance-progress-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.admin-maintenance-progress-fill {
+  height: 100%;
+  background: var(--color-primario);
+  transition: width 0.25s ease;
+}
+
+.admin-maintenance-progress-label {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+}
+
+.admin-maintenance-summary {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-borde);
+}
+
+.admin-maintenance-summary h3 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.admin-maintenance-summary ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.7;
+}
+
+.admin-maintenance-errors {
+  margin-top: 16px;
+}
+
+.admin-maintenance-errors summary {
+  cursor: pointer;
+  color: #b45309;
+  font-weight: 600;
+}
+
+.admin-maintenance-errors ul {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #64748b;
+}

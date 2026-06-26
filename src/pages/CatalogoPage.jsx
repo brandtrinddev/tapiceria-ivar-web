@@ -1,9 +1,12 @@
 // src/pages/CatalogoPage.jsx
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard.jsx";
-import { supabase } from "../supabaseClient.js";
+import {
+  formatSupabaseFetchError,
+  useActiveProducts,
+} from "../hooks/useActiveProducts.js";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -32,26 +35,21 @@ function CatalogoPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const {
+    data: products = [],
+    isLoading: loading,
+    error,
+  } = useActiveProducts();
+
+  const fetchError = useMemo(() => formatSupabaseFetchError(error), [error]);
+
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("productos")
-        .select("*")
-        .eq("activo", true);
-      if (error) {
-        console.error("Error al obtener productos:", error);
-      } else {
-        setProducts(data);
-      }
-      setLoading(false);
-    };
-    getProducts();
-  }, []);
+    if (fetchError) {
+      console.error("Error al obtener productos:", fetchError);
+    }
+  }, [fetchError]);
 
   const categoriaActual = query.get("categoria");
   const paginaActual = parseInt(query.get("pagina"), 10) || 1;
@@ -218,7 +216,21 @@ function CatalogoPage() {
             </div>
           </div>
 
-          {currentProductsToDisplay.length > 0 ? (
+          {fetchError ? (
+            <div className="no-products-message" role="alert">
+              <p>No pudimos cargar el catálogo. Por favor, intenta de nuevo más tarde.</p>
+              <dl style={{ marginTop: "1rem", textAlign: "left", fontSize: "0.9rem" }}>
+                <dt><strong>Status (HTTP)</strong></dt>
+                <dd>{fetchError.status ?? "—"}</dd>
+                <dt><strong>Code</strong></dt>
+                <dd>{fetchError.code ?? "—"}</dd>
+                <dt><strong>Message</strong></dt>
+                <dd>{fetchError.message ?? "—"}</dd>
+                <dt><strong>Details</strong></dt>
+                <dd>{fetchError.details ?? "—"}</dd>
+              </dl>
+            </div>
+          ) : currentProductsToDisplay.length > 0 ? (
             /* La clase 'section-container' ha sido eliminada de aquí */
             <div className="product-grid">
               {currentProductsToDisplay.map((producto) => (

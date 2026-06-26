@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { formatPriceUYU } from '../utils/formatters';
+import { getProductCardImageUrl } from '../utils/productImages';
 
 function ProductCard({ product }) {
   const descriptionRef = useRef(null);
@@ -50,7 +51,7 @@ function ProductCard({ product }) {
       <div className="product-card">
         <div className="product-card-image-container">
           <img
-            src={product.imagen_url}
+            src={getProductCardImageUrl(product)}
             alt={product.nombre}
             className="product-card-image"
             style={imageStyle}

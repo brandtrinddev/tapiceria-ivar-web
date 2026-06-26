@@ -1,5 +1,5 @@
 // src/pages/AdminPage/AdminPage.jsx
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 import { supabase } from "../../supabaseClient";
@@ -17,7 +17,16 @@ import {
   normalizeProductSlug,
   PRODUCT_PAGE_BASE_URL,
 } from "../../utils/slug";
-import heic2any from "heic2any";
+import { useQueryClient } from "@tanstack/react-query";
+import { ACTIVE_PRODUCTS_QUERY_KEY } from "../../hooks/useActiveProducts.js";
+import { AVAILABLE_TELAS_QUERY_KEY } from "../../hooks/useAvailableTelas.js";
+import { optimizeImageFile } from "../../utils/imageProcessing.js";
+import {
+  uploadProductImageSet,
+  uploadTelaImageSet,
+  uploadStorageFile,
+} from "../../utils/storageImageVariants.js";
+import { regenerateAllImageVariants } from "../../utils/regenerateImageVariants.js";
 import "./AdminPage.css";
 
 Modal.setAppElement("#root");
@@ -48,137 +57,18 @@ const generateSKU = (name, category) => {
   return `${prefix}-${namePart}-${randomPart}`;
 };
 
-const isHeicFile = (file) => {
-  const type = (file.type || "").toLowerCase();
-  return (
-    type === "image/heic" ||
-    type === "image/heif" ||
-    /\.heic$/i.test(file.name) ||
-    /\.heif$/i.test(file.name)
-  );
-};
-
-const convertHeicToJpegFile = async (file) => {
-  try {
-    const result = await heic2any({
-      blob: file,
-      toType: "image/jpeg",
-      quality: 0.92,
-    });
-    const blob = Array.isArray(result) ? result[0] : result;
-    if (!blob) {
-      throw new Error("La conversión HEIC no produjo ninguna imagen.");
-    }
-    const baseName = file.name.replace(/\.(heic|heif)$/i, "") || "imagen";
-    return new File([blob], `${baseName}.jpg`, { type: "image/jpeg" });
-  } catch (err) {
-    const message =
-      err instanceof Error
-        ? err.message
-        : "No se pudo convertir la imagen HEIC.";
-    throw new Error(
-      `${message} Prueba exportar como JPEG desde el iPhone o usa otro navegador.`,
-    );
-  }
-};
-
-const readFileAsDataUrl = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () =>
-      reject(new Error("No se pudo leer el archivo de imagen."));
-    reader.onload = (event) => resolve(event.target.result);
-    reader.readAsDataURL(file);
-  });
-
-const loadImageFromDataUrl = (dataUrl) =>
-  new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onerror = () =>
-      reject(
-        new Error("Formato de imagen no compatible o archivo corrupto."),
-      );
-    img.onload = () => resolve(img);
-    img.src = dataUrl;
-  });
-
-const canvasToWebpBlob = (canvas, quality) =>
-  new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("Error al comprimir la imagen a WebP."));
-          return;
-        }
-        resolve(blob);
-      },
-      "image/webp",
-      quality,
-    );
-  });
-
-/**
- * Master WebP para storage. Telas: más ancho y calidad (textura).
- * HEIC se normaliza a JPEG antes del canvas.
- */
-const optimizeImage = async (file, isFabric = false) => {
-  const MAX_WIDTH = isFabric ? 1400 : 1200;
-  const quality = isFabric ? 0.9 : 0.8;
-
-  let inputFile = file;
-  if (isHeicFile(file)) {
-    inputFile = await convertHeicToJpegFile(file);
-  }
-
-  const dataUrl = await readFileAsDataUrl(inputFile);
-  const img = await loadImageFromDataUrl(dataUrl);
-
-  let width = img.width;
-  let height = img.height;
-  if (!width || !height) {
-    throw new Error("La imagen no tiene dimensiones válidas.");
-  }
-
-  if (width > MAX_WIDTH) {
-    height *= MAX_WIDTH / width;
-    width = MAX_WIDTH;
-  }
-
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.round(width);
-  canvas.height = Math.round(height);
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("No se pudo procesar la imagen en este navegador.");
-  }
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-  const blob = await canvasToWebpBlob(canvas, quality);
-  const outName = inputFile.name.replace(/\.[^/.]+$/, ".webp");
-
-  return new File([blob], outName, { type: "image/webp" });
-};
-
 const uploadAdminImage = async (file, folder, isFabric = folder === "telas") => {
-  const optimizedFile = await optimizeImage(file, isFabric);
+  const optimizedFile = await optimizeImageFile(file, isFabric);
 
   const fileExt = optimizedFile.name.split(".").pop();
   const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
   const filePath = `${folder}/${fileName}`;
 
-  const { error } = await supabase.storage
-    .from("imagenes-productos")
-    .upload(filePath, optimizedFile);
-
-  if (error) throw error;
-
-  const { data } = supabase.storage
-    .from("imagenes-productos")
-    .getPublicUrl(filePath);
-  return data.publicUrl;
+  return uploadStorageFile(supabase, filePath, optimizedFile);
 };
 
 const AdminPage = () => {
+  const queryClient = useQueryClient();
   const ITEMS_PER_PAGE = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -197,7 +87,7 @@ const AdminPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   // --- NUEVOS ESTADOS PARA GESTIÓN ---
-  const [activeTab, setActiveTab] = useState("orders"); // Controla la pestaña activa: 'orders', 'products', 'fabrics'
+  const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'products' | 'fabrics' | 'maintenance'
   const [products, setProducts] = useState([]);
   const [fabrics, setFabrics] = useState([]);
   const [loadingItems, setLoadingItems] = useState(false);
@@ -212,6 +102,12 @@ const AdminPage = () => {
     useState(null);
   const [newModuloLabel, setNewModuloLabel] = useState("");
   const [moduleLabelDrafts, setModuleLabelDrafts] = useState({});
+
+  const [regenForce, setRegenForce] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
+  const [regenProgress, setRegenProgress] = useState(null);
+  const [regenSummary, setRegenSummary] = useState(null);
+  const regenCancelRef = useRef(false);
 
   // Agrupamos las telas por tipo para la visualización en la tabla
   const groupedFabrics = React.useMemo(() => {
@@ -569,14 +465,20 @@ const AdminPage = () => {
       setLoadingItems(true);
       let updatedProduct = { ...editingProduct };
 
-      // 1. Si la imagen principal es un objeto File (nueva), subirla ahora
+      const galeriaThumbs = {
+        ...(updatedProduct.detalles?.galeria_thumbs || {}),
+      };
+
+      // 1. Si la imagen principal es un objeto File (nueva), subir variantes
       if (updatedProduct.imagen_url instanceof File) {
         toast.info("Subiendo imagen principal...");
-        const url = await uploadAdminImage(
-          updatedProduct.imagen_url,
-          "productos",
-        );
-        updatedProduct.imagen_url = url;
+        const imageSet = await uploadProductImageSet(supabase, updatedProduct.imagen_url);
+        updatedProduct.imagen_url = imageSet.master;
+        updatedProduct.detalles = {
+          ...updatedProduct.detalles,
+          imagen_card_url: imageSet.card,
+          imagen_thumb_url: imageSet.thumb,
+        };
       }
 
       // 2. Si hay imágenes nuevas en la galería (objetos File), subirlas todas
@@ -588,12 +490,15 @@ const AdminPage = () => {
         const updatedGaleria = await Promise.all(
           updatedProduct.detalles.galeria.map(async (img) => {
             if (img instanceof File) {
-              return await uploadAdminImage(img, "productos");
+              const imageSet = await uploadProductImageSet(supabase, img);
+              galeriaThumbs[imageSet.master] = imageSet.thumb;
+              return imageSet.master;
             }
-            return img; // Mantener la URL si ya era un string
+            return img;
           }),
         );
         updatedProduct.detalles.galeria = updatedGaleria;
+        updatedProduct.detalles.galeria_thumbs = galeriaThumbs;
       }
 
       updatedProduct = {
@@ -807,9 +712,12 @@ const AdminPage = () => {
       const coloresProcesados = await Promise.all(
         colores.map(async (col) => {
           let finalUrl = col.imagen_url;
+          let swatchUrl = col.imagen_swatch_url ?? null;
 
           if (col.imagen_url instanceof File) {
-            finalUrl = await uploadAdminImage(col.imagen_url, "telas", true);
+            const imageSet = await uploadTelaImageSet(supabase, col.imagen_url);
+            finalUrl = imageSet.master;
+            swatchUrl = imageSet.swatch;
           }
 
           const baseRow = {
@@ -817,6 +725,7 @@ const AdminPage = () => {
             nombre_color: col.nombre_color,
             descripcion,
             imagen_url: finalUrl,
+            imagen_swatch_url: swatchUrl,
             costo_adicional_por_metro: col.costo_adicional_por_metro,
             disponible: col.disponible === true,
           };
@@ -910,6 +819,61 @@ const AdminPage = () => {
     setIsFabricModalOpen(false);
     setFabricFamilyPendingDelete(null);
     toast.info("Sesión cerrada");
+  };
+
+  const handleStartRegeneration = async () => {
+    const confirmed = window.confirm(
+      "Se generarán variantes optimizadas (card, thumb, swatch) desde las imágenes master ya subidas. No se reemplazan los originales. ¿Continuar?",
+    );
+    if (!confirmed) return;
+
+    regenCancelRef.current = false;
+    setRegenSummary(null);
+    setIsRegenerating(true);
+    setRegenProgress({ current: 0, total: 0, label: "Preparando..." });
+
+    try {
+      const summary = await regenerateAllImageVariants(supabase, {
+        force: regenForce,
+        onProgress: setRegenProgress,
+        isCancelled: () => regenCancelRef.current,
+      });
+
+      setRegenSummary(summary);
+
+      await queryClient.invalidateQueries({
+        queryKey: ACTIVE_PRODUCTS_QUERY_KEY,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: AVAILABLE_TELAS_QUERY_KEY,
+      });
+
+      const updated = summary.productsUpdated + summary.telasUpdated;
+      const failed = summary.productsFailed + summary.telasFailed;
+
+      if (regenCancelRef.current) {
+        toast.warning("Regeneración cancelada.");
+      } else if (failed > 0) {
+        toast.warning(`Completado con ${failed} error(es). Revisa el resumen.`);
+      } else if (updated > 0) {
+        toast.success(
+          `Variantes regeneradas: ${summary.productsUpdated} productos, ${summary.telasUpdated} telas.`,
+        );
+      } else {
+        toast.info("No había imágenes pendientes de regenerar.");
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Error al regenerar variantes.";
+      toast.error(message);
+    } finally {
+      setIsRegenerating(false);
+      setRegenProgress(null);
+    }
+  };
+
+  const handleCancelRegeneration = () => {
+    regenCancelRef.current = true;
   };
 
   const handleStatusChange = async (orderId, newStatus) => {
@@ -1008,6 +972,15 @@ const AdminPage = () => {
               onClick={() => setActiveTab("fabrics")}
             >
               Muestrario de Telas
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeTab === "maintenance"}
+              className={activeTab === "maintenance" ? "active" : ""}
+              onClick={() => setActiveTab("maintenance")}
+            >
+              Mantenimiento
             </button>
           </div>
         </div>
@@ -2133,6 +2106,106 @@ const AdminPage = () => {
           </div>
         </Modal>
       )}
+      {activeTab === "maintenance" && (
+        <div className="admin-maintenance-panel">
+          <h2>Mantenimiento de imágenes</h2>
+          <p className="admin-maintenance-intro">
+            Genera automáticamente las variantes optimizadas para todo el
+            catálogo existente: productos (card 800px, thumb 320px) y telas
+            (swatch 192px). Usa las imágenes master ya subidas; no hace falta
+            re-editar cada producto o tela.
+          </p>
+
+          <label className="admin-maintenance-option">
+            <input
+              type="checkbox"
+              checked={regenForce}
+              disabled={isRegenerating}
+              onChange={(e) => setRegenForce(e.target.checked)}
+            />
+            Forzar regeneración aunque ya existan variantes
+          </label>
+
+          <div className="admin-maintenance-actions">
+            <button
+              type="button"
+              className="cta-button"
+              disabled={isRegenerating}
+              onClick={handleStartRegeneration}
+            >
+              {isRegenerating
+                ? "Regenerando..."
+                : "Regenerar variantes de imágenes"}
+            </button>
+            {isRegenerating && (
+              <button
+                type="button"
+                className="admin-secondary-btn"
+                onClick={handleCancelRegeneration}
+              >
+                Cancelar
+              </button>
+            )}
+          </div>
+
+          {regenProgress && (
+            <div className="admin-maintenance-progress" aria-live="polite">
+              <div className="admin-maintenance-progress-bar">
+                <div
+                  className="admin-maintenance-progress-fill"
+                  style={{
+                    width:
+                      regenProgress.total > 0
+                        ? `${Math.round((regenProgress.current / regenProgress.total) * 100)}%`
+                        : "0%",
+                  }}
+                />
+              </div>
+              <p className="admin-maintenance-progress-label">
+                {regenProgress.total > 0
+                  ? `${regenProgress.current} / ${regenProgress.total}`
+                  : "…"}{" "}
+                — {regenProgress.label}
+              </p>
+            </div>
+          )}
+
+          {regenSummary && (
+            <div className="admin-maintenance-summary">
+              <h3>Resumen</h3>
+              <ul>
+                <li>
+                  Productos actualizados: {regenSummary.productsUpdated}
+                </li>
+                <li>
+                  Productos omitidos (ya tenían variantes):{" "}
+                  {regenSummary.productsSkipped}
+                </li>
+                <li>Productos con error: {regenSummary.productsFailed}</li>
+                <li>Telas actualizadas: {regenSummary.telasUpdated}</li>
+                <li>
+                  Telas omitidas (ya tenían swatch):{" "}
+                  {regenSummary.telasSkipped}
+                </li>
+                <li>Telas con error: {regenSummary.telasFailed}</li>
+              </ul>
+              {regenSummary.errors.length > 0 && (
+                <details className="admin-maintenance-errors">
+                  <summary>
+                    Ver {regenSummary.errors.length} error(es)
+                  </summary>
+                  <ul>
+                    {regenSummary.errors.map((msg) => (
+                      <li key={msg}>{msg}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* --- PAGINACIÓN GLOBAL --- */}
       {(activeTab === "orders" ||
         activeTab === "products" ||
