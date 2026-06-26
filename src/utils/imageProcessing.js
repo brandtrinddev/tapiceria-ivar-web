@@ -12,6 +12,21 @@ export function extractImagenesProductosPath(fullUrl) {
   return fullUrl.slice(idx + STORAGE_PUBLIC_MARKER.length).split("?")[0];
 }
 
+/**
+ * Corrige doble codificación en URLs públicas de Storage (%2520 → %20).
+ * Ocurre cuando el basename ya venía percent-encoded (telas legacy con espacios).
+ */
+export function normalizeStoragePublicUrl(url) {
+  if (!url || typeof url !== "string") return url ?? "";
+  let normalized = url;
+  while (/%25[0-9a-f]{2}/i.test(normalized)) {
+    const next = normalized.replace(/%25([0-9a-f]{2})/gi, "%$1");
+    if (next === normalized) break;
+    normalized = next;
+  }
+  return normalized;
+}
+
 export const isHeicFile = (file) => {
   const type = (file.type || "").toLowerCase();
   return (

@@ -13,7 +13,14 @@ export function getStorageBaseName(fullUrl, folder) {
     return null;
   }
 
-  const filePart = path.slice(folder.length + 1);
+  const encodedPart = path.slice(folder.length + 1);
+  let filePart = encodedPart;
+  try {
+    filePart = decodeURIComponent(encodedPart);
+  } catch {
+    filePart = encodedPart;
+  }
+
   return filePart
     .replace(/\.webp$/i, "")
     .replace(/-(card|thumb|swatch)$/, "");
