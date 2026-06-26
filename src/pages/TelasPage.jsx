@@ -1,8 +1,9 @@
 // src/pages/TelasPage.jsx
 import React, { useState, useEffect, useMemo } from 'react';
-import { supabase } from '../supabaseClient';
 import { formatPriceUYU } from '../utils/formatters.js';
 import { getTelaThumbnailUrl } from '../utils/telaImages.js';
+import { useAvailableTelas } from '../hooks/useAvailableTelas.js';
+import { formatSupabaseFetchError } from '../hooks/useActiveProducts.js';
 
 // Define el orden deseado para las telas
 const ORDEN_TELAS = ['Alpha', 'Carla', 'Tach', 'Pané'];
@@ -27,10 +28,14 @@ function agruparTelasDisponibles(telas) {
 }
 
 function TelasPage() {
-  const [telas, setTelas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState(false);
   const [colorSeleccionado, setColorSeleccionado] = useState(null);
+  const {
+    data: telas = [],
+    isLoading: loading,
+    error,
+  } = useAvailableTelas();
+
+  const fetchError = Boolean(error);
 
   useEffect(() => {
     document.title = 'Muestrario de Telas - Tapicería Ivar';
@@ -41,25 +46,16 @@ function TelasPage() {
         'Explora nuestra colección de telas para sofás y sillones. Elige entre Chenille, Pané Anti-Manchas, Lino y más en una amplia variedad de colores.',
       );
     }
-
-    const fetchTelas = async () => {
-      setLoading(true);
-      setFetchError(false);
-
-      const { data, error } = await supabase.from('telas').select('*');
-
-      if (error) {
-        console.error('Error al cargar las telas:', error);
-        setTelas([]);
-        setFetchError(true);
-      } else {
-        setTelas((data ?? []).filter((tela) => tela.disponible === true));
-      }
-      setLoading(false);
-    };
-
-    fetchTelas();
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      console.error(
+        'Error al cargar las telas:',
+        formatSupabaseFetchError(error),
+      );
+    }
+  }, [error]);
 
   const telasAgrupadas = useMemo(
     () => agruparTelasDisponibles(telas),
@@ -166,7 +162,7 @@ function TelasPage() {
                         }
                       >
                         <img
-                          src={getTelaThumbnailUrl(color.imagen_url)}
+                          src={getTelaThumbnailUrl(color.imagen_url, color)}
                           alt={color.nombre_color}
                           className="texture-swatch"
                           loading="lazy"

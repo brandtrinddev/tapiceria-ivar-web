@@ -1,10 +1,13 @@
 // src/pages/ProductDetailPage.jsx
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { supabase } from '../supabaseClient.js'; 
 import { formatPriceUYU } from '../utils/formatters.js';
 import { getTelaThumbnailUrl } from '../utils/telaImages.js';
-import { useParams, Link, useNavigate } from 'react-router-dom'; // Se añade useNavigate
+import { getProductThumbImageUrl } from '../utils/productImages.js';
+import { useActiveProducts } from '../hooks/useActiveProducts.js';
+import { useAvailableTelas } from '../hooks/useAvailableTelas.js';
+import { useProductBySlug } from '../hooks/useProductBySlug.js';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
 import { useDrag } from '@use-gesture/react';
 import { useCart } from '../context/CartContext.jsx';
@@ -24,12 +27,15 @@ const NOMBRES_MEDIDAS = { ancho: 'Ancho', profundidad: 'Profundidad', alto: 'Alt
 function ProductDetailPage() {
   const { addToCart } = useCart();
   const { slug } = useParams();
-  const navigate = useNavigate(); // Se añade el hook useNavigate
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const {
+    data: product,
+    isLoading: loading,
+    isError: productFetchError,
+  } = useProductBySlug(slug);
+  const { data: telas = [] } = useAvailableTelas();
+  const { data: activeProducts = [] } = useActiveProducts();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [telas, setTelas] = useState([]);
   const [selectedTela, setSelectedTela] = useState(null);
   const [precioUnitario, setPrecioUnitario] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -42,20 +48,28 @@ function ProductDetailPage() {
   );
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      setProduct(null);
-      setActiveTab('personalizacion');
-      const { data, error } = await supabase.from('productos').select('*').eq('slug', slug).single();
-      if (error) { console.error("Error buscando el producto:", error); } else {
-        setProduct(data);
-        setSelectedImage(data.imagen_url);
-        setPrecioUnitario(data.precio_base);
-      }
-      setLoading(false);
-    };
-    if (slug) fetchProduct();
-  }, [slug]);
+    setActiveTab('personalizacion');
+    if (product) {
+      setSelectedImage(product.imagen_url);
+      setPrecioUnitario(product.precio_base);
+      setQuantity(1);
+      setSelectedTela(null);
+      setOpenAccordion(null);
+    } else {
+      setSelectedImage(null);
+    }
+  }, [product, slug]);
+
+  const relatedProducts = useMemo(() => {
+    if (!product?.detalles?.modelo) return [];
+    return activeProducts
+      .filter(
+        (item) =>
+          item.detalles?.modelo === product.detalles.modelo &&
+          item.id !== product.id,
+      )
+      .slice(0, 4);
+  }, [activeProducts, product]);
 
   useEffect(() => {
     if(product && window.fbq) {
@@ -85,16 +99,6 @@ function ProductDetailPage() {
   }, [product]);
 
   useEffect(() => {
-    const fetchTelas = async () => {
-      const { data, error } = await supabase.from('telas').select('*');
-      if (!error && data) {
-        setTelas(data.filter((tela) => tela.disponible === true));
-      }
-    };
-    fetchTelas();
-  }, []);
-
-  useEffect(() => {
     if (selectedTela && selectedTela.disponible !== true) {
       setSelectedTela(null);
     }
@@ -110,16 +114,6 @@ function ProductDetailPage() {
       }
     }
   }, [selectedTela, product]);
-
-  useEffect(() => {
-    const fetchRelatedProducts = async () => {
-      if (product && product.detalles?.modelo) {
-        const { data, error } = await supabase.from('productos').select('*').eq('detalles->>modelo', product.detalles.modelo).neq('id', product.id).limit(4);
-        if (!error) setRelatedProducts(data);
-      }
-    };
-    fetchRelatedProducts();
-  }, [product]);
 
   const precioFinalCalculado = useMemo(() => {
     if (!product) return 0;
@@ -216,7 +210,7 @@ function ProductDetailPage() {
       tela: selectedTela,
       unitPrice: product.precio_base,
       metros_tela_base: product.metros_tela_base,
-      imageUrl: product.imagen_url,
+      imageUrl: getProductThumbImageUrl(product.imagen_url, product),
       detalles: product.detalles
     };
     
@@ -239,7 +233,7 @@ function ProductDetailPage() {
   };
 
   if (loading) { return <div className="lazy-fallback">Cargando producto...</div>; }
-  if (!product) { return ( <div style={{ textAlign: 'center', padding: '50px' }}> <h1>Producto no encontrado</h1> <Link to="/catalogo" style={{ color: '#032f55', textDecoration: 'underline' }}>Volver al Catálogo</Link> </div> ); }
+  if (productFetchError || !product) { return ( <div style={{ textAlign: 'center', padding: '50px' }}> <h1>Producto no encontrado</h1> <Link to="/catalogo" style={{ color: '#032f55', textDecoration: 'underline' }}>Volver al Catálogo</Link> </div> ); }
   
   const formattedPrice = formatPriceUYU(precioFinalCalculado);
   const formattedBasePrice = formatPriceUYU(product.precio_base);
@@ -274,7 +268,7 @@ function ProductDetailPage() {
           {allImages.length > 1 && (
             <div className="product-detail-thumbnail-gallery">
               {allImages.map((imgUrl, index) => (
-                <img key={index} src={imgUrl} alt={`${product.nombre} - vista ${index + 1}`} className={`product-detail-thumbnail ${selectedImage === imgUrl ? 'active' : ''}`} onClick={() => handleThumbnailClick(imgUrl)} loading="lazy" />
+                <img key={index} src={getProductThumbImageUrl(imgUrl, product)} alt={`${product.nombre} - vista ${index + 1}`} className={`product-detail-thumbnail ${selectedImage === imgUrl ? 'active' : ''}`} onClick={() => handleThumbnailClick(imgUrl)} loading="lazy" />
               ))}
             </div>
           )}
@@ -360,7 +354,7 @@ function ProductDetailPage() {
                                   {telasDeEsteTipo.map((tela) => (
                                     <button type="button" key={tela.id} className={`color-swatch ${selectedTela?.id === tela.id ? 'active' : ''}`} onClick={() => handleTelaSelect(tela)} title={tela.nombre_color}>
                                       <img
-                                        src={getTelaThumbnailUrl(tela.imagen_url)}
+                                        src={getTelaThumbnailUrl(tela.imagen_url, tela)}
                                         alt={tela.nombre_color}
                                         loading="lazy"
                                         decoding="async"

@@ -47,7 +47,7 @@ function App() {
     <div className="app-container"> 
       <ScrollToTop />
       <Header />
-      <main key={location.pathname} className="page-content-container">
+      <main className="page-content-container">
         <Suspense fallback={<div className="lazy-fallback">Cargando página...</div>}>
           <Routes>
             <Route path="/" element={<HomePage />} />

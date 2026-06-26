@@ -1,9 +1,9 @@
 // src/pages/HomePage.jsx
 
-import React, { useState, useEffect } from 'react'; // CAMBIO: Añadimos useState
+import React, { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
-import { supabase } from '../supabaseClient.js'; // CAMBIO: Importamos Supabase
+import { useActiveProducts } from '../hooks/useActiveProducts.js';
 
 // CAMBIO: Eliminamos la importación del JSON local
 // import productData from '../data/productos.json'; 
@@ -26,11 +26,14 @@ const iconMap = {
 };
 
 function HomePage() {
-  // CAMBIO: Creamos un estado para guardar los productos destacados
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const { data: activeProducts = [] } = useActiveProducts();
+
+  const featuredProducts = useMemo(
+    () => activeProducts.filter((producto) => producto.es_destacado).slice(0, 4),
+    [activeProducts],
+  );
 
   useEffect(() => {
-    // 1. Manejar el Título y Meta Descripción (sin cambios)
     const newTitle = 'Tapicería Ivar - Muebles de diseño y calidad en Uruguay';
     document.title = newTitle;
     const newDescription = 'Descubre sofás y sillones únicos, fabricados artesanalmente en Uruguay. Calidad insuperable, diseño 100% personalizado y atención directa.';
@@ -41,29 +44,7 @@ function HomePage() {
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', newDescription);
-
-    // CAMBIO: Creamos una función para cargar los productos desde Supabase
-    const fetchFeaturedProducts = async () => {
-      const { data, error } = await supabase
-        .from('productos')
-        .select('*') // Pedimos todas las columnas (incluyendo imagen_url)
-        .eq('es_destacado', true) // Filtramos solo por los que son destacados
-        .eq('activo', true)
-        .limit(4); // Limitamos a 4 productos por si tienes muchos
-
-      if (error) {
-        console.error("Error al cargar productos destacados:", error);
-      } else {
-        setFeaturedProducts(data);
-      }
-    };
-
-    fetchFeaturedProducts(); // Ejecutamos la función al cargar la página
-
   }, []);
-
-  // CAMBIO: Esta línea ya no es necesaria, los datos vienen del estado
-  // const featuredProducts = productData.filter(producto => producto.esDestacado === true);
 
   return (
     <div className="homepage-container">
