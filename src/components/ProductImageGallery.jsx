@@ -83,6 +83,7 @@ function ProductImageGallery({
   const lightboxStageRef = useRef(null);
   const lightboxImageRef = useRef(null);
   const lightboxZoomRef = useRef(1);
+  const lightboxPanRef = useRef({ x: 0, y: 0 });
   const maxLightboxZoomRef = useRef(1);
 
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -100,8 +101,26 @@ function ProductImageGallery({
 
   const resetLightboxView = useCallback(() => {
     lightboxZoomRef.current = 1;
+    lightboxPanRef.current = { x: 0, y: 0 };
     setLightboxZoom(1);
     setLightboxPan({ x: 0, y: 0 });
+    if (lightboxImageRef.current) {
+      lightboxImageRef.current.style.transform = 'translate3d(0px, 0px, 0) scale(1)';
+    }
+  }, []);
+
+  const applyLightboxTransform = useCallback(() => {
+    const img = lightboxImageRef.current;
+    if (!img) return;
+
+    const { x, y } = lightboxPanRef.current;
+    const zoom = lightboxZoomRef.current;
+    img.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${zoom})`;
+  }, []);
+
+  const syncLightboxState = useCallback(() => {
+    setLightboxZoom(lightboxZoomRef.current);
+    setLightboxPan({ ...lightboxPanRef.current });
   }, []);
 
   const updateLightboxZoomLimit = useCallback(() => {
@@ -121,8 +140,9 @@ function ProductImageGallery({
     if (lightboxZoomRef.current > nextMax) {
       lightboxZoomRef.current = nextMax;
       setLightboxZoom(nextMax);
+      applyLightboxTransform();
     }
-  }, []);
+  }, [applyLightboxTransform]);
 
   useEffect(() => {
     const media = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -161,12 +181,18 @@ function ProductImageGallery({
 
   useEffect(() => {
     lightboxZoomRef.current = 1;
+    lightboxPanRef.current = { x: 0, y: 0 };
     maxLightboxZoomRef.current = 1;
     setLightboxZoom(1);
     setMaxLightboxZoom(1);
     setLightboxPan({ x: 0, y: 0 });
     setMagnifier(null);
   }, [selectedImage]);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    applyLightboxTransform();
+  }, [isLightboxOpen, selectedImage, applyLightboxTransform]);
 
   useEffect(() => {
     if (!isLightboxOpen) return undefined;
@@ -180,12 +206,10 @@ function ProductImageGallery({
     };
   }, [isLightboxOpen, selectedImage, updateLightboxZoomLimit]);
 
-  useEffect(() => {
-    lightboxZoomRef.current = lightboxZoom;
-  }, [lightboxZoom]);
-
   const openLightbox = useCallback(() => {
     setHintDismissed(true);
+    lightboxZoomRef.current = 1;
+    lightboxPanRef.current = { x: 0, y: 0 };
     setIsLightboxOpen(true);
     setLightboxZoom(1);
     setLightboxPan({ x: 0, y: 0 });
@@ -193,6 +217,8 @@ function ProductImageGallery({
 
   const closeLightbox = useCallback(() => {
     setIsLightboxOpen(false);
+    lightboxZoomRef.current = 1;
+    lightboxPanRef.current = { x: 0, y: 0 };
     setLightboxZoom(1);
     setLightboxPan({ x: 0, y: 0 });
   }, []);
@@ -266,66 +292,110 @@ function ProductImageGallery({
 
   useGesture(
     {
-      onDrag: ({ movement: [mx, my], swipe: [swipeX], pinching, cancel, memo = lightboxPan }) => {
+      onDrag: ({
+        movement: [mx, my],
+        swipe: [swipeX],
+        pinching,
+        first,
+        last,
+        cancel,
+        memo,
+      }) => {
         if (pinching) {
           cancel();
           return memo;
         }
 
         if (lightboxZoomRef.current > 1) {
-          setLightboxPan({ x: memo.x + mx, y: memo.y + my });
+          if (first || !memo) {
+            memo = { pan: { ...lightboxPanRef.current } };
+          }
+
+          lightboxPanRef.current = {
+            x: memo.pan.x + mx,
+            y: memo.pan.y + my,
+          };
+          applyLightboxTransform();
+
+          if (last) {
+            syncLightboxState();
+          }
+
           return memo;
         }
 
-        if (swipeX === -1) onNext();
-        if (swipeX === 1) onPrevious();
+        if (last) {
+          if (swipeX === -1) onNext();
+          if (swipeX === 1) onPrevious();
+        }
+
         return memo;
       },
-      onPinch: ({ offset: [scale] }) => {
+      onPinch: ({ offset: [scale], last }) => {
         const nextZoom = clamp(scale, MIN_ZOOM, maxLightboxZoomRef.current);
         lightboxZoomRef.current = nextZoom;
-        setLightboxZoom(nextZoom);
+
         if (nextZoom <= 1) {
-          setLightboxPan({ x: 0, y: 0 });
+          lightboxPanRef.current = { x: 0, y: 0 };
+        }
+
+        applyLightboxTransform();
+
+        if (last) {
+          syncLightboxState();
         }
       },
-      onWheel: ({ event, delta: [, deltaY] }) => {
+      onWheel: ({ event, delta: [, deltaY], last }) => {
         event.preventDefault();
         const delta = deltaY > 0 ? -0.15 : 0.15;
-        setLightboxZoom((prev) => {
-          const next = clamp(prev + delta, MIN_ZOOM, maxLightboxZoomRef.current);
-          lightboxZoomRef.current = next;
-          if (next <= 1) {
-            setLightboxPan({ x: 0, y: 0 });
-          }
-          return next;
-        });
+        const next = clamp(
+          lightboxZoomRef.current + delta,
+          MIN_ZOOM,
+          maxLightboxZoomRef.current,
+        );
+        lightboxZoomRef.current = next;
+
+        if (next <= 1) {
+          lightboxPanRef.current = { x: 0, y: 0 };
+        }
+
+        applyLightboxTransform();
+
+        if (last) {
+          syncLightboxState();
+        }
       },
     },
     {
       target: lightboxStageRef,
       eventOptions: { passive: false },
       pinch: {
-        scaleBounds: { min: MIN_ZOOM, max: maxLightboxZoom },
-        rubberband: true,
+        from: () => [lightboxZoomRef.current, 0],
+        scaleBounds: { min: MIN_ZOOM, max: ABSOLUTE_MAX_ZOOM },
+        rubberband: false,
       },
       drag: {
         filterTaps: true,
-        axis: lightboxZoom > 1 ? undefined : 'x',
+        pointer: { touch: true },
       },
       enabled: isLightboxOpen,
     },
   );
 
   const adjustZoom = (delta) => {
-    setLightboxZoom((prev) => {
-      const next = clamp(prev + delta, MIN_ZOOM, maxLightboxZoomRef.current);
-      lightboxZoomRef.current = next;
-      if (next <= 1) {
-        setLightboxPan({ x: 0, y: 0 });
-      }
-      return next;
-    });
+    const next = clamp(
+      lightboxZoomRef.current + delta,
+      MIN_ZOOM,
+      maxLightboxZoomRef.current,
+    );
+    lightboxZoomRef.current = next;
+
+    if (next <= 1) {
+      lightboxPanRef.current = { x: 0, y: 0 };
+    }
+
+    applyLightboxTransform();
+    syncLightboxState();
   };
 
   const handleThumbnailClick = (imageUrl) => {
@@ -401,9 +471,6 @@ function ProductImageGallery({
               src={selectedImage}
               alt={productName}
               className="lightbox-image"
-              style={{
-                transform: `translate(${lightboxPan.x}px, ${lightboxPan.y}px) scale(${lightboxZoom})`,
-              }}
               draggable={false}
               onLoad={updateLightboxZoomLimit}
             />

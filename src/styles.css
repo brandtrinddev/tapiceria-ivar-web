@@ -839,9 +839,11 @@ nav.navbar .nav-links li .dropdown-menu li a:hover {
   max-width: min(92vw, 1200px);
   max-height: calc(100vh - 180px);
   object-fit: contain;
-  transition: transform 0.08s linear;
   will-change: transform;
   user-select: none;
+  -webkit-user-drag: none;
+  transform: translate3d(0, 0, 0) scale(1);
+  backface-visibility: hidden;
 }
 
 .lightbox-nav {
