@@ -9,7 +9,7 @@ import { useAvailableTelas } from '../hooks/useAvailableTelas.js';
 import { useProductBySlug } from '../hooks/useProductBySlug.js';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
-import { useDrag } from '@use-gesture/react';
+import ProductImageGallery from '../components/ProductImageGallery.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { calculateSubtotal } from '../utils/pricing.js';
 import {
@@ -131,9 +131,8 @@ function ProductDetailPage() {
   const currentIndex = useMemo(() => allImages.indexOf(selectedImage), [allImages, selectedImage]);
   const goToPreviousImage = useCallback(() => { if (allImages.length > 1) { const newIndex = currentIndex === 0 ? allImages.length - 1 : currentIndex - 1; setSelectedImage(allImages[newIndex]); } }, [currentIndex, allImages]);
   const goToNextImage = useCallback(() => { if (allImages.length > 1) { const newIndex = currentIndex === allImages.length - 1 ? 0 : currentIndex + 1; setSelectedImage(allImages[newIndex]); } }, [currentIndex, allImages]);
-  useEffect(() => { const handleKeyDown = (event) => { if (event.key === 'ArrowLeft') goToPreviousImage(); if (event.key === 'ArrowRight') goToNextImage(); }; window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown); }, [goToPreviousImage, goToNextImage]);
+  useEffect(() => { const handleKeyDown = (event) => { if (event.target.closest('.product-image-lightbox')) return; if (event.key === 'ArrowLeft') goToPreviousImage(); if (event.key === 'ArrowRight') goToNextImage(); }; window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown); }, [goToPreviousImage, goToNextImage]);
   useEffect(() => { if (product) { document.title = `Tapicería Ivar - ${product.nombre}`; } }, [product]);
-  const bind = useDrag(({ swipe: [swipeX] }) => { if (swipeX === -1) goToNextImage(); if (swipeX === 1) goToPreviousImage(); }, { axis: 'x' });
 
   const telasDisponibles = useMemo(
     () => telas.filter((tela) => tela.disponible === true),
@@ -237,7 +236,6 @@ function ProductDetailPage() {
   
   const formattedPrice = formatPriceUYU(precioFinalCalculado);
   const formattedBasePrice = formatPriceUYU(product.precio_base);
-  const handleThumbnailClick = (imageUrl) => setSelectedImage(imageUrl);
 
   // Lógica para el Acordeón en móvil
   const handleTabClick = (tabName) => {
@@ -252,27 +250,15 @@ function ProductDetailPage() {
   return (
     <div className="product-detail-container">
       <div className="product-detail-layout">
-        <div className="product-detail-images">
-          {/* ...código de galería de imágenes sin cambios... */}
-          <div className="main-image-wrapper">
-            <div {...bind()} style={{ touchAction: 'pan-y', cursor: 'grab', width: '100%', height: '100%' }}> 
-              <img src={selectedImage} alt={product.nombre} className="product-detail-main-image" />
-            </div>
-            {allImages.length > 1 && (
-              <>
-                <button type="button" onClick={goToPreviousImage} className="gallery-arrow prev-arrow" aria-label="Imagen anterior">&#10094;</button>
-                <button type="button" onClick={goToNextImage} className="gallery-arrow next-arrow" aria-label="Siguiente imagen">&#10095;</button>
-              </>
-            )}
-          </div>
-          {allImages.length > 1 && (
-            <div className="product-detail-thumbnail-gallery">
-              {allImages.map((imgUrl, index) => (
-                <img key={index} src={getProductThumbImageUrl(imgUrl, product)} alt={`${product.nombre} - vista ${index + 1}`} className={`product-detail-thumbnail ${selectedImage === imgUrl ? 'active' : ''}`} onClick={() => handleThumbnailClick(imgUrl)} loading="lazy" />
-              ))}
-            </div>
-          )}
-        </div>
+        <ProductImageGallery
+          images={allImages}
+          selectedImage={selectedImage}
+          onSelectImage={setSelectedImage}
+          productName={product.nombre}
+          getThumbUrl={(imgUrl) => getProductThumbImageUrl(imgUrl, product)}
+          onPrevious={goToPreviousImage}
+          onNext={goToNextImage}
+        />
         
         <div className="product-detail-info">
           <h1 className="product-detail-name">{product.nombre}</h1>
